@@ -22,7 +22,7 @@ Instruções de como configurar e executar o projeto localmente:
   Caso não possua. [Link de Instalação](https://nodejs.org/pt/download/)
   ```sh
     //Verificar Versão Instalada
-    java --version
+    node -v
   ```
 * NPM <br>
   Caso não possua. 
