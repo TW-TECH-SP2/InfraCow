@@ -1,3 +1,4 @@
+import Alert from "../models/Alert.js";
 import Measurement from "../models/Measurement.js";
 
 class measurementService {
@@ -12,19 +13,30 @@ class measurementService {
   }
 
   async Create(
-    captureDate,
     timeStamp,
-    localCapture,
     temp
   ) {
     try {
       const newMeasurement = new Measurement({
-        captureDate,
         timeStamp,
-        localCapture,
         temp,
       });
-      await newMeasurement.save();
+    const savedMeasuremnt = await newMeasurement.save();
+
+    if (temp > 23 || temp < 11) {
+      const risk = temp > 23 ? "DRB" : "Doença Respiratória Bovina";
+      const notes = `Temperatura anormal detectada ${temp}°C`;
+
+      const newAlert = new Alert({
+        risk,
+        notes,
+        id_medicao: savedMeasuremnt._id,
+      })
+
+      await newAlert.save()
+    }
+    return savedMeasuremnt;
+
     } catch (error) {
       console.log(error);
     }
@@ -33,6 +45,7 @@ class measurementService {
   async Delete(id) {
     try {
       await Measurement.findByIdAndDelete(id);
+      await Alert.findOneAndDelete({ id_medicao: id})
       console.log(`O sensor com a id: ${id} foi deletado`);
     } catch (error) {
       console.log(error);
@@ -41,22 +54,35 @@ class measurementService {
 
   async Update(
     id,
-    captureDate,
     timeStamp,
-    localCapture,
     temp,
   ) {
     try {
       const updatedMeasurement = await Measurement.findByIdAndUpdate(
         id,
         {
-          captureDate,
           timeStamp,
-          localCapture,
           temp,
         },
-        { new: true }
+        { new: true, runValidators: true }
+
       );
+
+      if (temp > 23 || temp < 11) {
+        const existingAlert = await Alert.findOne({ id_medicao: id });
+        const risk = temp > 23 ? "DRB" : "Doença Respiratória Bovina";
+        const notes = `Temperatura anormal detectada: ${temp}°C`;
+
+        if (existingAlert) {
+          existingAlert.risk = risk;
+          existingAlert.notes = notes;
+          await existingAlert.save();
+        } else {
+          await Alert.create({ risk, notes, id_medicao: id });
+        }
+      } else {
+        await Alert.findOneAndDelete({ id_medicao: id });
+      }
       console.log(`Dados do Sensor com a id: ${id} alterados com sucesso`);
       return updatedMeasurement;
     } catch (error) {

@@ -14,7 +14,10 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.16.0",
     "mongoose": "^8.14.1",
-    "nodemon": "^3.1.10"
+    "next": "^15.3.2",
+    "nodemon": "^3.1.10",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "type": "module"
 }
