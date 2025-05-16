@@ -1,6 +1,6 @@
 import express from "express";
-import mongoose from "./config/db-connection.js"
-
+// import mongoose from "./config/db-connection.js"
+import mongoose from "mongoose"
 import Bovino from "./models/Bovinos.js";
 import Measurement from "./models/Measurement.js";
 import User from "./models/Users.js";

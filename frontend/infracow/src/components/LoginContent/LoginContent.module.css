@@ -1,0 +1,96 @@
+/* Início conteúdo Login */
+.loginContent {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.loginContent .logo {
+  margin-top: -5%;
+}
+
+.loginContent .logo .logoImg {
+  max-width: 25rem;
+}
+
+.loginContent .loginCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 28rem;
+  height: 22rem;
+  margin-right: 3rem;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px 0 var(--primary-alpha);
+  border: solid 1px var(--primary-color);
+  font-family: "Poppins";
+  color: var(--secondary-color);
+}
+
+.loginContent .loginCard .loginCardHeader {
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.loginContent .loginCard .loginCardBody {
+  width: 70%;
+}
+/* Fim conteúdo Login */
+
+/* RESPONSIVIDADE */
+@media (max-width: 1200px) {
+  /* Início do conteúdo Login */
+  .loginContent .loginCard {
+    width: 22rem;
+    height: 15rem;
+    margin: 0;
+  }
+
+  .loginContent .loginCard .loginCardHeader {
+    margin-bottom: 0.1rem;
+  }
+
+  .input {
+    padding: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+  }
+  /* Fim do conteúdo Login */
+}
+
+@media (max-width: 768px) {
+  /* Início do conteúdo Login */
+  .loginContent {
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 0;
+  }
+
+  .loginContent .logo .logoImg {
+    max-width: 20rem;
+    margin-bottom: 4rem;
+    margin-top: -5rem;
+  }
+
+  .loginContent .loginCard {
+    width: 20rem;
+    height: 20rem;
+    margin: 0;
+  }
+
+  .loginContent .loginCard .loginCardHeader {
+    margin-bottom: 1.5rem;
+  }
+
+  .input {
+    margin-top: 0.5rem;
+  }
+
+  /* Fim do conteúdo Login */
+}
+/* FIM RESPONSIVIDADE */

@@ -1,0 +1,205 @@
+/* Início conteúdo Home */
+.homeContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.homeContent .listGamesCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  margin-top: 6rem;
+  margin-bottom: 6rem;
+  padding: 2rem;
+  background-color: var(--fourth-color-alpha);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  border: solid 1px var(--primary-alpha);
+  border-radius: 0.5rem;
+}
+
+.homeContent .listGamesCard .title {
+  font-family: "Poppins";
+  color: var(--secondary-color);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.homeContent .listGamesCard .games {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 1rem 2.5rem;
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins";
+  font-size: 0.8rem;
+}
+
+.homeContent .listGamesCard .games img {
+  width: 80%;
+  padding-top: 1rem;
+  cursor: pointer;
+}
+
+.homeContent .listGamesCard .games img:hover {
+  scale: 0.9;
+  transition: 0.3s;
+}
+
+.homeContent .listGamesCard .games h3 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.homeContent .listGamesCard .games li {
+  list-style: none;
+  color: var(--secondary-color);
+  margin-bottom: 0.1rem;
+}
+
+.homeContent .listGamesCard .games .btnDel {
+  font-family: "Poppins";
+  font-size: 0.7rem;
+  background-color: var(--fourth-color);
+  color: var(--secondary-color);
+  height: 1.6rem;
+  width: 3rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.2rem;
+  margin-right: 0.5rem;
+  margin-top: 0.3rem;
+}
+
+.homeContent .listGamesCard .games .btnEdit {
+  font-family: "Poppins";
+  font-size: 0.7rem;
+  background-color: var(--fourth-color);
+  color: var(--secondary-color);
+  height: 1.6rem;
+  width: 3rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.2rem;
+  margin-top: 0.3rem;
+}
+
+.homeContent .listGamesCard .games .btnDel:hover {
+  background-color: #f22323;
+}
+
+.homeContent .listGamesCard .games .btnEdit:hover {
+  background-color: var(--primary-color);
+}
+
+/* Fim conteúdo Home */
+
+/* RESPONSIVIDADE */
+@media (max-width: 1200px) {
+  /* Início do conteúdo Home */
+  .homeContent .listGamesCard {
+    width: 100%;
+    height: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
+    border-radius: none;
+  }
+
+  .homeContent .listGamesCard .title {
+    margin-top: 6rem;
+  }
+
+  .homeContent .listGamesCard .games {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .homeContent .listGamesCard .games img {
+    border: none;
+    filter: none;
+  }
+
+  .homeContent .listGamesCard .games img:hover {
+    box-shadow: none;
+  }
+
+  .homeContent .listGamesCard .games .btnDel {
+    background-color: #f22323;
+  }
+
+  .homeContent .listGamesCard .games .btnEdit {
+    background-color: var(--primary-color);
+  }
+
+  .editContent {
+    width: 60%;
+    /* Fim do conteúdo Home */
+  }
+}
+
+@media (max-width: 768px) {
+  /* Início do conteúdo Home */
+  .homeContent .listGamesCard {
+    width: 100%;
+    height: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
+    border-radius: none;
+  }
+
+  .homeContent .listGamesCard .title {
+    margin-top: 4rem;
+  }
+
+  .homeContent .listGamesCard .games {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .homeContent .listGamesCard .games img {
+    border: none;
+    width: 85%;
+    filter: none;
+    margin-left: -5%;
+  }
+
+  .homeContent .listGamesCard .games img:hover {
+    box-shadow: none;
+  }
+
+  /* .homeContent .listGamesCard .games .btnDel {
+    display: none;
+  }
+
+  .homeContent .listGamesCard .games .btnEdit {
+    display: none;
+  } */
+
+  .homeContent .listGamesCard .games .listGames {
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+  }
+
+  .homeContent .listGamesCard .games .listGames .gameImg {
+    text-align: center;
+    width: 40%;
+  }
+
+  .editContent {
+    width: 90%;
+  }
+  /* Fim do conteúdo Home */
+}
+
+/* FIM RESPONSIVIDADE */

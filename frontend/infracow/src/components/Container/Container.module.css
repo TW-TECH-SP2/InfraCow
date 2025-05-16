@@ -1,0 +1,27 @@
+.containerCover {
+  background-image: url("/images/bg.png");
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-alpha);
+  min-height: 100vh;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 1200px) {
+  .containerCover {
+    background-attachment: scroll;
+  }
+}
+
+@media (max-width: 768px) {
+  .containerCover {
+    background-attachment: scroll;
+  }
+}
