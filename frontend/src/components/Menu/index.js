@@ -21,7 +21,8 @@ const Menu = () => {
     <nav className={styles.navbar}>
       <div className={styles.logo}>
         <Link href="/home">
-          <img src="/images/thegames_symbol.png" alt="The Games" />
+        {/*substituir pela logo da infracow */}
+          <img src="/images/thegames_symbol.png" alt="The Games" />  
         </Link>
       </div>
       <div className={styles.menu}>
@@ -34,7 +35,7 @@ const Menu = () => {
             <Link href="/home">Home</Link>
           </li>
           <li>
-            <Link href="/create">Cadastrar jogos</Link>
+            <Link href="/create">Análises</Link>
           </li>
           <li>
             <Link href="/">Logout</Link>

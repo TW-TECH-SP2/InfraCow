@@ -15,6 +15,7 @@ const LoginContent = () => {
       {/* LOGO */}
       <div className={styles.logo}>
         <img
+        // Substituir pela logo da InfraCow
           src="/images/thegames_logo.png"
           className={styles.logoImg}
           alt="The Games"

@@ -17,7 +17,7 @@ const Footer = () => {
         {/* FOOTER RIGHT */}
         <div className={styles.footerRight}>
           <ul>
-            <li>The Games &copy; 2025</li>
+            <li>InfraCow</li>
           </ul>
         </div>
       </div>
