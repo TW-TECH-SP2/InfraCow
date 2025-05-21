@@ -13,8 +13,8 @@ const getAllBovinos = async (req, res) => {
 
 const createBovino = async (req, res) => {
   try {
-    const { name, weight, birth, idSensor, id_RFID } = req.body;
-    await bovinoService.Create(name, weight, birth, idSensor, id_RFID);
+    const { name, weight, age, idSensor, id_RFID } = req.body;
+    await bovinoService.Create(name, weight, age, idSensor, id_RFID);
     res.status(201);
   } catch (error) {
     console.log(error);
@@ -41,12 +41,12 @@ const updateBovino = async (req, res) => {
   try {
     if (ObjectId.isValid(req.params.id)) {
       const id = req.params.id;
-      const { name, weight, birth, idSensor, id_RFID } = req.body;
+      const { name, weight, age, idSensor, id_RFID } = req.body;
       const bovino = await bovinoService.Update(
         id,
         name,
         weight,
-        birth,
+        age,
         idSensor,
         id_RFID
       );

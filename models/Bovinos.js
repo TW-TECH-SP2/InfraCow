@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const bovinoSchema = new mongoose.Schema({
   name: String,
   weight: Number,
-  birth: Number,
+  age: Number,
   id_RFID: String,
   id_user: {type: mongoose.Schema.Types.ObjectId, ref: "User"}
 });

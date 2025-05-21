@@ -10,12 +10,12 @@ class bovinoService {
     }
   }
 
-  async Create(name, weight, birth, idSensor, id_RFID) {
+  async Create(name, weight, age, idSensor, id_RFID) {
     try {
       const newBovino = new Bovino({
         name,
         weight,
-        birth,
+        age,
         idSensor,
         id_RFID,
       });
@@ -34,14 +34,14 @@ class bovinoService {
     }
   }
 
-  async Update(id, name, weight, birth, idSensor, id_RFID) {
+  async Update(id, name, weight, age, idSensor, id_RFID) {
     try {
       const updateBovino = await Bovino.findByIdAndUpdate(
         id,
         {
           name,
           weight,
-          birth,
+          age,
           idSensor,
           id_RFID,
         },
