@@ -13,8 +13,14 @@ const getAllBovinos = async (req, res) => {
 
 const createBovino = async (req, res) => {
   try {
-    const { name, weight, age, idSensor, id_RFID } = req.body;
-    await bovinoService.Create(name, weight, age, idSensor, id_RFID);
+    const { name, weight, age, id_RFID, type } = req.body;
+
+    const tiposValidos = ["Reprodução", "Corte", "Leiteira"];
+    if (!tiposValidos.includes(type)) {
+      return res.status(400).json({ error: "Tipo de bovino inválido" });
+    }
+
+    await bovinoService.Create(name, weight, age, id_RFID, type);
     res.status(201);
   } catch (error) {
     console.log(error);
@@ -41,14 +47,20 @@ const updateBovino = async (req, res) => {
   try {
     if (ObjectId.isValid(req.params.id)) {
       const id = req.params.id;
-      const { name, weight, age, idSensor, id_RFID } = req.body;
+      const { name, weight, age, id_RFID, type } = req.body;
+
+      const tiposValidos = ["Reprodução", "Corte", "Leiteira"];
+      if (!tiposValidos.includes(type)) {
+        return res.status(400).json({ error: "Tipo de bovino inválido" });
+      }
+
       const bovino = await bovinoService.Update(
         id,
         name,
         weight,
         age,
-        idSensor,
-        id_RFID
+        id_RFID,
+        type
       );
       res.status(200).json({ bovino });
     } else {

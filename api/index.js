@@ -13,6 +13,9 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+import cors from "cors";
+app.use(cors());
+
 app.use("/", bovinoRoutes);
 app.use("/", measurementRoutes);
 app.use("/", userRoutes)

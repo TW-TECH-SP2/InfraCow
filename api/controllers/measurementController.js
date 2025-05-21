@@ -13,14 +13,8 @@ const getAllMeasurement = async (req, res) => {
 
 const createMeasurement = async (req, res) => {
   try {
-    const { captureDate, timeStamp, localCapture, temp } =
-      req.body;
-    await measurementService.Create(
-      captureDate,
-      timeStamp,
-      localCapture,
-      temp
-    );
+    const { timeStamp, temp } = req.body;
+    await measurementService.Create(timeStamp, temp);
     res.status(201);
   } catch (error) {
     console.log(error);
@@ -47,19 +41,8 @@ const updateMeasurement = async (req, res) => {
   try {
     if (ObjectId.isValid(req.params.id)) {
       const id = req.params.id;
-      const {
-        captureDate,
-        timeStamp,
-        localCapture,
-        temp,
-      } = req.body;
-      const measurement = await measurementService.Update(
-        id,
-        captureDate,
-        timeStamp,
-        localCapture,
-        temp
-      );
+      const { timeStamp, temp } = req.body;
+      const measurement = await measurementService.Update(id, timeStamp, temp);
       res.status(200).json({ measurement });
     } else {
       res.sendStatus(400);
@@ -85,7 +68,7 @@ const getOneMeasurement = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.sendStatus(500).json({ error: "Erro interno do servidor" });
+    res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
 

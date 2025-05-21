@@ -5,7 +5,7 @@ const bovinoSchema = new mongoose.Schema({
   weight: Number,
   age: Number,
   id_RFID: String,
-  id_user: {type: mongoose.Schema.Types.ObjectId, ref: "User"}
+  type: String
 });
 
 const Bovino = mongoose.model("Bovino", bovinoSchema);

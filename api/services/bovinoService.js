@@ -10,14 +10,14 @@ class bovinoService {
     }
   }
 
-  async Create(name, weight, age, idSensor, id_RFID) {
+  async Create(name, weight, age, id_RFID, type) {
     try {
       const newBovino = new Bovino({
         name,
         weight,
         age,
-        idSensor,
         id_RFID,
+        type
       });
       await newBovino.save();
     } catch (error) {
@@ -34,7 +34,7 @@ class bovinoService {
     }
   }
 
-  async Update(id, name, weight, age, idSensor, id_RFID) {
+  async Update(id, name, weight, age, id_RFID, type) {
     try {
       const updateBovino = await Bovino.findByIdAndUpdate(
         id,
@@ -42,8 +42,8 @@ class bovinoService {
           name,
           weight,
           age,
-          idSensor,
           id_RFID,
+          type
         },
         { new: true }
       );
