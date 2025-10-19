@@ -1,0 +1,139 @@
+.login-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../../assets/back-splash.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.login-form {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 72%;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start !important; /* ✅ Mudei para flex-start */
+}
+
+.login-form form {
+  width: 100%; /* ✅ Form ocupa toda a largura disponível */
+  max-width: 400px; /* ✅ Aumentei a largura máxima */
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form h2 {
+  color: white;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-weight: 600;
+  font-size: 1.8rem;
+  line-height: 1.3;
+  margin-bottom: 3rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  text-align: start; 
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+  width: 100%; /* ✅ Agora ocupa 100% da largura do form */
+}
+
+.input-group label {
+  display: block;
+  color: #C9C9C9;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.input-group input {
+  width: 90%;
+  padding: 0.8rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #C9C9C9;
+  color: #C9C9C9;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 1rem;
+  outline: none;
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.remember {
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  color: #C9C9C9;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.checkbox input {
+  display: none;
+}
+
+.checkmark {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #C9C9C9;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox input:checked + .checkmark::after {
+  content: '✓';
+  color: white;
+  font-size: 0.8rem;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 1rem;
+  background: white;
+  color: #282113;
+  border: none;
+  border-radius: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+.login-btn:active {
+  transform: scale(0.98);
+}
+
+.logo-login {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  width: 20%;
+  height: auto;
+  filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.7));
+}

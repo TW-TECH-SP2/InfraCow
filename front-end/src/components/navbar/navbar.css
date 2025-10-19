@@ -1,0 +1,47 @@
+.navbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  background: #68686838;
+  border-radius: 25px;
+  padding: 0.8rem 1rem;
+  box-shadow: 3px 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.nav-links {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 60px; /* largura fixa para evitar “pulo” */
+  height: 60px;
+  padding: 0;
+  transition: transform 0.25s ease;
+}
+
+/* ícones padrão */
+.nav-link img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover ;
+  display: block;
+  transition: width 0.25s ease, height 0.25s ease, transform 0.25s ease;
+}
+
+/* quando o botão está ativo */
+.nav-link.active img {
+  width: 60px;
+  height: 60px;
+  transform: scale(1.1); /* efeito suave extra */
+}
