@@ -6,7 +6,9 @@ import CadastroScreen from '../components/cadastroScreen/cadastroScreen';
 import HomeScreen from '../components/homeScreen/homeScreen'; 
 import TutoriaisScreen from '../components/tutoriaisScreen/tutoriaisScreen';
 import CadFazendaScreen from '../components/cadFazendaScreen/cadFazendaScreen'; 
-import PerfilScreen from '../components/perfilScreen/perfilScreen'; // ✅ Importado
+import PerfilScreen from '../components/perfilScreen/perfilScreen';
+import NotifScreen from '../components/notifScreen/notifScreen'; 
+import EdicaoScreen from '../components/edicaoScreen/edicaoScreen';
 import Navbar from '../components/navbar/navbar';
 
 function App() {
@@ -117,8 +119,8 @@ function App() {
                 />
               )}
               {activeTab === 'tutoriais' && <TutoriaisScreen />}
-              {activeTab === 'perfil' && <PerfilScreen onLogout={handleLogout} />} {/* ✅ AGORA USA PerfilScreen */}
-              {activeTab === 'notificacoes' && <div>Tela de Notificações</div>}
+              {activeTab === 'perfil' && <PerfilScreen onLogout={handleLogout} />}
+              {activeTab === 'notificacoes' && <NotifScreen />} {/* ✅ AGORA USA NotifScreen */}
             </>
           )}
           
