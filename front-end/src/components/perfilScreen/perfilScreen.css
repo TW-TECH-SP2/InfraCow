@@ -1,7 +1,12 @@
 .perfil-container {
-  background-color: #E9E9EB;
+  width: 100vw;             
   min-height: 100vh;
-  padding: 2rem;
+  background-color: #E9E9EB;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  overflow-x: hidden;        
 }
 
 /* título e logo */
@@ -9,29 +14,194 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  margin-top: 15%;
+  margin: 10% 1.5rem 1rem 1.5rem;
 }
 
 .titulo-perfil h2 {
   color: #282113;
   font-size: 1.8rem;
-  margin: 0;
+  font-weight: 700;
 }
 
 .logo-home {
-  width: 22%;
+  width: 70px;
+  height: auto;
 }
 
-
-/* CARD */
 .card-perfil {
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  width: 95%;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  /* CENTRALIZAÇÃO HORIZONTAL */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.esquerda-perfil img {
+  width: 175px;
+  height: 175px;
+  border-radius: 20px;
+  object-fit: cover;
+  flex-shrink: 0; /* impede que a imagem deforme */
+}
+
+.direita-perfil {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 0; /* impede o vazamento do conteúdo */
+}
+
+.direita-perfil .nome-perfil {
+  font-size: 20px;
+  font-weight: 700;
+  color: #282113;
+  margin-bottom: 0.2rem;
+}
+
+.direita-perfil .email-perfil {
+  font-size: 1rem;
+  color: #606060;
+  word-break: break-word;
+}
+
+.direita-perfil button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: #282113;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.6rem 1rem;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  width: fit-content;
+  height: 50px;
+}
+
+.direita-perfil button img {
+  width: 16px;
+}
+
+/* seção "minhas fazendas" */
+.mini-fazendas {
+  width: 100%;
+}
+
+.mini-fazendas h3 {
+  font-size: 1.1rem;
+  color: #282113;
+  font-weight: 600;
+  margin: 0 1.5rem 0.5rem 1.5rem;
+}
+
+.linha {
+  display: flex;
+  justify-content: center; /* centraliza os cards no meio */
+  flex-wrap: wrap;
+  gap: 5%;              /* espaço entre os cards */
+  padding: 0 1rem;          /* margem lateral */
+  width: 100%;
+  box-sizing: border-box;   /* evita ultrapassar a tela */
+}
+
+.card-fazenda-mini {
   background-color: #fff;
   border-radius: 16px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
+  flex: 0 0 45%;            /* cada card ocupa exatamente 35% */
+  max-width: 45%;
   display: flex;
   flex-direction: column;
-  margin-bottom: 1.5rem;
+  overflow: hidden;
+  align-items: center;
 }
 
+.superior-mini img {
+  width: 80%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 20px;
+  display: block; /* transforma em bloco para poder usar margin */
+  margin: 0 auto; /* centraliza horizontalmente */
+  margin-top: 15px;
+}
+
+
+.inferior-mini {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0px ;
+}
+
+.inferior-mini p {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #282113;
+}
+
+.inferior-mini button {
+  background-color: #2b241c;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  height: 50px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+
+/* AJUDA */
+.ajuda-perfil h3 {
+  font-size: 1.1rem;
+  color: #282113;
+  font-weight: 600;
+  margin: 1rem 1.5rem 0.5rem 1.5rem;
+}
+
+.ajuda-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0 1.5rem 2rem 1.5rem;
+  margin-bottom: 30%;
+}
+.ajuda-section  button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border: none;
+  padding: 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #282113;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+.chat-ajuda-btn {
+  border-radius: 12px 12px 0px 0px;
+}
+.faq-ajuda-btn {
+  border-radius: 0px 0px 12px 12px;
+  border-top: 1px solid #E0E0E0;
+}

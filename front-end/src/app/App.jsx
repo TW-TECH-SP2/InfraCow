@@ -5,13 +5,14 @@ import LoginScreen from '../components/loginScreen/loginScreen';
 import CadastroScreen from '../components/cadastroScreen/cadastroScreen';
 import HomeScreen from '../components/homeScreen/homeScreen'; 
 import TutoriaisScreen from '../components/tutoriaisScreen/tutoriaisScreen';
-import CadFazendaScreen from '../components/cadFazendaScreen/CadFazendaScreen'; // ✅ Importe
+import CadFazendaScreen from '../components/cadFazendaScreen/cadFazendaScreen'; 
+import PerfilScreen from '../components/perfilScreen/perfilScreen'; // ✅ Importado
 import Navbar from '../components/navbar/navbar';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('splash');
   const [activeTab, setActiveTab] = useState('home');
-  const [showCadFazenda, setShowCadFazenda] = useState(false); // ✅ Estado para cadastro de fazenda
+  const [showCadFazenda, setShowCadFazenda] = useState(false);
 
   const handleSplashFinish = () => {
     setTimeout(() => {
@@ -33,28 +34,39 @@ function App() {
 
   const handleLoginSuccess = () => {
     setCurrentScreen('home');
+    setActiveTab('home');
   };
 
   const handleRegisterSuccess = () => {
     setCurrentScreen('home');
+    setActiveTab('home');
   };
 
   const handleLogout = () => {
     setCurrentScreen('auth');
   };
 
-  // ✅ Funções para cadastro de fazenda
   const handleCadastrarFazenda = () => {
+    console.log('✅ Abrindo cadastro de fazenda...');
     setShowCadFazenda(true);
   };
 
   const handleVoltarHome = () => {
     setShowCadFazenda(false);
+    setActiveTab('home');
   };
 
   const handleSalvarFazenda = () => {
     console.log('Fazenda salva!');
     setShowCadFazenda(false);
+    setActiveTab('home');
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    if (showCadFazenda && tab !== 'home') {
+      setShowCadFazenda(false);
+    }
   };
 
   return (
@@ -87,34 +99,34 @@ function App() {
       {/* ✅ TELAS COM NAVBAR (após login) */}
       {(currentScreen === 'home') && (
         <>
-          {/* ✅ Mostra cadastro de fazenda ou conteúdo normal */}
-          {showCadFazenda ? (
+          {/* ✅ Tela de cadastro de fazenda */}
+          {showCadFazenda && (
             <CadFazendaScreen 
               onBack={handleVoltarHome}
               onSave={handleSalvarFazenda}
             />
-          ) : (
+          )}
+          
+          {/* ✅ Telas normais (só mostra se NÃO estiver no cadastro) */}
+          {!showCadFazenda && (
             <>
-              {/* Conteúdo baseado na tab ativa */}
               {activeTab === 'home' && (
                 <HomeScreen 
                   onLogout={handleLogout}
-                  onCadastrarFazenda={handleCadastrarFazenda} // ✅ Passa a função
+                  onCadastrarFazenda={handleCadastrarFazenda}
                 />
               )}
               {activeTab === 'tutoriais' && <TutoriaisScreen />}
-              {activeTab === 'perfil' && <div>Tela de Perfil</div>}
+              {activeTab === 'perfil' && <PerfilScreen onLogout={handleLogout} />} {/* ✅ AGORA USA PerfilScreen */}
               {activeTab === 'notificacoes' && <div>Tela de Notificações</div>}
             </>
           )}
           
-          {/* ✅ NAVBAR (não mostra durante cadastro de fazenda) */}
-          {!showCadFazenda && (
-            <Navbar 
-              activeTab={activeTab} 
-              onTabChange={setActiveTab}
-            />
-          )}
+          {/* ✅ NAVBAR SEMPRE VISÍVEL */}
+          <Navbar 
+            activeTab={activeTab} 
+            onTabChange={handleTabChange}
+          />
         </>
       )}
     </>

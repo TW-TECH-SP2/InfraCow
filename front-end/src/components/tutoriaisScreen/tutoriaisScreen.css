@@ -1,16 +1,22 @@
 .tuto-container {
-  background-color: #E9E9EB;
+  width: 100vw;              /* ocupa toda a largura da tela */
   min-height: 100vh;
-  padding: 2rem;
+  background-color: #E9E9EB;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 5vw;         /* usa padding em vw pra ser responsivo */
+  box-sizing: border-box;    /* padding não soma à largura total */
+  overflow-x: hidden;        /* evita scroll lateral */
 }
-
 /* título e logo */
 .titulo-tuto {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  width: 100%;               /* garante que ocupe a largura total */
   margin-top: 15%;
+  margin-bottom: 1rem;
 }
 
 .titulo-tuto h2 {
@@ -19,19 +25,16 @@
   margin: 0;
 }
 
+
 .logo-home {
-  width: 22%;
+  width: 70px;
+  height: auto;
 }
 
-.desc-tuto p {
-  color: #333;
-  font-size: 0.95rem;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
-}
-
-/* CARD */
+/* cards */
 .card-tuto {
+  width: 100%;               /* ocupa toda a largura disponível */
+  max-width: 450px;          /* limite opcional p/ telas grandes */
   background-color: #fff;
   border-radius: 16px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
@@ -40,6 +43,17 @@
   flex-direction: column;
   margin-bottom: 1.5rem;
 }
+.desc-tuto p {
+  color: #333;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+.desc-tuto{
+  width: 100%;               /* ocupa toda a largura disponível */
+  max-width: 450px;  
+}
+
 
 /* Parte superior (vídeo) */
 .video-preview {

@@ -4,6 +4,7 @@ import cad from '../../assets/icons/add.svg';
 import fazenda from '../../assets/fazendas/fazenda.png';
 
 function HomeScreen({onLogout, onCadastrarFazenda}) {
+    console.log('🔍 HomeScreen - onCadastrarFazenda existe?', !!onCadastrarFazenda);
   return (
         <div className="home-container">
             <div className="titulo-home">
@@ -11,7 +12,10 @@ function HomeScreen({onLogout, onCadastrarFazenda}) {
                 <img src={logoBranca} alt="InfraCow Logo" className="logo-home" />
             </div>
             <div className="cad-fazenda">
-                <button onClick={onCadastrarFazenda}>
+                <button onClick={() => {
+          console.log('🖱️ Botão clicado!');
+          onCadastrarFazenda();
+        }}>
           <img src={cad} alt="add fazenda" /> Cadastrar nova Fazenda
         </button>
             </div>

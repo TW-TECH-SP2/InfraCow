@@ -1,24 +1,28 @@
 import './perfilScreen.css';
 import logoMarrom from '../../assets/logo-marrom-sem-slogan.png';
 import senha from '../../assets/icons/senha.svg';
-
+import chat from '../../assets/icons/chat.svg';
+import faq from '../../assets/icons/faq.svg';
+import sideArrow from '../../assets/icons/side-arrow.svg';
+import user from '../../assets/user.png';
+import fazenda from '../../assets/fazendas/fazenda.png';
 function PerfilScreen() {
   return (
     <div className="perfil-container">
       <div className="titulo-perfil">
-        <h2>Tutorial</h2>
+        <h2>Meu Perfil</h2>
         <img src={logoMarrom} alt="InfraCow Logo" className="logo-home" />
       </div>
 
       {/* Card de vídeo */}
       <div className="card-perfil">
         <div className="esquerda-perfil">
-            <img src="" alt="" />
+            <img src={user} alt="" />
         </div>
         <div className="direita-perfil">
             <p className="nome-perfil">André Silva</p>
-            <p className='email-perfil'>Email: <br /> andre@gmail.com</p>
-            <button><img src={senha} alt="" />Mudar senha</button>
+            <p className='email-perfil'><strong> Email: </strong><br /> andre@gmail.com</p>
+            <button><img src={senha} alt="" />Editar info.</button>
         </div>
       </div>
 
@@ -29,7 +33,7 @@ function PerfilScreen() {
       <div className="linha">
         <div className="card-fazenda-mini">
             <div className="superior-mini">
-                <img src="" alt="" />
+                <img src={fazenda} alt="" />
             </div>
             <div className="inferior-mini">
                 <p>Fazenda Recanto</p>
@@ -38,7 +42,7 @@ function PerfilScreen() {
         </div>
         <div className="card-fazenda-mini">
             <div className="superior-mini">
-                <img src="" alt="" />
+                <img src={fazenda} alt="" />
             </div>
             <div className="inferior-mini">
                 <p>Fazenda Recanto</p>
@@ -50,12 +54,8 @@ function PerfilScreen() {
         <h3>Ajuda</h3>
       </div>
       <div className="ajuda-section">
-        <div className="superior-ajuda">
-            Converse com o suporte
-        </div>
-        <div className="inferior-ajuda">
-            Perguntas frequentes
-        </div>
+        <button className='chat-ajuda-btn'><img src={chat} alt="" /> Converse com o suporte <img src={sideArrow} alt="" /></button>
+        <button className='faq-ajuda-btn'><img src={faq} alt="" /> Perguntas frequentes <img src={sideArrow} alt="" /></button>
       </div>
     </div>
   );
