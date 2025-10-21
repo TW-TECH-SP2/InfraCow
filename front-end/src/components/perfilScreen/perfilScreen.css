@@ -37,7 +37,7 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 1rem;
-  width: 95%;
+  width: 90%;
   box-sizing: border-box;
   overflow: hidden;
 
@@ -47,8 +47,8 @@
 }
 
 .esquerda-perfil img {
-  width: 175px;
-  height: 175px;
+  width: 160px;
+  height: 160px;
   border-radius: 20px;
   object-fit: cover;
   flex-shrink: 0; /* impede que a imagem deforme */
@@ -57,7 +57,7 @@
 .direita-perfil {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0px;
   flex: 1;
   min-width: 0; /* impede o vazamento do conteúdo */
 }
