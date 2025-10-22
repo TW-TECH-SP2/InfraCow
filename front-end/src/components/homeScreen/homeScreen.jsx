@@ -3,7 +3,7 @@ import logoBranca from '../../assets/logo-marrom-sem-slogan.png';
 import cad from '../../assets/icons/add.svg';
 import fazenda from '../../assets/fazendas/fazenda.png';
 
-function HomeScreen({onLogout, onCadastrarFazenda}) {
+function HomeScreen({onLogout, onCadastrarFazenda, onAbrirFazenda }) {
     console.log('🔍 HomeScreen - onCadastrarFazenda existe?', !!onCadastrarFazenda);
   return (
         <div className="home-container">
@@ -31,7 +31,7 @@ function HomeScreen({onLogout, onCadastrarFazenda}) {
                         <p>Estrada Rural do Ribeirão, km 12 <br /> Zona Rural –Cananéia/SP <br /> CEP: 11990-000</p>
                     </div>
                     <div className="gerenciar-fazenda">
-                        <button>Gerenciar</button>
+                        <button onClick={onAbrirFazenda}>Gerenciar</button>
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@ function HomeScreen({onLogout, onCadastrarFazenda}) {
                         <p>Estrada Rural do Ribeirão, km 12 <br /> Zona Rural –Cananéia/SP <br /> CEP: 11990-000</p>
                     </div>
                     <div className="gerenciar-fazenda">
-                        <button>Gerenciar</button>
+                        <button onClick={onAbrirFazenda}>Gerenciar</button>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@ function HomeScreen({onLogout, onCadastrarFazenda}) {
                         <p>Estrada Rural do Ribeirão, km 12 <br /> Zona Rural –Cananéia/SP <br /> CEP: 11990-000</p>
                     </div>
                     <div className="gerenciar-fazenda">
-                        <button>Gerenciar</button>
+                        <button onClick={onAbrirFazenda}>Gerenciar</button>
                     </div>
                 </div>
             </div>
