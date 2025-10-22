@@ -6,7 +6,7 @@ import relatorio from '../../assets/icons/relatorio.svg';
 import vacaqtd from '../../assets/icons/vaca-qtd.svg';
 import { useEffect } from 'react';
 
-function FazendaScreen({ onBack, onAbrirRebanho }) {
+function FazendaScreen({ onBack, onAbrirRebanho, onEditarFazenda }) {
   const handleGerenciarAnimais = () => {
     console.log('🟢 Botão Gerenciar Animais clicado!');
     console.log('🟢 onAbrirRebanho:', onAbrirRebanho);
@@ -15,6 +15,13 @@ function FazendaScreen({ onBack, onAbrirRebanho }) {
       onAbrirRebanho();
     } else {
       console.log('❌ onAbrirRebanho não está definido!');
+    }
+  };
+
+    const handleEditarFazendaClick = () => {
+    console.log('🟡 Botão Editar Fazenda clicado!');
+    if (onEditarFazenda) {
+      onEditarFazenda();
     }
   };
 
@@ -27,7 +34,7 @@ function FazendaScreen({ onBack, onAbrirRebanho }) {
         <div className="fazenda-dash">
             <div className="acoes-fazenda">
                 <button className="gerar-rel"><img src={relatorio} alt="" />Relatório</button>
-                <button className="editar-fazenda"><img src={editDados} alt="" />Edit. fazenda</button>
+                <button className="editar-fazenda" onClick={onEditarFazenda}><img src={editDados} alt="" />Edit. fazenda</button>
             </div>
             <div className="painel-qtd">
                 <div className="esquerda-painel">

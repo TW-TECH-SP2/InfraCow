@@ -47,7 +47,7 @@
     text-align: center;
     justify-content: center;
     padding: 0 2rem;
-    white-space: nowrap; /* ✅ IMPEDE QUEBRA DE TEXTO */
+    white-space: nowrap; 
 }
 
 .gerar-rel{
@@ -149,15 +149,15 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 8px; /* um pouco menor pra deixar o ícone e o texto mais próximos */
+    gap: 8px; 
     font-size: 16px;
     font-weight: 500;
-    margin-bottom: 2px; /* 🔥 reduz o espaço entre o p e o h2 */
+    margin-bottom: 2px; 
 }
 
 .superior-cima p, .superior-baixo p {
     margin: 0;
-    line-height: 1; /* 🔥 diminui o espaçamento interno da linha */
+    line-height: 1; 
     padding: 0;
 }
 
@@ -172,7 +172,7 @@
     display: flex;
     justify-content: flex-start;
     font-size: 20px;
-    margin-top: 0; /* 🔥 elimina o espaço vertical extra */
+    margin-top: 0; 
     padding-top: 0;
 }
 
@@ -180,7 +180,7 @@
     margin: 0;
     padding: 0;
     font-weight: 500;
-    line-height: 1; /* 🔥 deixa o número visualmente mais próximo do texto */
+    line-height: 1; 
 }
 /* gerenciar */
 .geren-animais{
@@ -197,7 +197,6 @@
     gap: 10px;
 }
 /* grafico */
-/* Adicione estas regras CSS no seu fazendaScreen.css */
 
 .grafico-container {
   position: relative;

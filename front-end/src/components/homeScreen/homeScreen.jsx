@@ -16,7 +16,7 @@ function HomeScreen({onLogout, onCadastrarFazenda, onAbrirFazenda }) {
           console.log('🖱️ Botão clicado!');
           onCadastrarFazenda();
         }}>
-          <img src={cad} alt="add fazenda" /> Cadastrar nova Fazenda
+          <img src={cad} alt="add fazenda" /> Cadastrar nova fazenda
         </button>
             </div>
             <div className="card-fazenda">

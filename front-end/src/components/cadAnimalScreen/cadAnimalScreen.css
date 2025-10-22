@@ -1,0 +1,208 @@
+/* ===== CONFIGURAÇÃO GERAL ===== */
+.cad-fazenda-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #e2e1e1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  padding: 30px 0;
+  font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+/* ===== LOGO ===== */
+.logo-cad img {
+  width: 70px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* ===== FORM ===== */
+.formcad {
+  background-color: #ffffff;
+  width: 100%;                 /* ocupa toda a largura da tela */
+  padding: 25px 5%;            /* padding horizontal em % para ficar responsivo */
+  border-top-left-radius: 40px;   /* canto superior esquerdo arredondado */
+  border-top-right-radius: 40px;  /* canto superior direito arredondado */
+  border-bottom-left-radius: 0;   /* canto inferior esquerdo reto */
+  border-bottom-right-radius: 0;  /* canto inferior direito reto */
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  min-height: 100vh;           /* ocupa a altura total da tela */
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;    
+  margin-bottom: 0px;  /* padding não aumenta largura */
+  margin-top: 7%;
+}
+
+
+/* ===== TÍTULO ===== */
+.title-formcad {
+  text-align: center;
+  margin-bottom: 20px;
+  
+}
+
+.title-formcad h2 {
+  font-size:24px;
+  font-weight: 700;
+  color: #3a2b1f;
+}
+
+/* ===== INPUTS ===== */
+.input-groupcad {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 14px;
+}
+
+.input-groupcad label {
+  font-size: 0.85rem;
+  color: #3a2b1f;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.input-groupcad input {
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.9rem;
+  color: #333;
+  background-color: #fff;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+
+.input-groupcad input::placeholder {
+  color: #c9c9c9;
+}
+
+.input-groupcad input:focus {
+  border-color: #a38a6f;
+}
+
+/* CEP e NÚMERO LADO A LADO */
+.input-groupcad-row {
+  display: flex;
+  gap: 5%;          /* espaçamento entre os inputs */
+}
+
+.input-groupcad-row .input-groupcad {
+  flex: 1;           /* ocupa todo o espaço disponível */
+  max-width: 100%;   /* nunca ultrapassa a largura da linha */
+}
+
+
+.input-groupcad-row .input-groupcad:first-child {
+  width: 60%; /* CEP ocupa 60% do espaço */
+}
+
+.input-groupcad-row .input-groupcad:last-child {
+  width: 35%; /* Número ocupa 35% do espaço */
+}
+
+/* selects */
+/* estilo geral do select */
+.input-groupcad select {
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.9rem;
+  color: #333;
+  background-color: #fff;
+  outline: none;
+  transition: border-color 0.2s ease;
+  appearance: none; /* remove a seta padrão */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('../../assets/icons/arrow-down.svg'); /* sua seta personalizada */
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+/* estilo básico das opções (limitado) */
+.input-groupcad select option {
+  background-color: #fff;
+  color: #333;
+  font-size: 0.9rem;
+  padding: 10px;
+}
+
+/* opção destacada ao passar o mouse (nem todos navegadores aplicam) */
+.input-groupcad select option:hover {
+  background-color: #f0e7df;
+  color: #000;
+}
+
+/* ===== UPLOAD DE IMAGEM ===== */
+.input-cadimg {
+  display: flex;
+  align-items: center;
+  gap: 10%;
+  margin-top: 10px;
+}
+
+.esquerda-img-cad {
+  width: 100px  ;
+  height: 100px ;
+  border: 1px solid #D3D3D3;
+  border-radius: 10px;
+  background-color: #EBEBEB;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.esquerda-img-cad img {
+  width: 50px; /* tamanho do ícone da câmera */
+  height: 50px;
+  opacity: 0.6;
+}
+
+.esquerda-img-cad input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+
+
+.direita p {
+  font-size: 14px;
+  color: #3a2b1f;
+  line-height: 1.2;
+
+}
+
+/* ===== BOTÃO ===== */
+.btn-cadfazenda {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-cadfazenda button {
+  background-color: #2b241c;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 12px 20px;
+  width: 80%;
+  height: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-cadfazenda button:hover {
+  background-color: #40352a;  
+}
