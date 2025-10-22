@@ -6,7 +6,7 @@ import faq from '../../assets/icons/faq.svg';
 import sideArrow from '../../assets/icons/side-arrow.svg';
 import user from '../../assets/user.png';
 import fazenda from '../../assets/fazendas/fazenda.png';
-function PerfilScreen() {
+function PerfilScreen({ onEditarPerfil}) {
   return (
     <div className="perfil-container">
       <div className="titulo-perfil">
@@ -22,7 +22,7 @@ function PerfilScreen() {
         <div className="direita-perfil">
             <p className="nome-perfil">André Silva</p>
             <p className='email-perfil'><strong> Email: </strong><br /> andre@gmail.com</p>
-            <button><img src={senha} alt="" />Editar info.</button>
+            <button onClick={onEditarPerfil}><img src={senha} alt="" />Editar info.</button>
         </div>
       </div>
 

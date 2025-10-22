@@ -61,15 +61,15 @@
 }
 
 .esquerda {
-    width: 60%;
+    width: 55%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .esquerda img {
-    width: 90%;
-    height: auto;
+    width: 80%;
+    height: 80%;
     object-fit: cover;
     border-radius: 15px;
 }

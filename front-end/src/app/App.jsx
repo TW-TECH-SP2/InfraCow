@@ -9,12 +9,17 @@ import CadFazendaScreen from '../components/cadFazendaScreen/cadFazendaScreen';
 import PerfilScreen from '../components/perfilScreen/perfilScreen';
 import NotifScreen from '../components/notifScreen/notifScreen'; 
 import EdicaoScreen from '../components/edicaoScreen/edicaoScreen';
+import FazendaScreen from '../components/fazendaScreen/fazendaScreen';
+import RebanhoScreen from '../components/rebanhoScreen/rebanhoScreen';
 import Navbar from '../components/navbar/navbar';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('splash');
   const [activeTab, setActiveTab] = useState('home');
   const [showCadFazenda, setShowCadFazenda] = useState(false);
+  const [showEdicaoPerfil, setShowEdicaoPerfil] = useState(false);
+  const [showFazendaDetalhes, setShowFazendaDetalhes] = useState(false);
+  const [showRebanho, setShowRebanho] = useState(false); // ✅ ADICIONE ESTE ESTADO
 
   const handleSplashFinish = () => {
     setTimeout(() => {
@@ -49,7 +54,6 @@ function App() {
   };
 
   const handleCadastrarFazenda = () => {
-    console.log('✅ Abrindo cadastro de fazenda...');
     setShowCadFazenda(true);
   };
 
@@ -59,15 +63,50 @@ function App() {
   };
 
   const handleSalvarFazenda = () => {
-    console.log('Fazenda salva!');
     setShowCadFazenda(false);
     setActiveTab('home');
   };
 
+  const handleEditarPerfil = () => {
+    setShowEdicaoPerfil(true);
+  };
+
+  const handleVoltarPerfil = () => {
+    setShowEdicaoPerfil(false);
+  };
+
+  const handleSalvarPerfil = () => {
+    setShowEdicaoPerfil(false);
+  };
+
+  // ✅ Função estática simples para abrir fazenda
+  const handleAbrirFazenda = () => {
+    setShowFazendaDetalhes(true);
+  };
+
+  const handleVoltarParaHome = () => {
+    setShowFazendaDetalhes(false);
+  };
+
+  // ✅ ADICIONE ESTAS FUNÇÕES PARA CONTROLAR A TELA DE REBANHO
+  const handleAbrirRebanho = () => {
+    console.log('🔵 Abrindo tela de Rebanho...');
+    setShowRebanho(true);
+  };
+
+  const handleVoltarDoRebanho = () => {
+    console.log('🔵 Voltando do Rebanho...');
+    setShowRebanho(false);
+  };
+
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-    if (showCadFazenda && tab !== 'home') {
+    // Fecha telas modais ao mudar de tab
+    if (showCadFazenda || showEdicaoPerfil || showFazendaDetalhes || showRebanho) {
       setShowCadFazenda(false);
+      setShowEdicaoPerfil(false);
+      setShowFazendaDetalhes(false);
+      setShowRebanho(false); // ✅ ADICIONE showRebanho AQUI
     }
   };
 
@@ -101,7 +140,7 @@ function App() {
       {/* ✅ TELAS COM NAVBAR (após login) */}
       {(currentScreen === 'home') && (
         <>
-          {/* ✅ Tela de cadastro de fazenda */}
+          {/* ✅ Telas modais/overlay */}
           {showCadFazenda && (
             <CadFazendaScreen 
               onBack={handleVoltarHome}
@@ -109,18 +148,45 @@ function App() {
             />
           )}
           
-          {/* ✅ Telas normais (só mostra se NÃO estiver no cadastro) */}
-          {!showCadFazenda && (
+          {showEdicaoPerfil && (
+            <EdicaoScreen 
+              onBack={handleVoltarPerfil}
+              onSave={handleSalvarPerfil}
+            />
+          )}
+          
+          {showFazendaDetalhes && (
+            <FazendaScreen 
+              onBack={handleVoltarParaHome}
+              onAbrirRebanho={handleAbrirRebanho} // ✅ PASSE A PROP AQUI
+            />
+          )}
+          
+          {/* ✅ ADICIONE A TELA DE REBANHO AQUI */}
+          {showRebanho && (
+            <RebanhoScreen 
+              onBack={handleVoltarDoRebanho}
+            />
+          )}
+          
+          {/* ✅ Telas principais da navbar */}
+          {!showCadFazenda && !showEdicaoPerfil && !showFazendaDetalhes && !showRebanho && (
             <>
               {activeTab === 'home' && (
                 <HomeScreen 
                   onLogout={handleLogout}
                   onCadastrarFazenda={handleCadastrarFazenda}
+                  onAbrirFazenda={handleAbrirFazenda}
                 />
               )}
               {activeTab === 'tutoriais' && <TutoriaisScreen />}
-              {activeTab === 'perfil' && <PerfilScreen onLogout={handleLogout} />}
-              {activeTab === 'notificacoes' && <NotifScreen />} {/* ✅ AGORA USA NotifScreen */}
+              {activeTab === 'perfil' && (
+                <PerfilScreen 
+                  onLogout={handleLogout}
+                  onEditarPerfil={handleEditarPerfil}
+                />
+              )}
+              {activeTab === 'notificacoes' && <NotifScreen />}
             </>
           )}
           

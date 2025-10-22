@@ -9,7 +9,7 @@ function EdicaoScreen() {
         
         <form>
         <img src={logoBranca} alt="InfraCow Logo" className="logo-login" />
-          <h2>Crie a sua conta</h2>
+          <h2>Edite seus dados</h2>
           <div className="input-group">
             <label>Nome Completo</label>
             <input type="text" placeholder="______" />

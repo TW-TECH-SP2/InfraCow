@@ -1,0 +1,49 @@
+.rebanho-container {
+    background-color: #E9E9EB;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.logo-rebanho {
+    width: 22%;
+}
+
+.titulo-rebanho h2 {
+    color: #282113;
+    font-size: 30px;
+    margin: 0;
+}
+
+.titulo-rebanho {
+    gap: 15%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-bottom: 5%;
+    margin-top: 15%;
+}
+
+.cad-rebanho button {
+    background-color: #282113;
+    border: none;
+    font-size: 16px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    padding: 0 2rem;
+}
+
+.cad-rebanho{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-bottom: 5%;
+}

@@ -1,0 +1,302 @@
+.fazenda-container {
+  background-color: #E9E9EB;
+  min-height: 100vh;
+  padding: 2rem;
+  padding-bottom: 120px;
+}
+
+.titulo-fazenda {
+    gap: 10%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-bottom: 5%;
+    margin-top: 15%;
+}
+
+.titulo-fazenda h2 {
+   color: #282113;
+    font-size: 30px;
+    margin: 0;
+}
+
+.logo-fazenda {
+  width: 22%;
+}
+/* botoes */
+.acoes-fazenda {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-bottom: 5%;
+    gap: 1%;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 10%;
+}
+
+.acoes-fazenda button {
+    border: none;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 50px;
+    text-align: center;
+    justify-content: center;
+    padding: 0 2rem;
+    white-space: nowrap; /* ✅ IMPEDE QUEBRA DE TEXTO */
+}
+
+.gerar-rel{
+    background-color: #282113;
+   width: 40%;
+    
+}
+
+.gerar-rel img{
+    width: 20px;
+    height: auto;
+    margin-right: 3px;
+}   
+
+.editar-fazenda{
+    background-color: #4D5C52;
+   width: 60%;
+
+}
+.editar-fazenda img{
+    width: 20px;
+    height: auto;
+    margin-right: 3px;
+}
+/* painel */
+.painel-qtd {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2%;
+    margin-bottom: 5%;
+    
+}
+/* lado esquerdo */
+.esquerda-painel {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: auto;
+}
+.painel-qtd img {
+    width: 30px;
+    height: auto;
+    margin-bottom: 5%;
+}
+.total-qtd{
+    background-image: url('../../assets/qtd-animal.png');
+    color: #ffffff !important;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+    justify-content: center;
+    gap: 0.5rem; 
+}
+
+.total-qtd img {
+    margin-bottom: 0;
+}
+
+.total-qtd p {
+    margin: 0; 
+    text-align:start;
+    line-height: 1.2; 
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.total-qtd h1 {
+    margin: 0; 
+    font-size: 45px; 
+    font-weight: 600;
+}
+/* lado direito */
+.direita-painel {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: auto;
+    color: #ffffff;
+    gap: 10px;
+}
+.cima-painel, .baixo-painel {
+    padding: 0.5rem 0.8rem;
+    background: linear-gradient(135deg, #847E73, #38381F);
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: auto; /* ✅ Altura fixa */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+.superior-cima, .superior-baixo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px; /* um pouco menor pra deixar o ícone e o texto mais próximos */
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 2px; /* 🔥 reduz o espaço entre o p e o h2 */
+}
+
+.superior-cima p, .superior-baixo p {
+    margin: 0;
+    line-height: 1; /* 🔥 diminui o espaçamento interno da linha */
+    padding: 0;
+}
+
+.superior-cima img, .superior-baixo img {
+    width: 25px;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.inferior-cima, .inferior-baixo {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 20px;
+    margin-top: 0; /* 🔥 elimina o espaço vertical extra */
+    padding-top: 0;
+}
+
+.inferior-cima h2, .inferior-baixo h2 {
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+    line-height: 1; /* 🔥 deixa o número visualmente mais próximo do texto */
+}
+/* gerenciar */
+.geren-animais{
+    width: 100%;
+    border-radius: 20px;
+    height: 50px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background-color: #282113;
+    color: #ffffff;
+    font-size: 18px;
+    display: flex;
+    gap: 10px;
+}
+/* grafico */
+/* Adicione estas regras CSS no seu fazendaScreen.css */
+
+.grafico-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 20px;
+}
+
+.circulo-externo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+      #4CAF50 0% 25%,
+      #FFC107 25% 50%,
+      #FF9800 50% 75%,
+      #F44336 75% 100%
+  );
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.circulo-interno {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  background-color: white;
+  border-radius: 50%;
+  top: 10%;
+  left: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.valor-temperatura {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.texto-temperatura {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin-top: 5px;
+}
+
+.indicador {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 50% 0%);
+  transform: rotate(0deg);
+  transition: transform 1.5s ease-in-out;
+}
+
+.faixa-normal { background-color: #4CAF50; }
+.faixa-atencao { background-color: #FFC107; }
+.faixa-alerta { background-color: #FF9800; }
+.faixa-critica { background-color: #F44336; }
+
+.legenda {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.item-legenda {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.cor-legenda {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.normal { background-color: #4CAF50; }
+.atencao { background-color: #FFC107; }
+.alerta { background-color: #FF9800; }
+.critica { background-color: #F44336; }
+
+.status {
+  margin-top: 15px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.status-normal { background-color: #E8F5E9; color: #2E7D32; }
+.status-atencao { background-color: #FFF8E1; color: #F57F17; }
+.status-alerta { background-color: #FFF3E0; color: #EF6C00; }
+.status-critica { background-color: #FFEBEE; color: #C62828; }
