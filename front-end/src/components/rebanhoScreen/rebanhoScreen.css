@@ -10,8 +10,9 @@
 
 .titulo-rebanho h2 {
     color: #282113;
-    font-size: 30px;
+    font-size: 25px;
     margin: 0;
+
 }
 
 .titulo-rebanho {
@@ -46,4 +47,114 @@
     align-items: center;
     display: flex;
     margin-bottom: 5%;
+}
+/* card */
+.rebanho-card-row{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: black;
+    gap: 5%;
+    margin-top: 10%;
+}
+.rebanho-card{
+    justify-content: center;
+    background-color: #ffffff;
+    width: 70%;
+    border-radius: 20px;
+    padding: 1rem;
+    height: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);   
+}
+.rebanho-card-cima {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  position: relative; /* <--- adicionado */
+}
+.rebanho-card-cima, .rebanho-card-baixo{
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+}
+.rebanho-card-cima .rebanho-card-esquerda img{
+    border-radius: 20px;
+}
+.arrow-card {
+  position: absolute;
+  top: 10px;      /* distância do topo do card */
+  right: 10px;    /* distância da direita do card */
+  width: 25px;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.arrow-card.rotated {
+  transform: rotate(180deg);
+}
+.rebanho-card-cima .rebanho-card-direita {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  gap: 5px;
+  width: 30%;
+  position: relative;
+  padding-right: 2rem; 
+}
+.rebanho-card-cima .rebanho-card-direita p{
+    margin-left: 10%;
+}
+
+.nome-animal-card {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.2; 
+    margin: 0;
+}
+.genero-animal{
+    line-height: 1.2; 
+    margin: 0;
+}
+
+.rebanho-card-baixo .rebanho-card-esquerda p{
+    line-height: 1.2; 
+    margin: 0;
+}
+.rebanho-card-baixo .rebanho-card-direita button{
+    border-radius: 15px;
+    width: 100%;
+    background-color: #282113;
+    color: #fff;
+}
+/* acoes */
+
+.editar-animal{
+    background-color: #4D5C52;
+    border-radius: 15px;
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.editar-animal img{
+    width: 24px;
+    height: auto;
+}
+.delete-animal{
+    background-color: #780406;
+    border-radius: 15px;
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-top: 20%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.delete-animal img{
+    width: 24px;
+    height: auto;
 }

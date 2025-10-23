@@ -7,7 +7,7 @@ function CadastroScreen({ onLogin, onRegister }) {
       <div className="login-form">
         
         
-        <form>
+        <form >
         <img src={logoBranca} alt="InfraCow Logo" className="logo-login" />
           <h2>Crie a sua conta</h2>
           <div className="input-group">

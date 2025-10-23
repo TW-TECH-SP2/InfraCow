@@ -4,9 +4,10 @@ import gerenciar from '../../assets/icons/gerenciar.svg';
 import editDados from '../../assets/icons/edit-dados.svg';
 import relatorio from '../../assets/icons/relatorio.svg';
 import vacaqtd from '../../assets/icons/vaca-qtd.svg';
+import TemperatureGauge from '../temperatureGauge/temperatureGauge';
 import { useEffect } from 'react';
 
-function FazendaScreen({ onBack, onAbrirRebanho }) {
+function FazendaScreen({ onBack, onAbrirRebanho, onEditarFazenda, onAbrirRelFazenda }) {
   const handleGerenciarAnimais = () => {
     console.log('🟢 Botão Gerenciar Animais clicado!');
     console.log('🟢 onAbrirRebanho:', onAbrirRebanho);
@@ -18,6 +19,13 @@ function FazendaScreen({ onBack, onAbrirRebanho }) {
     }
   };
 
+    const handleEditarFazendaClick = () => {
+    console.log('🟡 Botão Editar Fazenda clicado!');
+    if (onEditarFazenda) {
+      onEditarFazenda();
+    }
+  };
+
   return (
     <div className="fazenda-container">
       <div className="titulo-fazenda">
@@ -26,8 +34,8 @@ function FazendaScreen({ onBack, onAbrirRebanho }) {
       </div>
         <div className="fazenda-dash">
             <div className="acoes-fazenda">
-                <button className="gerar-rel"><img src={relatorio} alt="" />Relatório</button>
-                <button className="editar-fazenda"><img src={editDados} alt="" />Edit. fazenda</button>
+                <button className="gerar-rel" onClick={onAbrirRelFazenda }><img src={relatorio} alt="" />Relatório</button>
+                <button className="editar-fazenda" onClick={onEditarFazenda}><img src={editDados} alt="" />Edit. fazenda</button>
             </div>
             <div className="painel-qtd">
                 <div className="esquerda-painel">
@@ -64,11 +72,15 @@ function FazendaScreen({ onBack, onAbrirRebanho }) {
                   <img src={gerenciar} alt="" />Gerenciar Animais
                 </button>
             </div>
-            <div className="grafico-fazenda">
-                <div className="grafico-card">
-                    <h2>Media geral de temp</h2>
-                    <p>grafico aqui</p>
+            <div className="grafico-animal">
+              <div className="gauge-container">
+                <div className="gauge-esquerda">
+                  <h3>Média Geral de <br />Temperatura </h3>
+                  <p>De acordo com as  <br />medições mais recentes</p>
                 </div>
+                {/* valor do grafico passar por variavel apos realizar calculo de media de temperaturas do rebanho */}
+                <TemperatureGauge temperature={38} />
+              </div>
             </div>
         </div>
     </div>
