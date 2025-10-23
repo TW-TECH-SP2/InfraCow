@@ -1,6 +1,6 @@
 import React from 'react';
-import './TemperatureGauge.css';
-
+import './temperatureGauge.css';
+// att
 function TemperatureGauge({ temperature }) {
   const isNormal = temperature >= 36 && temperature <= 39;
   const color = isNormal ? '#4D5C52' : '#780406';

@@ -27,6 +27,14 @@ const Fazenda = connection.define('fazendas', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
+    usuario_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: Usuario,
+            key: 'id'
+        }
+    }
 
 })
 

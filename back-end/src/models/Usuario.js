@@ -2,10 +2,6 @@ import Sequelize from "sequelize";
 import connection from "../config/sequelize-config.js";
 
 const Usuario = connection.define('usuarios', {
-    nome:{
-        type: Sequelize.STRING,
-        allowNull: false
-    },
     email: {
         type: Sequelize.STRING,
         allowNull: false
@@ -15,5 +11,7 @@ const Usuario = connection.define('usuarios', {
         allowNull: false
     }
 })
+
+Usuario.sync({force: false})
 
 export default Usuario;

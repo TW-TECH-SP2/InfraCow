@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import './SplashScreen.css';
+import './splashScreen.css';
 import logoBranca from '../../assets/logo-branca.png'; // Ajuste o caminho se necessário
 
 function SplashScreen({ onFinish }) {
