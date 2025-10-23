@@ -14,6 +14,8 @@ import RebanhoScreen from '../components/rebanhoScreen/rebanhoScreen';
 import EditFazendaScreen from '../components/editFazendaScreen/editFazendaScreen';
 import EditAnimalScreen from '../components/editAnimalScreen/editAnimalScreen';
 import CadAnimalScreen from '../components/cadAnimalScreen/cadAnimalScreen';
+import RelFazendaScreen from '../components/relFazendaScreen/relFazendaScreen';
+import RelAnimalScreen from '../components/relAnimalScreen/relAnimalScreen';
 import AnimalScreen from '../components/animalScreen/animalScreen';
 import Navbar from '../components/navbar/navbar';
 
@@ -27,7 +29,9 @@ function App() {
   const [showEditFazenda, setShowEditFazenda] = useState(false);
   const [showEditAnimal, setShowEditAnimal] = useState(false);
   const [showCadAnimal, setShowCadAnimal] = useState(false);
-  const [showAnimal, setShowAnimal] = useState(false); // ✅ NOVO ESTADO
+  const [showAnimal, setShowAnimal] = useState(false);
+  const [showRelFazenda, setShowRelFazenda] = useState(false);
+  const [showRelAnimal, setShowRelAnimal] = useState(false); // ✅ NOVO ESTADO
 
   const handleSplashFinish = () => {
     setTimeout(() => {
@@ -105,6 +109,28 @@ function App() {
     setShowRebanho(false);
   };
 
+  // ✅ FUNÇÕES PARA REL FAZENDA
+  const handleAbrirRelFazenda = () => {
+    console.log('📊 Abrindo relatórios da fazenda...');
+    setShowRelFazenda(true);
+  };
+
+  const handleVoltarDoRelFazenda = () => {
+    console.log('📊 Voltando dos relatórios...');
+    setShowRelFazenda(false);
+  };
+
+  // ✅ NOVAS FUNÇÕES PARA REL ANIMAL
+  const handleAbrirRelAnimal = () => {
+    console.log('🐄📊 Abrindo relatórios do animal...');
+    setShowRelAnimal(true);
+  };
+
+  const handleVoltarDoRelAnimal = () => {
+    console.log('🐄📊 Voltando dos relatórios do animal...');
+    setShowRelAnimal(false);
+  };
+
   // ✅ FUNÇÕES PARA EDIT FAZENDA
   const handleEditarFazenda = () => {
     console.log('🏠 Editando fazenda...');
@@ -153,7 +179,7 @@ function App() {
     setShowCadAnimal(false);
   };
 
-  // ✅ NOVAS FUNÇÕES PARA ANIMAL SCREEN
+  // ✅ FUNÇÕES PARA ANIMAL SCREEN
   const handleAbrirAnimal = () => {
     console.log('🐄 Abrindo tela do animal...');
     setShowAnimal(true);
@@ -167,7 +193,7 @@ function App() {
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     // Fecha telas modais ao mudar de tab
-    if (showCadFazenda || showEdicaoPerfil || showFazendaDetalhes || showRebanho || showEditFazenda || showEditAnimal || showCadAnimal || showAnimal) {
+    if (showCadFazenda || showEdicaoPerfil || showFazendaDetalhes || showRebanho || showEditFazenda || showEditAnimal || showCadAnimal || showAnimal || showRelFazenda || showRelAnimal) {
       setShowCadFazenda(false);
       setShowEdicaoPerfil(false);
       setShowFazendaDetalhes(false);
@@ -175,7 +201,9 @@ function App() {
       setShowEditFazenda(false);
       setShowEditAnimal(false);
       setShowCadAnimal(false);
-      setShowAnimal(false); // ✅ ADICIONE AQUI
+      setShowAnimal(false);
+      setShowRelFazenda(false);
+      setShowRelAnimal(false); // ✅ ADICIONE AQUI
     }
   };
 
@@ -209,11 +237,28 @@ function App() {
       {/* ✅ TELAS COM NAVBAR (após login) */}
       {(currentScreen === 'home') && (
         <>
-          {/* ✅ 1. TELA DE ANIMAL (COM NAVBAR) */}
-          {showAnimal && (
+          {/* ✅ 1. TELA DE REL ANIMAL (SEM NAVBAR) - MAIS ALTA PRIORIDADE */}
+          {showRelAnimal && (
+            <RelAnimalScreen 
+              onBack={handleVoltarDoRelAnimal}
+              onVoltarAnimal={handleVoltarDoRelAnimal}
+            />
+          )}
+          
+          {/* ✅ 2. TELA DE REL FAZENDA (SEM NAVBAR) */}
+          {!showRelAnimal && showRelFazenda && (
+            <RelFazendaScreen 
+              onBack={handleVoltarDoRelFazenda}
+              onVoltarFazenda={handleVoltarDoRelFazenda}
+            />
+          )}
+          
+          {/* ✅ 3. TELA DE ANIMAL (COM NAVBAR) - apenas se RelAnimal e RelFazenda NÃO estiverem ativas */}
+          {!showRelAnimal && !showRelFazenda && showAnimal && (
             <>
               <AnimalScreen 
                 onBack={handleVoltarDoAnimal}
+                onAbrirRelAnimal={handleAbrirRelAnimal} // ✅ PASSE A PROP AQUI
               />
               <Navbar 
                 activeTab={activeTab} 
@@ -222,8 +267,8 @@ function App() {
             </>
           )}
           
-          {/* ✅ 2. TELA DE CAD ANIMAL (se Animal NÃO estiver ativo) */}
-          {!showAnimal && showCadAnimal && (
+          {/* ✅ 4. TELA DE CAD ANIMAL (COM NAVBAR) */}
+          {!showRelAnimal && !showRelFazenda && !showAnimal && showCadAnimal && (
             <>
               <CadAnimalScreen 
                 onBack={handleVoltarDoCadAnimal}
@@ -236,8 +281,8 @@ function App() {
             </>
           )}
           
-          {/* ✅ 3. TELA DE EDIT ANIMAL (se Animal e CadAnimal NÃO estiverem ativos) */}
-          {!showAnimal && !showCadAnimal && showEditAnimal && (
+          {/* ✅ 5. TELA DE EDIT ANIMAL (COM NAVBAR) */}
+          {!showRelAnimal && !showRelFazenda && !showAnimal && !showCadAnimal && showEditAnimal && (
             <>
               <EditAnimalScreen 
                 onBack={handleVoltarDaEdicaoAnimal}
@@ -250,14 +295,14 @@ function App() {
             </>
           )}
           
-          {/* ✅ 4. TELA DE REBANHO (se outras telas NÃO estiverem ativas) */}
-          {!showAnimal && !showCadAnimal && !showEditAnimal && showRebanho && (
+          {/* ✅ 6. TELA DE REBANHO (COM NAVBAR) */}
+          {!showRelAnimal && !showRelFazenda && !showAnimal && !showCadAnimal && !showEditAnimal && showRebanho && (
             <>
               <RebanhoScreen 
                 onBack={handleVoltarDoRebanho}
                 onEditarAnimal={handleEditarAnimal}
                 onCadastrarAnimal={handleCadastrarAnimal}
-                onAbrirAnimal={handleAbrirAnimal} // ✅ PASSE A PROP AQUI
+                onAbrirAnimal={handleAbrirAnimal}
               />
               <Navbar 
                 activeTab={activeTab} 
@@ -266,8 +311,8 @@ function App() {
             </>
           )}
           
-          {/* ✅ 5. TELA DE EDIT FAZENDA (se outras telas NÃO estiverem ativas) */}
-          {!showAnimal && !showCadAnimal && !showEditAnimal && !showRebanho && showEditFazenda && (
+          {/* ✅ 7. TELA DE EDIT FAZENDA (COM NAVBAR) */}
+          {!showRelAnimal && !showRelFazenda && !showAnimal && !showCadAnimal && !showEditAnimal && !showRebanho && showEditFazenda && (
             <>
               <EditFazendaScreen 
                 onBack={handleVoltarDaEdicaoFazenda}
@@ -280,13 +325,14 @@ function App() {
             </>
           )}
           
-          {/* ✅ 6. TELA DE FAZENDA (se outras telas NÃO estiverem ativas) */}
-          {!showAnimal && !showCadAnimal && !showEditAnimal && !showRebanho && !showEditFazenda && showFazendaDetalhes && (
+          {/* ✅ 8. TELA DE FAZENDA (COM NAVBAR) */}
+          {!showRelAnimal && !showRelFazenda && !showAnimal && !showCadAnimal && !showEditAnimal && !showRebanho && !showEditFazenda && showFazendaDetalhes && (
             <>
               <FazendaScreen 
                 onBack={handleVoltarParaHome}
                 onAbrirRebanho={handleAbrirRebanho}
                 onEditarFazenda={handleEditarFazenda}
+                onAbrirRelFazenda={handleAbrirRelFazenda}
               />
               <Navbar 
                 activeTab={activeTab} 
@@ -295,23 +341,35 @@ function App() {
             </>
           )}
           
-          {/* ✅ 7. OUTROS MODAIS (se outras telas NÃO estiverem ativas) */}
-          {!showAnimal && !showCadAnimal && !showEditAnimal && !showRebanho && !showEditFazenda && !showFazendaDetalhes && showCadFazenda && (
-            <CadFazendaScreen 
-              onBack={handleVoltarHome}
-              onSave={handleSalvarFazenda}
-            />
+          {/* ✅ 9. OUTROS MODAIS (COM NAVBAR) */}
+          {!showRelAnimal && !showRelFazenda && !showAnimal && !showCadAnimal && !showEditAnimal && !showRebanho && !showEditFazenda && !showFazendaDetalhes && showCadFazenda && (
+            <>
+              <CadFazendaScreen 
+                onBack={handleVoltarHome}
+                onSave={handleSalvarFazenda}
+              />
+              <Navbar 
+                activeTab={activeTab} 
+                onTabChange={handleTabChange}
+              />
+            </>
           )}
           
-          {!showAnimal && !showCadAnimal && !showEditAnimal && !showRebanho && !showEditFazenda && !showFazendaDetalhes && showEdicaoPerfil && (
-            <EdicaoScreen 
-              onBack={handleVoltarPerfil}
-              onSave={handleSalvarPerfil}
-            />
+          {!showRelAnimal && !showRelFazenda && !showAnimal && !showCadAnimal && !showEditAnimal && !showRebanho && !showEditFazenda && !showFazendaDetalhes && showEdicaoPerfil && (
+            <>
+              <EdicaoScreen 
+                onBack={handleVoltarPerfil}
+                onSave={handleSalvarPerfil}
+              />
+              <Navbar 
+                activeTab={activeTab} 
+                onTabChange={handleTabChange}
+              />
+            </>
           )}
           
-          {/* ✅ 8. TELAS PRINCIPAIS DA NAVBAR (apenas se NÃO estiver em outras telas) */}
-          {!showAnimal && !showCadAnimal && !showEditAnimal && !showRebanho && !showEditFazenda && !showFazendaDetalhes && !showCadFazenda && !showEdicaoPerfil && (
+          {/* ✅ 10. TELAS PRINCIPAIS DA NAVBAR (apenas se NÃO estiver em outras telas) */}
+          {!showRelAnimal && !showRelFazenda && !showAnimal && !showCadAnimal && !showEditAnimal && !showRebanho && !showEditFazenda && !showFazendaDetalhes && !showCadFazenda && !showEdicaoPerfil && (
             <>
               {activeTab === 'home' && (
                 <HomeScreen 
@@ -334,14 +392,6 @@ function App() {
                 onTabChange={handleTabChange}
               />
             </>
-          )}
-          
-          {/* ✅ 9. NAVBAR PARA MODAIS (se estiver em CadFazenda ou EdicaoPerfil) */}
-          {!showAnimal && !showCadAnimal && !showEditAnimal && !showRebanho && !showEditFazenda && !showFazendaDetalhes && (showCadFazenda || showEdicaoPerfil) && (
-            <Navbar 
-              activeTab={activeTab} 
-              onTabChange={handleTabChange}
-            />
           )}
         </>
       )}
