@@ -30,6 +30,14 @@ const Animais = connection.define('animais', {
     idade: {
         type: Sequelize.INTEGER,
         allowNull: false
+    },
+    fazenda_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: Fazenda,
+            key: 'id'
+        }
     }
 })
 

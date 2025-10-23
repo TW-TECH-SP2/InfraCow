@@ -10,6 +10,14 @@ const Medicao = connection.define('medicao', {
     datahora: {
         type: Sequelize.DATE,
         allowNull: false
+    },
+    animais_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: Animais,
+            key: 'id'
+        }
     }
 })
 
