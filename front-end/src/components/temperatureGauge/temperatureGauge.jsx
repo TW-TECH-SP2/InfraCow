@@ -1,5 +1,5 @@
 import React from 'react';
-import './TemperatureGauge.css';
+import './temperatureGauge.css';
 
 function TemperatureGauge({ temperature }) {
   const isNormal = temperature >= 36 && temperature <= 39;
