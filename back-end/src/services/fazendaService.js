@@ -27,7 +27,7 @@ class fazendaService {
 
   async Delete(id) {
     try {
-      await Fazenda.destroy({ where: {id} });
+      await Fazenda.destroy({ where: { id } });
       console.log(`Fazenda com o id ${id} foi excluída`);
     } catch (error) {
       console.log(error);
@@ -35,16 +35,17 @@ class fazendaService {
   }
   async Update(id, nome_fazenda, rua, bairro, cidade, CEP, numero) {
     try {
-      await Fazenda.update({
-        nome_fazenda,
-        rua,
-        bairro,
-        cidade,
-        CEP,
-        numero,
-      },
-      { where: { id } }
-    );
+      await Fazenda.update(
+        {
+          nome_fazenda,
+          rua,
+          bairro,
+          cidade,
+          CEP,
+          numero,
+        },
+        { where: { id } }
+      );
       console.log(`Dados da fazenda com o id ${id} alterados com sucesso!`);
     } catch (error) {
       console.log(error);

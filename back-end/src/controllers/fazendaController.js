@@ -27,8 +27,8 @@ const deleteFazenda = async (req, res) => {
     if (isNaN(id)) {
       return res.status(400).json({ error: "ID Inválido" });
     }
-    const apagado = await fazendaService.Delete(id);
-    if (apagado) {
+    const deleted = await fazendaService.Delete(id);
+    if (deleted) {
       res.sendStatus(204);
     } else {
       res.status(404).json({ error: "Fazenda não encontrada" });
@@ -76,7 +76,7 @@ const getOneFazenda = async (req, res) => {
 
     const fazenda = await fazendaService.getOne(id);
     if (!fazenda) {
-      res.sendStatus(404);
+      res.sendStatus(404).json({ error: "Fazenda não encontrada" });
     } else {
       res.status(200).json({ fazenda });
     }
@@ -86,4 +86,10 @@ const getOneFazenda = async (req, res) => {
   }
 };
 
-export default { getAllFazendas, createFazenda, deleteFazenda, updateFazenda, getOneFazenda };
+export default {
+  getAllFazendas,
+  createFazenda,
+  deleteFazenda,
+  updateFazenda,
+  getOneFazenda,
+};
