@@ -6,6 +6,7 @@ import Animais from './models/Animais.js';
 import Alerta from './models/Alertas.js';
 
 import usuarioRoutes from './routes/usuarioRoutes.js';
+import fazendaRoutes from './routes/fazendaRoutes.js';
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use("/", usuarioRoutes);
+app.use("/", fazendaRoutes);
 
 const port = 4000;
 app.listen(port, (error) => {
