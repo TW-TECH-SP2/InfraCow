@@ -1,7 +1,7 @@
 .animal-container {
     background-color: #E9E9EB;
     min-height: 100vh;
-    padding: 1rem;
+    padding: 0.2rem;
 }
 
 .logo-animal {
@@ -36,7 +36,7 @@
     border-radius: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     height: 50px;
-    width: 100%;
+    width: 90%;
     text-align: center;
     justify-content: center;
 }
@@ -48,7 +48,7 @@
     margin-bottom: 5%;
 }
  
-.alerta-animal button{
+.alerta-animal button {
     border-radius: 20px;
     background-color: #780406;
     justify-content: center;
@@ -57,9 +57,11 @@
     text-align: start;
     gap: 5%;
     height: 100px;
-    margin-top: 10%;
+    margin: 10% auto 0 auto; /* centraliza horizontalmente */
     color: #fff;
+    width: 90%;
 }
+
 .grafico-animal{
     background-color: #ffffff;
     border-radius: 20px;
@@ -70,6 +72,9 @@
     align-items: center;
     display: flex;
     margin-top: 10%;
+    width: 90%;
+    margin: 10% auto 0 auto; /* centraliza horizontalmente */
+
 }
 /* temperatura */
 .gauge-container {
@@ -94,4 +99,14 @@
   margin: 0;
   font-weight: 500;
   text-align: start;
+}
+.grafico-freq{
+    margin-top: 20%;
+    margin-bottom: 10%;
+    width: 90%;
+    margin: 10% auto 0 auto; /* centraliza horizontalmente */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-bottom: 40%;
 }

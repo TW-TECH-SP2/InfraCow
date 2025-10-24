@@ -32,7 +32,7 @@ function AnimalScreen({ onBack, onAbrirRelAnimal  }) {
            <TemperatureGauge temperature={37.5} />
         </div>
       </div>
-      <div className="grafico-animal">
+      <div className="grafico-freq">
         <TemperatureChart />
       </div>
     </div>
