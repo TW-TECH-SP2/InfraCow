@@ -1,28 +1,29 @@
-import jwt from 'jsonwebtoken'
-import usuarioController from '../controllers/usuarioController.js'
+import jwt from "jsonwebtoken";
+import JWTSecret from "../controllers/usuarioController.js";
 
 const Autorizacao = (req, res, next) => {
-    const autenticacaoToken = req.headers["autorizacao"];
-    if (autenticacaoToken != undefined) {
+  const autenticacaoToken = req.headers["autorizacao"];
+  if (!autenticacaoToken) {
+    return res.status(401).json({ error: "Token não fornecido" });
+  }
 
-        const bearer = autenticacaoToken.split(" ");
-        const token = bearer[1];
+  const [bearer, token] = autenticacaoToken.split(" ");
 
-        jwt.verify(token, usuarioController.JWTSecret, (error, data) => {
-            if (error) {
-                res.status(401).json({ error: "Token inválido. Autorização negada!" });
-            } else {
-                req.token = token;
-                req.usuarioLogado = {
-                    id: data.id,
-                    email: data.email,
-                };
-                next();
-            }
-        })
-    } else {
-        res.status(401).json({ error: "Token inválido" })
+  if (bearer !== "Bearer" || !token) {
+    return res.status(401).json({ error: "Formato do token inválido" });
+  }
+
+  jwt.verify(token, JWTSecret, (error, decoded) => {
+    if (error) {
+      return res.status(401).json({ error: "Token inválido ou expirado" });
     }
-}
 
-export default { Autorizacao };
+    req.usuarioLogado = {
+      id: decoded.id,
+      email: decoded.email,
+    };
+    next();
+  });
+};
+
+export default Autorizacao ;

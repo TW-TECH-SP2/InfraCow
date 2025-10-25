@@ -26,4 +26,4 @@ class usuarioService {
     }
 }
 
-export default new usuarioService;
+export default new usuarioService();

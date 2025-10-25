@@ -20,6 +20,7 @@ import AnimalScreen from '../components/animalScreen/animalScreen';
 import Navbar from '../components/navbar/navbar';
 
 function App() {
+  const [isLogged, setIsLogged] = useState(!!localStorage.getItem("token"));
   const [currentScreen, setCurrentScreen] = useState('splash');
   const [activeTab, setActiveTab] = useState('home');
   const [showCadFazenda, setShowCadFazenda] = useState(false);
@@ -52,6 +53,7 @@ function App() {
   };
 
   const handleLoginSuccess = () => {
+    setIsLogged(true);
     setCurrentScreen('home');
     setActiveTab('home');
   };
@@ -62,6 +64,8 @@ function App() {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLogged(false);
     setCurrentScreen('auth');
   };
 

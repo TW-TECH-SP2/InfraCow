@@ -5,7 +5,7 @@ import editDados from '../../assets/icons/edit-dados.svg';
 import relatorio from '../../assets/icons/relatorio.svg';
 import vacaqtd from '../../assets/icons/vaca-qtd.svg';
 import TemperatureGauge from '../temperatureGauge/temperatureGauge';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function FazendaScreen({ onBack, onAbrirRebanho, onEditarFazenda, onAbrirRelFazenda }) {
   const handleGerenciarAnimais = () => {
@@ -34,7 +34,7 @@ function FazendaScreen({ onBack, onAbrirRebanho, onEditarFazenda, onAbrirRelFaze
       </div>
         <div className="fazenda-dash">
             <div className="acoes-fazenda">
-                <button className="gerar-rel" onClick={onAbrirRelFazenda }><img src={relatorio} alt="" />Relatório</button>
+                <button className="gerar-rel" onClick={() => onAbrirRelFazenda()}><img src={relatorio} alt="" />Relatório</button>
                 <button className="editar-fazenda" onClick={onEditarFazenda}><img src={editDados} alt="" />Edit. fazenda</button>
             </div>
             <div className="painel-qtd">

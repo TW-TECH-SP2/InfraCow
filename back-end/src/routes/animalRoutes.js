@@ -1,17 +1,17 @@
 import express from 'express'
 import animalController from "../controllers/animalController.js";
-import Auth from '../middlewares/Auth.js';
+import Autorizacao from '../middlewares/Auth.js';
 
 const animalRoutes = express.Router();
 
-animalRoutes.get("/animais", Auth.Autorizacao, animalController.getAllAnimais);
+animalRoutes.get("/animais", Autorizacao, animalController.getAllAnimais);
 
-animalRoutes.post("/animais", Auth.Autorizacao, animalController.createAnimal);
+animalRoutes.post("/animais", Autorizacao, animalController.createAnimal);
 
-animalRoutes.delete("/animais/:id", Auth.Autorizacao, animalController.deleteAnimal);
+animalRoutes.delete("/animais/:id", Autorizacao, animalController.deleteAnimal);
 
-animalRoutes.put("/animais/:id", Auth.Autorizacao, animalController.updateAnimal);
+animalRoutes.put("/animais/:id", Autorizacao, animalController.updateAnimal);
 
-animalRoutes.get("/animais/:id", Auth.Autorizacao, animalController.getOneAnimal);
+animalRoutes.get("/animais/:id", Autorizacao, animalController.getOneAnimal);
 
 export default animalRoutes;
