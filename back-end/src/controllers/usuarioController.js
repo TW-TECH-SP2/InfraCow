@@ -1,12 +1,12 @@
 import usuarioService from "../services/usuarioService.js";
 import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
 
 const JWTSecret = "apiinfracow";
 
 const criarUsuario = async (req, res) => {
-    try{
+    try {
         const { nome, email, senha } = req.body;
-
         await usuarioService.Create(nome, email, senha);
         res.sendStatus(201);
     } catch (error) {

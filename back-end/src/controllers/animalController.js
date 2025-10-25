@@ -1,5 +1,4 @@
 import animalService from "../services/animalService.js";
-import fazendaService from "../services/fazendaService";
 
 const getAllAnimais = async (req, res) => {
   try {

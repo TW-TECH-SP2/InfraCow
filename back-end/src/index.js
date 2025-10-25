@@ -1,4 +1,6 @@
 import express from 'express'
+const app = express();
+
 import connection from './config/sequelize-config.js';
 import Usuario from './models/Usuario.js';
 import Fazenda from './models/Fazenda.js';
@@ -9,7 +11,7 @@ import usuarioRoutes from './routes/usuarioRoutes.js';
 import fazendaRoutes from './routes/fazendaRoutes.js';
 import animalRoutes from './routes/animalRoutes.js';
 
-const app = express();
+import cors from 'cors';
 
 connection.authenticate().then(() => {
     console.log("Conexão com o banco de dados feita com sucesso!")
@@ -25,6 +27,8 @@ connection.query(`CREATE DATABASE IF NOT EXISTS infracow;`).then(() => {
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cors({ origin: "http://localhost:5173"}));
+
 
 app.use("/", usuarioRoutes);
 app.use("/", fazendaRoutes);
