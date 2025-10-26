@@ -1,7 +1,12 @@
 import jwt from "jsonwebtoken";
-import JWTSecret from "../controllers/usuarioController.js";
+import usuarioController from "../controllers/usuarioController.js";
+
+const JWTSecret = usuarioController.JWTSecret;
 
 const Autorizacao = (req, res, next) => {
+
+  console.log("Token recebido no backend: ", req.headers["autorizacao"]);
+
   const autenticacaoToken = req.headers["autorizacao"];
   if (!autenticacaoToken) {
     return res.status(401).json({ error: "Token não fornecido" });
@@ -14,6 +19,7 @@ const Autorizacao = (req, res, next) => {
   }
 
   jwt.verify(token, JWTSecret, (error, decoded) => {
+    console.log("Decodificado:", decoded);
     if (error) {
       return res.status(401).json({ error: "Token inválido ou expirado" });
     }
@@ -26,4 +32,4 @@ const Autorizacao = (req, res, next) => {
   });
 };
 
-export default Autorizacao ;
+export default Autorizacao;

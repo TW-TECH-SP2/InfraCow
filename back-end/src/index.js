@@ -12,6 +12,7 @@ import fazendaRoutes from './routes/fazendaRoutes.js';
 import animalRoutes from './routes/animalRoutes.js';
 
 import cors from 'cors';
+import path from 'path'
 
 connection.authenticate().then(() => {
     console.log("Conexão com o banco de dados feita com sucesso!")
@@ -28,6 +29,7 @@ connection.query(`CREATE DATABASE IF NOT EXISTS infracow;`).then(() => {
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173"}));
+app.use("/uploads", express.static(path.resolve("uploads")));
 
 
 app.use("/", usuarioRoutes);

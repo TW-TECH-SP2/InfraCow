@@ -2,87 +2,109 @@ import fazendaService from "../services/fazendaService.js";
 
 const getAllFazendas = async (req, res) => {
   try {
-    const fazendas = await fazendaService.getAll();
-    res.status(200).json({ fazendas });
+    const usuario_id = req.usuarioLogado.id;
+    const fazendas = await fazendaService.getAll(usuario_id);
+    return res.status(200).json({ fazendas });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Erro interno do servidor" });
+    return res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
 
 const createFazenda = async (req, res) => {
   try {
+
     const { nome_fazenda, rua, bairro, cidade, CEP, numero } = req.body;
-    await fazendaService.Create(nome_fazenda, rua, bairro, cidade, CEP, numero);
-    res.sendStatus(201);
+    const usuario_id = req.usuarioLogado.id;
+    const imagem = req.file ? req.file.filename : null;
+
+    if (!nome_fazenda || !rua || !bairro || !cidade || !CEP || !numero) {
+      return res.status(400).json({ error: "Preencha todos os campos" });
+    }
+
+    const novaFazenda = await fazendaService.create({
+      nome_fazenda,
+      rua,
+      bairro,
+      cidade,
+      CEP,
+      numero,
+      usuario_id,
+      imagem,
+    });
+    return res.status(201).json({ message: "Fazenda criada com sucesso!", fazenda: novaFazenda, });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Erro interno do servidor" });
+    return res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
 
 const deleteFazenda = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
+    const usuario_id = req.usuarioLogado.id;
     if (isNaN(id)) {
       return res.status(400).json({ error: "ID Inválido" });
     }
-    const deleted = await fazendaService.Delete(id);
-    if (deleted) {
-      res.sendStatus(204);
+    const apagado = await fazendaService.delete(id, usuario_id);
+    if (apagado) {
+      return res.status(204).send();
     } else {
-      res.status(404).json({ error: "Fazenda não encontrada" });
+      return res.status(404).json({ error: "Fazenda não encontrada" });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Erro interno do servidor" });
+    return res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
 
 const updateFazenda = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
+    const usuario_id = req.usuarioLogado.id;
     if (isNaN(id)) {
       return res.status(400).json({ error: "ID Inválido" });
     }
 
     const { nome_fazenda, rua, bairro, cidade, CEP, numero } = req.body;
-    const updated = await fazendaService.Update(
+    const atualizado = await fazendaService.update(
       id,
       nome_fazenda,
       rua,
       bairro,
       cidade,
       CEP,
-      numero
+      numero,
+      usuario_id,
     );
-    if (updated) {
-      res.sendStatus(200);
+    if (atualizado) {
+      return res.status(200).json({ message: "Fazenda atualizada com sucesso!" });
     } else {
-      res.status(404).json({ error: "Fazenda não encontrada" });
+      return res.status(404).json({ error: "Fazenda não encontrada" });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Erro interno do servidor" });
+    return res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
 
 const getOneFazenda = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
+    const usuario_id = req.usuarioLogado.id;
     if (isNaN(id)) {
       return res.status(400).json({ error: "ID Inválido" });
     }
 
-    const fazenda = await fazendaService.getOne(id);
+    const fazenda = await fazendaService.getOne(id, usuario_id);
     if (!fazenda) {
-      res.sendStatus(404).json({ error: "Fazenda não encontrada" });
+      return res.status(404).json({ error: "Fazenda não encontrada" });
     } else {
-      res.status(200).json({ fazenda });
+      return res.status(200).json({ fazenda });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Erro interno do servidor" });
+    return res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
 

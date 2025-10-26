@@ -34,6 +34,10 @@ const Fazenda = connection.define('fazendas', {
             model: Usuario,
             key: 'id'
         }
+    },
+    imagem: {
+        type: Sequelize.STRING,
+        allowNull: true,
     }
 
 })
