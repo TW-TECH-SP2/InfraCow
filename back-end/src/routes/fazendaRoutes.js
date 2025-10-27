@@ -15,4 +15,6 @@ fazendaRoutes.put("/fazendas/:id", Autorizacao, upload.single("imagem"), fazenda
 
 fazendaRoutes.get("/fazendas/:id", Autorizacao, fazendaController.getOneFazenda);
 
+fazendaRoutes.get("/fazendas/:id/estatisticas", Autorizacao, fazendaController.getEstatisticasFazenda);
+
 export default fazendaRoutes;

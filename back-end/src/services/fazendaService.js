@@ -66,6 +66,8 @@ class fazendaService {
 
   async getOne(id, usuario_id) {
     try {
+      console.log("Buscando fazenda ID: ". id, "para usuário: ", usuario_id)
+
       const fazenda = await Fazenda.findOne({ where: { id, usuario_id } });
 
       if(!fazenda) {

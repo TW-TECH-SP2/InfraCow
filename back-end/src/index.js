@@ -1,5 +1,14 @@
 import express from 'express'
 const app = express();
+// DEBUG: loga todas as requisições que chegam ao servidor
+app.use((req, res, next) => {
+  console.log('>>> REQ', req.method, req.originalUrl, 'headers:', req.headers && {
+    autorizacao: req.headers['autorizacao'],
+    host: req.headers['host']
+  });
+  next();
+});
+
 
 import connection from './config/sequelize-config.js';
 import Usuario from './models/Usuario.js';

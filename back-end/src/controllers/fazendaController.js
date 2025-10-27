@@ -1,4 +1,9 @@
+import animalService from "../services/animalService.js";
 import fazendaService from "../services/fazendaService.js";
+import Fazenda from "../models/Fazenda.js";
+import Medicao from "../models/Medicoes.js";
+import Animais from "../models/Animais.js";
+import usuarioController from "./usuarioController.js";
 
 const getAllFazendas = async (req, res) => {
   try {
@@ -89,6 +94,9 @@ const updateFazenda = async (req, res) => {
 };
 
 const getOneFazenda = async (req, res) => {
+  console.log('→ Entrou em getOneFazenda');
+  console.log('Params:', req.params);
+  console.log('Usuário:', req.usuarioLogado);
   try {
     const id = parseInt(req.params.id);
     const usuario_id = req.usuarioLogado.id;
@@ -108,10 +116,43 @@ const getOneFazenda = async (req, res) => {
   }
 };
 
+const getEstatisticasFazenda = async (req, res) => {
+  try {
+  const fazendaId = parseInt(req.params.id, 10);
+  const usuario_id = req.usuarioLogado.id;
+
+  if(isNaN(fazendaId)) {
+    return res.status(400).json({ error: "ID de fazenda inválido" });
+  }
+
+  const animais = await animalService.getByFazendaId(fazendaId, usuario_id)
+
+  if(!animais || animais.length === 0) {
+    return res.status(200).json({  total: 0, machos: 0, femeas: 0, mediaTemp: 0,});
+  }
+
+  const total = animais.length;
+  const machos = animais.filter(a => a.genero === "M").length;
+  const femeas = animais.filter(a => a.genero === "F").length;
+  const temps = animais.map(a => a.medicoes?.[0]?.temp).filter(t => typeof t === "number");
+
+const mediaTemp = temps.length > 0
+  ? (temps.reduce((a, b) => a + b, 0) / temps.length).toFixed(1)
+  : 0;
+
+return res.status(200).json({ total, machos, femeas, mediaTemp: Number(mediaTemp),});
+  } catch (error) {
+    console.log("Erro nas estatísticas: ", error);
+    return res.status(500).json({ error: "Erro interno do servidor" });
+  }
+};
+
+
 export default {
   getAllFazendas,
   createFazenda,
   deleteFazenda,
   updateFazenda,
   getOneFazenda,
+  getEstatisticasFazenda,
 };

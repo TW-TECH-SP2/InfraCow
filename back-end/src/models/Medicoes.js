@@ -23,6 +23,8 @@ const Medicao = connection.define('medicao', {
 
 Medicao.belongsTo(Animais, { foreignKey: 'animais_id' });
 
+Animais.hasMany(Medicao, { foreignKey: "animais_id" });
+
 Medicao.sync({force: false})
 
 export default Medicao;
