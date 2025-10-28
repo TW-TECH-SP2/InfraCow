@@ -38,6 +38,10 @@ const Animais = connection.define('animais', {
             model: Fazenda,
             key: 'id'
         }
+    },
+    imagem: {
+        type: Sequelize.STRING,
+        allowNull: true,
     }
 })
 

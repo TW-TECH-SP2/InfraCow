@@ -28,6 +28,7 @@ function FazendaScreen({
   });
   const [mediaTemp, setMediaTemp] = useState(0);
   const [erro, setErro] = useState(null);
+  const [animais, setAnimais] = useState([]);
 
   const fetchFazenda = async () => {
     try {
@@ -52,7 +53,7 @@ function FazendaScreen({
         CEP: "-",
       };
 
-      if (!response.ok) {
+      if (response.ok) {
         const data = await response.json();
         fazendaData = data.fazenda || fazendaData;
       } else {
@@ -70,6 +71,7 @@ function FazendaScreen({
 
       if (statsResponse.ok) {
         const stats = await statsResponse.json();
+        console.log("Estatísticas recebidas", stats)
         setQuantidades({
           total: stats.total ?? 0,
           machos: stats.machos ?? 0,
@@ -81,6 +83,19 @@ function FazendaScreen({
         setQuantidades({ total: 0, machos: 0, femeas: 0 });
         setMediaTemp(0);
       }
+
+      const animaisResponse = await fetch(`http://localhost:4000/animais/fazenda/${fazendaId}`,
+        { headers: { autorizacao: `Bearer ${token}` } }
+      )
+
+      if (animaisResponse.ok) {
+        const data = await animaisResponse.json();
+        setAnimais(data.animais || []);
+      } else {
+        console.log("Erro ao buscar animais");
+        setAnimais([]);
+      }
+
     } catch (error) {
       console.log("Erro ao carregar dados da fazenda:", error);
       setErro("Erro ao carregar dados da fazenda");

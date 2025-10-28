@@ -16,6 +16,7 @@ const createAnimal = async (req, res) => {
   try {
     const { nome_animal, codigo, genero, tipo, raca, peso, idade, fazenda_id } = req.body;
     const usuario_id = req.usuarioLogado.id;
+    const imagem = req.file ? req.file.filename : null;
 
     if (!nome_animal || !codigo || !genero || !tipo || !raca || !peso || !idade || !fazenda_id) {
       return res.status(400).json({ error: "Preencha todos os campos" });
@@ -36,6 +37,7 @@ const createAnimal = async (req, res) => {
       peso,
       idade,
       fazenda_id,
+      imagem, 
     });
     return res.status(201).json({ message: "Animal registrado com sucesso!", animal: novoAnimal });
   } catch (error) {
@@ -70,6 +72,7 @@ const updateAnimal = async (req, res) => {
     if (isNaN(id)) {
       return res.status(400).json({ error: "ID Inválido" });
     }
+    const imagem = req.file ? req.file.filename : undefined;
     const { nome_animal, codigo, genero, tipo, raca, peso, idade } = req.body;
     const atualizado = await animalService.update(
       id, usuario_id, {
@@ -80,14 +83,15 @@ const updateAnimal = async (req, res) => {
       raca,
       peso,
       idade,
+      imagem,
     });
     if (atualizado) {
-      return res.status(200).json({ message: "Animal atualizada com sucesso!" });
+      return res.status(200).json({ message: "Animal atualizado com sucesso!" });
     } else {
       return res.status(404).json({ error: "Animal não encontrado" });
     }
   } catch (error) {
-    console.log(error);
+    console.log("Erro ao atualizar animal", error);
     return res.status(500).json({ error: "Erro interno do servidor" });
   }
 };

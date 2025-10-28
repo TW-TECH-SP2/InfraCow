@@ -18,7 +18,6 @@ const getAllFazendas = async (req, res) => {
 
 const createFazenda = async (req, res) => {
   try {
-
     const { nome_fazenda, rua, bairro, cidade, CEP, numero } = req.body;
     const usuario_id = req.usuarioLogado.id;
     const imagem = req.file ? req.file.filename : null;
@@ -94,9 +93,6 @@ const updateFazenda = async (req, res) => {
 };
 
 const getOneFazenda = async (req, res) => {
-  console.log('→ Entrou em getOneFazenda');
-  console.log('Params:', req.params);
-  console.log('Usuário:', req.usuarioLogado);
   try {
     const id = parseInt(req.params.id);
     const usuario_id = req.usuarioLogado.id;
@@ -118,29 +114,29 @@ const getOneFazenda = async (req, res) => {
 
 const getEstatisticasFazenda = async (req, res) => {
   try {
-  const fazendaId = parseInt(req.params.id, 10);
-  const usuario_id = req.usuarioLogado.id;
+    const fazendaId = parseInt(req.params.id, 10);
+    const usuario_id = req.usuarioLogado.id;
 
-  if(isNaN(fazendaId)) {
-    return res.status(400).json({ error: "ID de fazenda inválido" });
-  }
+    if (isNaN(fazendaId)) {
+      return res.status(400).json({ error: "ID de fazenda inválido" });
+    }
 
-  const animais = await animalService.getByFazendaId(fazendaId, usuario_id)
+    const animais = await animalService.getByFazendaId(fazendaId, usuario_id);
 
-  if(!animais || animais.length === 0) {
-    return res.status(200).json({  total: 0, machos: 0, femeas: 0, mediaTemp: 0,});
-  }
+    if (!animais || animais.length === 0) {
+      return res.status(200).json({ total: 0, machos: 0, femeas: 0, mediaTemp: 0 });
+    }
 
-  const total = animais.length;
-  const machos = animais.filter(a => a.genero === "M").length;
-  const femeas = animais.filter(a => a.genero === "F").length;
-  const temps = animais.map(a => a.medicoes?.[0]?.temp).filter(t => typeof t === "number");
+    const total = animais.length;
+    const machos = animais.filter(a => a.genero === "M").length;
+    const femeas = animais.filter(a => a.genero === "F").length;
+    const temps = animais.map(a => a.temperatura).filter(t => typeof t === "number" && !isNaN(t));
 
-const mediaTemp = temps.length > 0
-  ? (temps.reduce((a, b) => a + b, 0) / temps.length).toFixed(1)
-  : 0;
+    const mediaTemp = temps.length > 0
+      ? Number((temps.reduce((a, b) => a + b, 0) / temps.length).toFixed(1))
+      : 0;
 
-return res.status(200).json({ total, machos, femeas, mediaTemp: Number(mediaTemp),});
+    return res.status(200).json({ total, machos, femeas, mediaTemp: Number(mediaTemp) });
   } catch (error) {
     console.log("Erro nas estatísticas: ", error);
     return res.status(500).json({ error: "Erro interno do servidor" });

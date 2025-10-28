@@ -1,6 +1,7 @@
 import express from 'express'
 import animalController from "../controllers/animalController.js";
 import Autorizacao from '../middlewares/Auth.js';
+import upload from '../middlewares/upload.js';
 
 const animalRoutes = express.Router();
 
@@ -10,7 +11,7 @@ animalRoutes.get("/animais/fazenda/:id", Autorizacao, animalController.getAnimai
 
 animalRoutes.get("/animais/:id", Autorizacao, animalController.getOneAnimal);
 
-animalRoutes.post("/animais", Autorizacao, animalController.createAnimal);
+animalRoutes.post("/animais", Autorizacao, upload.single("imagem"), animalController.createAnimal);
 
 animalRoutes.delete("/animais/:id", Autorizacao, animalController.deleteAnimal);
 
