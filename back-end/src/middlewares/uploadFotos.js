@@ -2,7 +2,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-const upload = (tipo) => {
+const uploadFotos = (tipo) => {
 const uploadDir = path.resolve(`uploads/${tipo}`);
 
   if (!fs.existsSync(uploadDir)) {
@@ -32,4 +32,4 @@ const uploadDir = path.resolve(`uploads/${tipo}`);
   return multer({ storage, fileFilter });
 };
 
-export default upload;
+export default uploadFotos;

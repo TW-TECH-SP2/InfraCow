@@ -1,7 +1,7 @@
 import express from 'express'
 import fazendaController from "../controllers/fazendaController.js";
 import Autorizacao from '../middlewares/Auth.js';
-import upload from '../middlewares/upload.js';
+import upload from '../middlewares/uploadFotos.js';
 
 const fazendaRoutes = express.Router();
 const uploadFazenda = upload("fazendas");

@@ -35,7 +35,6 @@ app.use("/uploads", express.static(path.resolve("uploads")));
 app.use("/", usuarioRoutes);
 app.use("/", fazendaRoutes);
 app.use("/", animalRoutes);
-
 const port = 4000;
 app.listen(port, (error) => {
     if (error) {

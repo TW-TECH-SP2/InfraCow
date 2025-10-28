@@ -1,7 +1,7 @@
 import express from 'express'
 import animalController from "../controllers/animalController.js";
 import Autorizacao from '../middlewares/Auth.js';
-import upload from '../middlewares/upload.js';
+import upload from '../middlewares/uploadFotos.js';
 
 const animalRoutes = express.Router();
 const uploadAnimal = upload("animais");
