@@ -34,6 +34,7 @@ function App() {
   const [showRelFazenda, setShowRelFazenda] = useState(false);
   const [showRelAnimal, setShowRelAnimal] = useState(false); // ✅ NOVO ESTADO
   const [fazendaIdSelecionada, setFazendaIdSelecionada] = useState(null)
+  const [animalIdSelecionado, setAnimalIdSelecionado] = useState(null);
 
   const handleSplashFinish = () => {
     setTimeout(() => {
@@ -154,8 +155,8 @@ function App() {
   };
 
   // ✅ FUNÇÕES PARA EDIT ANIMAL
-  const handleEditarAnimal = () => {
-    console.log('🐄 Editando animal...');
+  const handleEditarAnimal = (id) => {
+    setAnimalIdSelecionado(id)
     setShowEditAnimal(true);
   };
 
@@ -290,7 +291,7 @@ function App() {
           {/* ✅ 5. TELA DE EDIT ANIMAL (COM NAVBAR) */}
           {!showRelAnimal && !showRelFazenda && !showAnimal && !showCadAnimal && showEditAnimal && (
             <>
-              <EditAnimalScreen 
+              <EditAnimalScreen id ={animalIdSelecionado}
                 onBack={handleVoltarDaEdicaoAnimal}
                 onSave={handleSalvarEdicaoAnimal}
               />
