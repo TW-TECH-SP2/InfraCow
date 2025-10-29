@@ -166,7 +166,6 @@ function RebanhoScreen({
                         <p>
                           <strong>Idade:</strong> {a.idade}
                         </p>
-                        <p>
                           <strong>Tipo:</strong> {a.tipo}
                           {ultimaMedicao && (
                           <>
@@ -179,7 +178,6 @@ function RebanhoScreen({
                             </p>
                           </>
                         )}
-                        </p>
                       </div>
 
                       <div className="rebanho-card-direita">
