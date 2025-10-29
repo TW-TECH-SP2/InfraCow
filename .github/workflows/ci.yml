@@ -1,0 +1,33 @@
+# Nome do workflow que aparece no GitHub
+name: CI/CD Pipeline
+
+# Quando executar: a cada push ou pull request
+on:
+  push:
+    branches: [ ci/cd ]
+  pull_request:
+    branches: [ ci/cd ]
+
+# Lista de trabalhos (jobs) a executar
+jobs:
+  # Job 1: CI - Testes e validação
+  ci:
+    # Sistema operacional para executar
+    runs-on: ubuntu-latest
+
+    # Lista de passos (steps) do job
+    steps:
+    # Passo 1: Baixar o código do repositório
+    - name: Fazer checkout do código
+      uses: actions/checkout@v4
+
+    # Passo 2: Configurar Node 20.3.1
+    - name: Configurar Node 20.3.1
+      uses: actions/setup-node@v6
+      with:
+        node-version: '20.3.1'
+
+
+    # Passo 3: Executar testes
+    - name: Executar testes
+      run: mvn -B test --file pom.xml
