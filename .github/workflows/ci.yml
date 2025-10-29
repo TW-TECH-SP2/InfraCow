@@ -1,0 +1,68 @@
+name: CI/CD Pipeline - Node API (Vite)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # =========================
+  # Job 1: CI - Testes e validação
+  # =========================
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fazer checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Executar testes
+        run: npm test
+
+      - name: Verificar lint (opcional)
+        run: npm run lint --if-present
+
+  # =========================
+  # Job 2: CD - Build e artefatos
+  # =========================
+  cd:
+    needs: ci
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Fazer checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm ci
+
+      # Aqui o build do Vite (gera dist/)
+      - name: Buildar o projeto com Vite
+        run: npm run build
+
+      # Opcional: testar se o build foi gerado corretamente
+      - name: Listar arquivos gerados
+        run: ls -la dist
+
+      # Upload do artefato (para deploy posterior)
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: vite-build
+          path: dist/

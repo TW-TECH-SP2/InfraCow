@@ -30,7 +30,7 @@ connection.query(`CREATE DATABASE IF NOT EXISTS infracow;`).then(() => {
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173"}));
+app.use(cors({ origin: "https://infra-cow-cicd.onrender.com"}));
 app.use("/uploads", express.static(path.resolve("uploads")));
 
 
