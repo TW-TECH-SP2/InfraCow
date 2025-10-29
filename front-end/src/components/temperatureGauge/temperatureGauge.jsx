@@ -3,11 +3,11 @@ import './temperatureGauge.css';
 
 function TemperatureGauge({ temperature }) {
   // Faixas de temperatura
-  let color = '#4D5C52'; // padrão (cinza)
-  if (temperature < 37.5) color = '#1E90FF';       // azul — temperatura baixa
-  else if (temperature >= 37.5 && temperature <= 39.3) color = '#4CAF50'; // verde — normal
-  else if (temperature > 39.4 && temperature <= 40) color = '#FFA500';  // laranja — atenção
-  else color = '#FF0000';                         // vermelho — febre alta
+  let color = '#4D5C52';
+  if (temperature < 37.5) color = '#1E90FF';       
+  else if (temperature >= 37.5 && temperature <= 39.3) color = '#4CAF50';
+  else if (temperature > 39.4 && temperature <= 40) color = '#FFA500';  
+  else color = '#FF0000';                      
 
   // Configurações do arco
   const minTemp = 30;

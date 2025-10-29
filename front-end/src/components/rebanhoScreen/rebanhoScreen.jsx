@@ -94,6 +94,38 @@ function RebanhoScreen({
     );
   }
 
+  const handleExcluirAnimal = async (animalId) => {
+  const confirmar = window.confirm("Tem certeza que deseja excluir este animal?");
+  if (!confirmar) return;
+
+  try {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Usuário não autenticado");
+      return;
+    }
+
+    const resposta = await fetch(`http://localhost:4000/animais/${animalId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        autorizacao: `Bearer ${token}`,
+      },
+    });
+
+    if (!resposta.ok) {
+      throw new Error("Erro ao excluir animal");
+    }
+    setAnimais((prev) => prev.filter((a) => a.id !== animalId));
+    alert("Animal excluído com sucesso!");
+  } catch (erro) {
+    console.error("Erro ao excluir animal:", erro);
+    alert("Não foi possível excluir o animal.");
+  }
+};
+
+
   return (
     <div className="rebanho-container">
       <div className="titulo-rebanho">
@@ -111,7 +143,7 @@ function RebanhoScreen({
 
       <div className="rebanho-list">
         {animais.length === 0 ? (
-          <p>Nenhum animal cadastrado ainda</p>
+          <p><strong>Nenhum animal cadastrado ainda</strong></p>
         ) : (
           animais.map((a, index) => {
             const ultimaMedicao = getMedicao (a.id);
@@ -196,8 +228,8 @@ function RebanhoScreen({
                   >
                     <img src={editDados} alt="" />
                   </button>
-                  <button className="delete-animal">
-                    <img src={trash} alt="" />
+                  <button className="delete-animal" onClick={() => handleExcluirAnimal(a.id)} >
+                    <img src={trash} alt="Excluir animal" />
                   </button>
                 </div>
               </div>
