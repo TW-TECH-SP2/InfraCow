@@ -11,7 +11,7 @@ function AuthOptions({ onLogin, onRegister }) {
       </div>
       
       <div className="cadastro">
-        <a href="#" onClick={onRegister}>
+        <a onClick={onRegister}>
           Não possui uma conta? <u>Cadastre-se</u>
         </a>
       </div>
