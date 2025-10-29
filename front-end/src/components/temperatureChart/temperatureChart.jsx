@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./TemperatureChart.css";
+import "./temperatureChart.css";
 
 const mockData = {
   Dia: [

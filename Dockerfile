@@ -1,27 +1,30 @@
-  # Usa imagem Maven para compilar o projeto
-  FROM maven:3.9.9-eclipse-temurin-21 AS build
+# Etapa 1: Build do Front-end
+  FROM node:20 AS build
 
-  # Define pasta de trabalho dentro do container
+# Define o diretório de trabalho dentro do container
   WORKDIR /app
 
-  # Copia todo o código para dentro do container
-  COPY . .
+# Copia apenas os arquivos de dependências primeiro para aproveitar cache
+  COPY front-end/package*.json ./
 
-  # Compila e gera o JAR (pula testes para acelerar)
-  RUN mvn clean package -DskipTests
+# Instala as dependências
+  RUN npm install
 
-  # === STAGE 2: RUNTIME ===
-  # Nova etapa, usa apenas o Java Runtime (mais leve que Maven)
-  FROM eclipse-temurin:21-jre
+# Copia todo o código fonte para dentro do container
+  COPY front-end/ .
 
-  # Define pasta de trabalho
-  WORKDIR /app
+# Roda o build do Vite
+  RUN npm run build
 
-  # Copia o JAR gerado na etapa anterior
-  COPY --from=build /app/target/*.jar app.jar
+# Etapa 2: Servir com Nginx
+  FROM nginx:alpine
 
-  # Informa que a aplicação usa a porta 8080
+# Remove conteúdo default do Nginx e copia o build
+  RUN rm -rf /usr/share/nginx/html/*
+  COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expõe a porta 8080
   EXPOSE 8080
 
-  # Comando para rodar a aplicação
-  ENTRYPOINT ["java", "-jar", "app.jar"]
+# Comando para manter o Nginx rodando
+  ENTRYPOINT ["nginx", "-g", "daemon off;"]
