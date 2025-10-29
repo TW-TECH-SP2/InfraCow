@@ -4,13 +4,13 @@
     "react-chartjs-2": "^5.3.0",
     "recharts": "^3.3.0"
   },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test": "vitest"
-  },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "vitest": "^4.0.5"
+  },
+  "scripts": {
+  "test": "vitest"
   }
 }
