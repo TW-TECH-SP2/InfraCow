@@ -4,11 +4,32 @@ import share from '../../assets/icons/share.svg';
 import downloadrel from '../../assets/icons/download-rel.svg';
 
 function RelAnimalScreen({ onBack, onVoltarAnimal }) {
+
+  const handleShare = async () => {
+  const shareData = {
+    title: "Relatório do Bovino: Mimosa",
+    text: "Confira o relatório completo do bovino Mimosa na Fazenda Recanto.",
+    url: window.location.href, // ou uma URL específica do relatório
+  };
+
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+      console.log("Relatório compartilhado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao compartilhar:", error);
+    }
+  } else {
+    alert("O compartilhamento não é suportado neste dispositivo.");
+  }
+};
+
+
   return (
     <div className="relanimal-container">
       <div className="acoes-visu">
         <img src={exit} alt="Voltar" onClick={onVoltarAnimal} />
-        <img src={share} alt="Compartilhar" />
+        <img src={share} alt="Compartilhar" onClick={handleShare}/>
       </div>
       <div className="corpo-pdf">
         <div className="relatorio-conteudo">
