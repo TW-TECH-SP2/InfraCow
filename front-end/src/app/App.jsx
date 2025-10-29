@@ -33,6 +33,7 @@ function App() {
   const [showAnimal, setShowAnimal] = useState(false);
   const [showRelFazenda, setShowRelFazenda] = useState(false);
   const [showRelAnimal, setShowRelAnimal] = useState(false); // ✅ NOVO ESTADO
+  const [fazendaIdSelecionada, setFazendaIdSelecionada] = useState(null)
 
   const handleSplashFinish = () => {
     setTimeout(() => {
@@ -95,7 +96,8 @@ function App() {
     setShowEdicaoPerfil(false);
   };
 
-  const handleAbrirFazenda = () => {
+  const handleAbrirFazenda = (id) => {
+    setFazendaIdSelecionada(id);
     setShowFazendaDetalhes(true);
   };
 
@@ -136,8 +138,8 @@ function App() {
   };
 
   // ✅ FUNÇÕES PARA EDIT FAZENDA
-  const handleEditarFazenda = () => {
-    console.log('🏠 Editando fazenda...');
+  const handleEditarFazenda = (id) => {
+    setFazendaIdSelecionada(id);
     setShowEditFazenda(true);
   };
 
@@ -318,9 +320,7 @@ function App() {
           {/* ✅ 7. TELA DE EDIT FAZENDA (COM NAVBAR) */}
           {!showRelAnimal && !showRelFazenda && !showAnimal && !showCadAnimal && !showEditAnimal && !showRebanho && showEditFazenda && (
             <>
-              <EditFazendaScreen 
-                onBack={handleVoltarDaEdicaoFazenda}
-                onSave={handleSalvarEdicaoFazenda}
+              <EditFazendaScreen id ={fazendaIdSelecionada} onBack={handleVoltarDaEdicaoFazenda} onSave={handleSalvarEdicaoFazenda}
               />
               <Navbar 
                 activeTab={activeTab} 
@@ -333,6 +333,7 @@ function App() {
           {!showRelAnimal && !showRelFazenda && !showAnimal && !showCadAnimal && !showEditAnimal && !showRebanho && !showEditFazenda && showFazendaDetalhes && (
             <>
               <FazendaScreen 
+                fazendaId={fazendaIdSelecionada}
                 onBack={handleVoltarParaHome}
                 onAbrirRebanho={handleAbrirRebanho}
                 onEditarFazenda={handleEditarFazenda}
