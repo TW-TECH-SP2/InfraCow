@@ -10,6 +10,7 @@ import Alerta from './models/Alertas.js';
 import usuarioRoutes from './routes/usuarioRoutes.js';
 import fazendaRoutes from './routes/fazendaRoutes.js';
 import animalRoutes from './routes/animalRoutes.js';
+import medicaoRoutes from './routes/medicaoRoutes.js'
 
 import cors from 'cors';
 import path from 'path'
@@ -35,6 +36,8 @@ app.use("/uploads", express.static(path.resolve("uploads")));
 app.use("/", usuarioRoutes);
 app.use("/", fazendaRoutes);
 app.use("/", animalRoutes);
+app.use("/", medicaoRoutes);
+
 const port = 4000;
 app.listen(port, (error) => {
     if (error) {
