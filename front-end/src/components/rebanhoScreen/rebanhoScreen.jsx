@@ -15,6 +15,7 @@ function RebanhoScreen({
 }) {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [animais, setAnimais] = useState([]);
+  const [medicoes, setMedicoes] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,21 +29,26 @@ function RebanhoScreen({
           return;
         }
 
-        const response = await fetch("http://localhost:4000/animais", {
-          method: "GET",
-          headers: {
-            autorizacao: `Bearer ${token}`,
-          },
-        });
+        const [animaisRes, medicoesRes] = await Promise.all([
+          fetch("http://localhost:4000/animais", {
+            headers: { autorizacao: `Bearer ${token}` },
+          }),
+          fetch("http://localhost:4000/medicoes", {
+            headers: { autorizacao: `Bearer ${token}` },
+          }),
+        ]);
 
-        if (!response.ok) {
-          console.log("Erro ao buscar animais");
-          setLoading(false);
-          return;
-        }
+        const animaisData = await animaisRes.json();
+        const medicoesData = await medicoesRes.json();
 
-        const data = await response.json();
-        setAnimais(Array.isArray(data) ? data : data.animais || []);
+        setAnimais(
+          Array.isArray(animaisData) ? animaisData : animaisData.animais || []
+        );
+        setMedicoes(
+          Array.isArray(medicoesData)
+            ? medicoesData
+            : medicoesData.medicoes || []
+        );
       } catch (error) {
         console.log("Erro ao buscar animais: ", error);
       } finally {
@@ -73,6 +79,13 @@ function RebanhoScreen({
     }
   };
 
+  const getMedicao = (animalId) => {
+    const medicoesAnimal = medicoes
+      .filter((m) => m.animais_id === animalId)
+      .sort((a, b) => new Date(b.datahora) - new Date(a.datahora));
+    return medicoesAnimal[0] || null;
+  };
+
   if (loading) {
     return (
       <div className="rebanho-container">
@@ -80,6 +93,38 @@ function RebanhoScreen({
       </div>
     );
   }
+
+  const handleExcluirAnimal = async (animalId) => {
+  const confirmar = window.confirm("Tem certeza que deseja excluir este animal?");
+  if (!confirmar) return;
+
+  try {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Usuário não autenticado");
+      return;
+    }
+
+    const resposta = await fetch(`http://localhost:4000/animais/${animalId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        autorizacao: `Bearer ${token}`,
+      },
+    });
+
+    if (!resposta.ok) {
+      throw new Error("Erro ao excluir animal");
+    }
+    setAnimais((prev) => prev.filter((a) => a.id !== animalId));
+    alert("Animal excluído com sucesso!");
+  } catch (erro) {
+    console.error("Erro ao excluir animal:", erro);
+    alert("Não foi possível excluir o animal.");
+  }
+};
+
 
   return (
     <div className="rebanho-container">
@@ -98,78 +143,98 @@ function RebanhoScreen({
 
       <div className="rebanho-list">
         {animais.length === 0 ? (
-          <p>Nenhum animal cadastrado ainda</p>
+          <p><strong>Nenhum animal cadastrado ainda</strong></p>
         ) : (
-          animais.map((a, index) => (
-            <div className="rebanho-card-row" key={a.id}>
-              <div
-                className={`rebanho-card ${
-                  expandedIndex === index ? "expanded" : ""
-                }`}
-                onClick={() => toggleCard(index)}
-              >
-                <div className="rebanho-card-cima">
-                  <div className="rebanho-card-esquerda">
-                    <img src={a.imagem ? `http://localhost:4000/uploads/animais/${a.imagem}` : animal } alt="" />
+          animais.map((a, index) => {
+            const ultimaMedicao = getMedicao (a.id);
+            return (
+              <div className="rebanho-card-row" key={a.id}>
+                <div
+                  className={`rebanho-card ${
+                    expandedIndex === index ? "expanded" : ""
+                  }`}
+                  onClick={() => toggleCard(index)}
+                >
+                  <div className="rebanho-card-cima">
+                    <div className="rebanho-card-esquerda">
+                      <img
+                        src={
+                          a.imagem
+                            ? `http://localhost:4000/uploads/animais/${a.imagem}`
+                            : animalImg
+                        }
+                        alt=""
+                      />
+                    </div>
+
+                    <div className="rebanho-card-direita">
+                      <p className="nome-animal-card">{a.nome_animal}</p>
+                    </div>
+
+                    <img
+                      src={arrowdown}
+                      alt=""
+                      className={`arrow-card ${
+                        expandedIndex === index ? "rotated" : ""
+                      }`}
+                    />
                   </div>
 
-                  <div className="rebanho-card-direita">
-                    <p className="nome-animal-card">{a.nome_animal}</p>
-                  </div>
+                  {expandedIndex === index && (
+                    <div className="rebanho-card-baixo">
+                      <div className="rebanho-card-esquerda">
+                        <p>
+                          <strong>Nome:</strong> {a.nome_animal}
+                        </p>
+                        <p>
+                          <strong>Gênero:</strong> {a.genero}
+                        </p>
+                        <p>
+                          <strong>Raça:</strong> {a.raca}
+                        </p>
+                        <p>
+                          <strong>Peso:</strong> {a.peso}
+                        </p>
+                        <p>
+                          <strong>Idade:</strong> {a.idade}
+                        </p>
+                          <strong>Tipo:</strong> {a.tipo}
+                          {ultimaMedicao && (
+                          <>
+                            <p><strong>Temperatura:</strong> {ultimaMedicao.temp}</p>
+                            <p> <strong>Data/Hora:</strong>
+                              {" "}
+                              {new Date(
+                                ultimaMedicao.datahora
+                              ).toLocaleString()}
+                            </p>
+                          </>
+                        )}
+                      </div>
 
-                  <img
-                    src={arrowdown}
-                    alt=""
-                    className={`arrow-card ${
-                      expandedIndex === index ? "rotated" : ""
-                    }`}
-                  />
+                      <div className="rebanho-card-direita">
+                        <button onClick={() => handleAbrirAnimalClick(a.id)}>
+                          Dados
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {expandedIndex === index && (
-                  <div className="rebanho-card-baixo">
-                    <div className="rebanho-card-esquerda">
-                      <p>
-                        <strong>Nome:</strong> {a.nome_animal}
-                      </p>
-                      <p>
-                        <strong>Gênero:</strong> {a.genero}
-                      </p>
-                      <p>
-                        <strong>Raça:</strong> {a.raca}
-                      </p>
-                      <p>
-                        <strong>Peso:</strong> {a.peso}
-                      </p>
-                      <p>
-                        <strong>Idade:</strong> {a.idade}
-                      </p>
-                      <p>
-                        <strong>Tipo:</strong> {a.tipo}
-                      </p>
-                    </div>
-                    <div className="rebanho-card-direita">
-                      <button onClick={() => handleAbrirAnimalClick(a.id)}>
-                        Dados
-                      </button>
-                    </div>
-                  </div>
-                )}
+                <div className="rebanho-card-actions">
+                  <button
+                    className="editar-animal"
+                    onClick={() => handleEditarAnimalClick(a.id)}
+                  >
+                    <img src={editDados} alt="" />
+                  </button>
+                  <button className="delete-animal" onClick={() => handleExcluirAnimal(a.id)} >
+                    <img src={trash} alt="Excluir animal" />
+                  </button>
+                </div>
               </div>
-
-              <div className="rebanho-card-actions">
-                <button
-                  className="editar-animal"
-                  onClick={() => handleEditarAnimalClick(a.id)}
-                >
-                  <img src={editDados} alt="" />
-                </button>
-                <button className="delete-animal">
-                  <img src={trash} alt="" />
-                </button>
-              </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
     </div>

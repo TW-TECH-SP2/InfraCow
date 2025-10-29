@@ -161,8 +161,8 @@ function CadAnimalScreen({ onBack }) {
             required
           >
             <option value="">Selecione o gênero</option>
-            <option value="femea">Fêmea</option>
-            <option value="macho">Macho</option>
+            <option value="F">Fêmea</option>
+            <option value="M">Macho</option>
           </select>
         </div>
 

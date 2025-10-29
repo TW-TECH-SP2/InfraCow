@@ -15,6 +15,7 @@ function FazendaScreen({
   onAbrirRelFazenda,
 }) {
   const [fazenda, setFazenda] = useState({
+    id: null,
     nome_fazenda: "Fazenda (sem dados)",
     rua: "-",
     cidade: "-",
@@ -46,6 +47,7 @@ function FazendaScreen({
       );
 
       let fazendaData = {
+        id: null,
         nome_fazenda: "Fazenda (sem dados)",
         rua: "-",
         cidade: "-",
@@ -55,7 +57,14 @@ function FazendaScreen({
 
       if (response.ok) {
         const data = await response.json();
-        fazendaData = data.fazenda || fazendaData;
+        fazendaData = {
+          id: data.id,
+          nome_fazenda: data.nome_fazenda || "Fazenda (sem dados)",
+          rua: data.rua || "-",
+          cidade: data.cidade || "-",
+          bairro: data.bairro || "-",
+          CEP: data.CEP || "-",
+        };
       } else {
         console.log("Erro ao buscar fazenda");
       }
@@ -71,7 +80,6 @@ function FazendaScreen({
 
       if (statsResponse.ok) {
         const stats = await statsResponse.json();
-        console.log("Estatísticas recebidas", stats)
         setQuantidades({
           total: stats.total ?? 0,
           machos: stats.machos ?? 0,
@@ -145,7 +153,7 @@ function FazendaScreen({
             <img src={relatorio} alt="" />
             Relatório
           </button>
-          <button className="editar-fazenda" onClick={onEditarFazenda}>
+          <button className="editar-fazenda" onClick={() => onEditarFazenda(fazendaId)}>
             <img src={editDados} alt="" />
             Edit. fazenda
           </button>

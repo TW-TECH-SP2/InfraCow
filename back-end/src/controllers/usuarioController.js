@@ -9,7 +9,9 @@ const criarUsuario = async (req, res) => {
     const { nome, email, senha } = req.body;
 
     if (!nome || !email || !senha) {
-      return res.status(400).json({ error: "Nome, e-mail e senha são obrigatórios" });
+      return res
+        .status(400)
+        .json({ error: "Nome, e-mail e senha são obrigatórios" });
     }
 
     await usuarioService.Create(nome, email, senha);
@@ -53,4 +55,55 @@ const loginUsuario = async (req, res) => {
   }
 };
 
-export default { criarUsuario, loginUsuario, JWTSecret };
+const getUsuarioLogado = async (req, res) => {
+  try {
+    const userId = req.usuarioLogado.id;
+    const usuario = await usuarioService.getById(userId);
+
+    if (!usuario) {
+      return res.status(404).json({ error: "Usuário não encontrado!" });
+    }
+
+    const { senha, ...dadosUsuario } = usuario.dataValues;
+    return res.status(200).json({ usuario: dadosUsuario });
+  } catch (error) {
+    console.log("Erro ao buscar usuário logado: ", error);
+    return res.status(500).json({ error: "Erro interno ao buscar usuário" });
+  }
+};
+
+const updateUsuario = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nome, email, senha } = req.body;
+
+    const usuario = await usuarioService.getById(id);
+    if (!usuario) {
+      return res.status(404).json({ error: "Usuário não encontrado!" });
+    }
+
+    const dadosAtualizados = {
+      nome: nome || usuario.nome,
+      email: email || usuario.email,
+    };
+
+    if (senha) {
+      dadosAtualizados.senha = await bcrypt.hash(senha, 10);
+    }
+
+    await usuarioService.update(id, dadosAtualizados);
+
+    return res.status(200).json({ message: "Usuário atualizado com sucesso!" });
+  } catch (error) {
+    console.log("Erro ao atualizar usuário: ", error);
+    return res.status(500).json({ error: "Erro interno ao atualizar usuário" });
+  }
+};
+
+export default {
+  criarUsuario,
+  loginUsuario,
+  getUsuarioLogado,
+  updateUsuario,
+  JWTSecret,
+};

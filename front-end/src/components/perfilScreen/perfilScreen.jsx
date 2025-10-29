@@ -6,7 +6,34 @@ import faq from '../../assets/icons/faq.svg';
 import sideArrow from '../../assets/icons/side-arrow.svg';
 import user from '../../assets/user.png';
 import fazenda from '../../assets/fazendas/fazenda.png';
+import { useState, useEffect } from 'react';
+import axios from 'axios'
+
 function PerfilScreen({ onEditarPerfil}) {
+  const [usuario, setUsuario] = useState(null);
+
+  useEffect(() => {
+    const fetchUsuario = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          alert("Usuário não autenticado");
+          return;
+        }
+        const response = await axios.get("http://localhost:4000/usuarios/me", {
+          headers: { autorizacao: `Bearer ${token}` },
+        })
+
+        setUsuario(response.data.usuario);
+      } catch (error) {
+        console.log("Erro ao carregar usuário: ", error);
+        alert("Erro ao buscar dados do perfil!");
+      }
+    }
+    fetchUsuario();
+  }, []);
+
+
   return (
     <div className="perfil-container">
       <div className="titulo-perfil">
@@ -17,11 +44,11 @@ function PerfilScreen({ onEditarPerfil}) {
       {/* Card de vídeo */}
       <div className="card-perfil">
         <div className="esquerda-perfil">
-            <img src={user} alt="" />
+            <img src={user} alt="Foto do usuário" />
         </div>
         <div className="direita-perfil">
-            <p className="nome-perfil">André Silva</p>
-            <p className='email-perfil'><strong> Email: </strong><br /> andre@gmail.com</p>
+            <p className="nome-perfil">{usuario ? usuario.nome : 'Carregando...'}</p>
+            <p className='email-perfil'><strong> Email: </strong><br /> {usuario ? usuario.email : 'Carregando...'}</p>
             <button onClick={onEditarPerfil}><img src={senha} alt="" />Editar info.</button>
         </div>
       </div>

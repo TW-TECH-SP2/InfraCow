@@ -30,7 +30,6 @@ const mockData = {
     { label: "Ago", temp: 37.8 },
     { label: "Set", temp: 37.7 },
   ],
-  Ano: [],
 };
 
 const TemperatureChart = () => {
@@ -61,7 +60,7 @@ const TemperatureChart = () => {
     <div className="chart-container">
       <h3>Variação da<br />Temperatura Corporal</h3>
       <div className="period-buttons">
-        {["Dia", "Semana", "Mês", "Ano"].map(p => (
+        {["Dia", "Semana", "Mês"].map(p => (
           <button
             key={p}
             className={period === p ? "active" : ""}
