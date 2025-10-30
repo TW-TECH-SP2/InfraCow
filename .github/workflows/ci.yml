@@ -19,12 +19,15 @@ jobs:
         node-version: '20'
 
     - name: Instalar dependências
-      run: npm install  # ou npm install
+      run: |
+        cd back-end
+        npm ci
 
     - name: Iniciar servidor em background
       run: |
+        cd back-end
         npm start &
-        sleep 5  # dá tempo do servidor subir
+        sleep 10
 
     - name: Fazer healthcheck
       run: |
