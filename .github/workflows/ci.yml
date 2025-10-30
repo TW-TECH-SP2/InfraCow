@@ -21,7 +21,7 @@ jobs:
     - name: Instalar dependências
       run: |
         cd back-end
-        npm ci
+        npm install
 
     - name: Iniciar servidor em background
       run: |
