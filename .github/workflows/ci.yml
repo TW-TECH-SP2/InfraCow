@@ -19,21 +19,18 @@ jobs:
       with:
         node-version: '20'
 
-    # 👇 Copia os arquivos package.json e package-lock.json do back-end para a raiz (opcional)
-    - name: Copiar arquivos de dependência do backend
-      run: cp back-end/package*.json ./
-
-    # 👇 Instala as dependências com base nesses arquivos
-    - name: Instalar dependências
+    # 👇 Agora instala dependências dentro de back-end/src
+    - name: Instalar dependências do backend
+      working-directory: back-end/src
       run: npm install
 
-    # 👇 Inicia o servidor do backend
+    # 👇 Inicia o servidor dentro de back-end/src
     - name: Iniciar servidor em background
+      working-directory: back-end/src
       run: |
-        node back-end/src/index.js &
-        sleep 10
+        npm start &
+        sleep 10  # espera o servidor subir
 
     # 👇 Faz o healthcheck
     - name: Fazer healthcheck
-      run: |
-        curl -f http://localhost:4000/health || exit 1
+      run: curl -f http://localhost:4000/health || exit 1
