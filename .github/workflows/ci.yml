@@ -9,6 +9,7 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+
     steps:
     - name: Fazer checkout do código
       uses: actions/checkout@v4
@@ -18,17 +19,21 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Instalar dependências
-      run: |
-        cd back-end
-        npm install
+    # 👇 Copia os arquivos package.json e package-lock.json do back-end para a raiz (opcional)
+    - name: Copiar arquivos de dependência do backend
+      run: cp back-end/package*.json ./
 
+    # 👇 Instala as dependências com base nesses arquivos
+    - name: Instalar dependências
+      run: npm install
+
+    # 👇 Inicia o servidor do backend
     - name: Iniciar servidor em background
       run: |
-        cd back-end
-        npm start &
+        node back-end/src/index.js &
         sleep 10
 
+    # 👇 Faz o healthcheck
     - name: Fazer healthcheck
       run: |
         curl -f http://localhost:4000/health || exit 1
