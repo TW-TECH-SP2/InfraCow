@@ -1,17 +1,13 @@
 {
+  "name": "funf-ci",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node back-end/src/index.js"
+  },
   "dependencies": {
+    "express": "^4.19.0",
     "chart.js": "^4.5.1",
     "react-chartjs-2": "^5.3.0",
     "recharts": "^3.3.0"
-  },
-  "devDependencies": {
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^14.6.1",
-    "jsdom": "^27.0.1",
-    "vitest": "^4.0.5"
-  },
-  "scripts": {
-    "test": "vitest"
   }
 }

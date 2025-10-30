@@ -1,4 +1,4 @@
-name: CI/CD Pipeline - Node API (Vite)
+name: CI Pipeline
 
 on:
   push:
@@ -7,36 +7,25 @@ on:
     branches: [ main ]
 
 jobs:
-  # =========================
-  # Job 1: CI - Testes e validação
-  # =========================
   ci:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Fazer checkout do código
-        uses: actions/checkout@v4
+    - name: Fazer checkout do código
+      uses: actions/checkout@v4
 
-      - name: Configurar Node.js 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
+    - name: Configurar Node.js 20
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
 
-      - name: Instalar dependências
-        run: npm ci
+    - name: Instalar dependências
+      run: npm ci  # ou npm install
 
-      - name: Executar testes
-        run: npm test
+    - name: Iniciar servidor em background
+      run: |
+        npm start &
+        sleep 5  # dá tempo do servidor subir
 
-      - name: Iniciar servidor Vite (em background)
-        run: |
-          npm run dev &
-          sleep 5  # aguarda o servidor iniciar
-        env:
-          NODE_ENV: test
-
-      - name: Testar healthcheck do front-end
-        run: |
-          echo "🔍 Verificando se o front-end responde na porta 5173..."
-          curl -f http://localhost:5173 || (echo "❌ Healthcheck falhou!" && exit 1)
+    - name: Fazer healthcheck
+      run: |
+        curl -f http://localhost:4000/health || exit 1

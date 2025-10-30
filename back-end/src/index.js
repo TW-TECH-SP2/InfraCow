@@ -12,6 +12,7 @@ import fazendaRoutes from './routes/fazendaRoutes.js';
 import animalRoutes from './routes/animalRoutes.js';
 import medicaoRoutes from './routes/medicaoRoutes.js'
 import pdfRoutes from './routes/pdfRoutes.js';
+import healthRoutes from './routes/healthRoutes.js';
 
 import cors from 'cors';
 import path from 'path'
@@ -39,6 +40,7 @@ app.use("/", fazendaRoutes);
 app.use("/", animalRoutes);
 app.use("/", medicaoRoutes);
 app.use("/", pdfRoutes);
+app.use("/",healthRoutes);
 
 const port = 4000;
 app.listen(port, (error) => {
