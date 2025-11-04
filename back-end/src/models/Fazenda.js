@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize'
-import connection from "../config/sequelize-config.js";
+import connection from "../config/database-config.js";
 import Usuario from './Usuario.js';
 
 const Fazenda = connection.define('fazendas', {
@@ -41,9 +41,5 @@ const Fazenda = connection.define('fazendas', {
     }
 
 })
-
-Fazenda.belongsTo(Usuario, { foreignKey: 'usuario_id'});
-
-Fazenda.sync({force: false})
 
 export default Fazenda;

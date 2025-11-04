@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize'
-import connection from '../config/sequelize-config.js'
+import connection from '../config/database-config.js'
 import Medicao from './Medicoes.js';
 
 const Alerta = connection.define('alertas', {
@@ -12,9 +12,5 @@ const Alerta = connection.define('alertas', {
         allowNull: false
     }
 })
-
-Alerta.belongsTo(Medicao, { ForeignKey: 'medicao_id' });
-
-Alerta.sync({force: false });
 
 export default Alerta;

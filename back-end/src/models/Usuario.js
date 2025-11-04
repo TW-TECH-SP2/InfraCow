@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import connection from "../config/sequelize-config.js";
+import connection from "../config/database-config.js";
 
 const Usuario = connection.define('usuarios', {
     nome: {
@@ -15,7 +15,5 @@ const Usuario = connection.define('usuarios', {
         allowNull: false
     }
 })
-
-Usuario.sync({force: false})
 
 export default Usuario;

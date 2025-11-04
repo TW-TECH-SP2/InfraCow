@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize'
-import connection from '../config/sequelize-config.js'
+import connection from '../config/database-config.js'
 import Animais from './Animais.js';
 
 const Medicao = connection.define('medicao', {
@@ -20,11 +20,5 @@ const Medicao = connection.define('medicao', {
         }
     }
 })
-
-Medicao.belongsTo(Animais, { foreignKey: 'animais_id' });
-
-Animais.hasMany(Medicao, { foreignKey: "animais_id" });
-
-Medicao.sync({force: false})
 
 export default Medicao;
