@@ -95,7 +95,7 @@ function EditFazendaScreen({id, onBack, onSave}) {
           <h2>Edição de Fazenda</h2>
         </div>
         <div className="input-groupcad">
-          <label htmlFor="">Nome da fazenda</label>
+          <label>Nome da fazenda</label>
           <input
             type="text"
             name="nome_fazenda"
@@ -105,7 +105,7 @@ function EditFazendaScreen({id, onBack, onSave}) {
           />
         </div>
         <div className="input-groupcad">
-          <label htmlFor="">Rua</label>
+          <label>Rua</label>
           <input
             type="text"
             name="rua"
@@ -115,7 +115,7 @@ function EditFazendaScreen({id, onBack, onSave}) {
           />
         </div>
         <div className="input-groupcad">
-          <label htmlFor="">Bairro</label>
+          <label>Bairro</label>
           <input
             type="text"
             name="bairro"
@@ -125,7 +125,7 @@ function EditFazendaScreen({id, onBack, onSave}) {
           />
         </div>
         <div className="input-groupcad">
-          <label htmlFor="">Cidade</label>
+          <label>Cidade</label>
           <input
             type="text"
             name="cidade"
@@ -136,7 +136,7 @@ function EditFazendaScreen({id, onBack, onSave}) {
         </div>
         <div className="input-groupcad-row">
           <div className="input-groupcad">
-            <label htmlFor="">CEP</label>
+            <label>CEP</label>
             <input
               type="text"
               placeholder="Ex.: 1900-000"
@@ -147,7 +147,7 @@ function EditFazendaScreen({id, onBack, onSave}) {
             />
           </div>
           <div className="input-groupcad">
-            <label htmlFor="">Número</label>
+            <label>Número</label>
             <input
               type="number"
               placeholder="Ex.: 135"
@@ -169,7 +169,7 @@ function EditFazendaScreen({id, onBack, onSave}) {
           </div>
         </div>
         <div className="btn-cadfazenda">
-          <button type="submit">Salvar Alterações</button>
+          <button type="submit" onClick={onSave}>Salvar Alterações</button>
           <button type="button" onClick={onBack}>Voltar</button>
         </div>
       </form>

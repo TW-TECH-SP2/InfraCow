@@ -216,7 +216,7 @@ function EditAnimalScreen({ id, onBack, onSave }) {
         </div>
 
         <div className="btn-cadfazenda">
-          <button type="submit">Salvar Alterações</button>
+          <button type="submit" onClick={onSave}>Salvar Alterações</button>
           <button type="button" onClick={onBack}>
             Voltar
           </button>
