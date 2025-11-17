@@ -37,7 +37,7 @@ import path from 'path'
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors({ origin: "https://infra-cow.vercel.app"}));
+app.use(cors({ origin: "https://infra-cow-five.vercel.app/"}));
 app.use("/uploads", express.static(path.resolve("uploads")));
 
 app.use("/", usuarioRoutes);

@@ -1,11 +1,17 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  test: {
-    environment: 'node', // necessário para permitir fetch
-    include: ['tests/**/*.test.ts'],
+  server: {
+    host: true,
+    port: 5173,
   },
-});
+  build: {
+    outDir: 'dist',
+  },
+  test: {
+    environment: 'node',
+    include: ['tests/**/*.test.ts'],
+  }
+})
