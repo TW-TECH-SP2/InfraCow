@@ -24,7 +24,6 @@ connection.sync({ alter: true })
   .then(() => console.log('Banco sincronizado com sucesso!'))
   .catch(err => console.error('Erro ao sincronizar banco:', err));
 
-
 import usuarioRoutes from './routes/usuarioRoutes.js';
 import fazendaRoutes from './routes/fazendaRoutes.js';
 import animalRoutes from './routes/animalRoutes.js';
@@ -35,9 +34,23 @@ import healthRoutes from './routes/healthRoutes.js';
 import cors from 'cors';
 import path from 'path'
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://infracow.vercel.app"
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error("CORS bloqueado: origem não permitida -> " + origin));
+  }
+}));
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors({ origin: "https://infra-cow-five.vercel.app/"}));
+
 app.use("/uploads", express.static(path.resolve("uploads")));
 
 app.use("/", usuarioRoutes);
@@ -45,13 +58,7 @@ app.use("/", fazendaRoutes);
 app.use("/", animalRoutes);
 app.use("/", medicaoRoutes);
 app.use("/", pdfRoutes);
-app.use("/",healthRoutes);
+app.use("/", healthRoutes);
 
 const port = 4000;
-app.listen(port, (error) => {
-    if (error) {
-        console.log(error)
-    } else {
-        console.log(`API rodando em http://localhost:${port}`);
-    }
-});
+app.listen(port, () => console.log(`API rodando em http://localhost:${port}`));
