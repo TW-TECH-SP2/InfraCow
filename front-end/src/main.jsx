@@ -5,7 +5,7 @@ import App from './app/App.jsx'
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-fetch(`${API_URL}/usuarios`).then(res => res.json());
+fetch(`${API_URL}/health`).then(res => res.json());
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
