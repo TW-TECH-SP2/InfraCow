@@ -47,7 +47,7 @@ function CadFazendaScreen() {
         formDataToSend.append(key, formData[key]);
       });
 
-      const response = await fetch("http://localhost:4000/fazendas", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/fazendas`, {
         method: "POST",
         headers: {
           autorizacao: `Bearer ${token}`,

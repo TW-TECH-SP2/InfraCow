@@ -22,7 +22,7 @@ function CadastroScreen({ onRegister }) {
     }
 
     try {
-      const response = await fetch('http://localhost:4000/usuario', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/usuario`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, email, senha }),

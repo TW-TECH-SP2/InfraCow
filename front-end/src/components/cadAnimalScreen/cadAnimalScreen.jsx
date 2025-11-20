@@ -28,7 +28,7 @@ function CadAnimalScreen({ onBack }) {
           return;
         }
 
-        const response = await fetch("http://localhost:4000/fazendas", {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/fazendas`, {
           method: "GET",
           headers: {
             autorizacao: `Bearer ${token}`,
@@ -84,7 +84,7 @@ function CadAnimalScreen({ onBack }) {
 
         console.log("Fazenda selecionada: ", formData.fazenda_id);
 
-      const response = await fetch("http://localhost:4000/animais", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/animais`, {
         method: "POST",
         headers: {
           autorizacao: `Bearer ${token}`,

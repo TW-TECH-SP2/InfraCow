@@ -14,7 +14,7 @@ function HomeScreen({ onLogout, onCadastrarFazenda, onAbrirFazenda }) {
         return;
       }
 
-      const response = await fetch("http://localhost:4000/fazendas", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/fazendas`, {
         method: "GET",
         headers: { autorizacao: `Bearer ${token}` },
       });

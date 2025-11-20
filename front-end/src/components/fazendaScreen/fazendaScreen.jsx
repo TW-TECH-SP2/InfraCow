@@ -40,7 +40,7 @@ function FazendaScreen({
       }
 
       const response = await fetch(
-        `http://localhost:4000/fazendas/${fazendaId}`,
+        `${import.meta.env.VITE_API_URL}/fazendas/${fazendaId}`,
         {
           headers: { autorizacao: `Bearer ${token}` },
         }
@@ -72,7 +72,7 @@ function FazendaScreen({
       setFazenda(fazendaData)
 
       const statsResponse = await fetch(
-        `http://localhost:4000/fazendas/${fazendaId}/estatisticas`,
+        `${import.meta.env.VITE_API_URL}/fazendas/${fazendaId}/estatisticas`,
         {
           headers: { autorizacao: `Bearer ${token}` },
         }
@@ -92,7 +92,7 @@ function FazendaScreen({
         setMediaTemp(0);
       }
 
-      const animaisResponse = await fetch(`http://localhost:4000/animais/fazenda/${fazendaId}`,
+      const animaisResponse = await fetch(`${import.meta.env.VITE_API_URL}/animais/fazenda/${fazendaId}`,
         { headers: { autorizacao: `Bearer ${token}` } }
       )
 

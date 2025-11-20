@@ -20,7 +20,7 @@ function PerfilScreen({ onEditarPerfil}) {
           alert("Usuário não autenticado");
           return;
         }
-        const response = await axios.get("http://localhost:4000/usuarios/me", {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/usuarios/me`, {
           headers: { autorizacao: `Bearer ${token}` },
         })
 

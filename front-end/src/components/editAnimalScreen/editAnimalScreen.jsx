@@ -28,7 +28,7 @@ function EditAnimalScreen({ id, onBack, onSave }) {
         }
 
         const response = await axios.get(
-          `http://localhost:4000/animais/${id}`,
+          `${import.meta.env.VITE_API_URL}/animais/${id}`,
           {
             headers: { autorizacao: `Bearer ${token}` },
           }
@@ -48,7 +48,7 @@ function EditAnimalScreen({ id, onBack, onSave }) {
         });
 
         if (data.imagem) {
-          setPreview(`http://localhost:4000/uploads/animais/${data.imagem}`);
+          setPreview(`${import.meta.env.VITE_API_URL}/uploads/animais/${data.imagem}`);
         }
       } catch (error) {
         console.error("Erro ao buscar animal:", error);
@@ -81,7 +81,7 @@ function EditAnimalScreen({ id, onBack, onSave }) {
         formDataToSend.append(key, formData[key]);
       });
 
-      await axios.put(`http://localhost:4000/animais/${id}`, formDataToSend, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/animais/${id}`, formDataToSend, {
         headers: {
           autorizacao: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

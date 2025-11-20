@@ -30,10 +30,10 @@ function RebanhoScreen({
         }
 
         const [animaisRes, medicoesRes] = await Promise.all([
-          fetch("http://localhost:4000/animais", {
+          fetch(`${import.meta.env.VITE_API_URL}/usuario`, {
             headers: { autorizacao: `Bearer ${token}` },
           }),
-          fetch("http://localhost:4000/medicoes", {
+          fetch(`${import.meta.env.VITE_API_URL}/medicoes`, {
             headers: { autorizacao: `Bearer ${token}` },
           }),
         ]);
@@ -106,7 +106,7 @@ function RebanhoScreen({
       return;
     }
 
-    const resposta = await fetch(`http://localhost:4000/animais/${animalId}`, {
+    const resposta = await fetch(`${import.meta.env.VITE_API_URL}/animais/${animalId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

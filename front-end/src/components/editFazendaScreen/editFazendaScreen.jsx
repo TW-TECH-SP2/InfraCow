@@ -25,7 +25,7 @@ function EditFazendaScreen({id, onBack, onSave}) {
           alert("Usuário não autenticado");
           return;
         }
-        const response = await axios.get(`http://localhost:4000/fazendas/${id}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/fazendas/${id}`, {
           headers: { autorizacao: `Bearer ${token}` },
         });
 
@@ -73,7 +73,7 @@ function EditFazendaScreen({id, onBack, onSave}) {
         formDataToSend.append(key, formData[key]);
       });
 
-      await axios.put(`http://localhost:4000/fazendas/${id}`, formDataToSend, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/fazendas/${id}`, formDataToSend, {
         headers: { autorizacao: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
       });
 

@@ -23,7 +23,7 @@ function EdicaoScreen() {
         }
 
         const response = await axios.get(
-          `http://localhost:4000/usuarios/me`,
+          `${import.meta.env.VITE_API_URL}/usuarios/me`,
           {
             headers: { autorizacao: `Bearer ${token}` },
           }
@@ -62,7 +62,7 @@ function EdicaoScreen() {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `http://localhost:4000/usuarios/${userId}`,
+        `${import.meta.env.VITE_API_URL}/usuarios/${userId}`,
         {
           nome: formData.nome,
           email: formData.email,
