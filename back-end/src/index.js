@@ -36,16 +36,12 @@ import path from 'path'
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://infracow.vercel.app"
+  "https://infracow.vercel.app",
+  "https://infracow-cicd.onrender.com"
 ];
 
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    return callback(new Error("CORS bloqueado: origem não permitida -> " + origin));
-  }
+  origin: allowedOrigins,
 }));
 
 app.use(express.urlencoded({ extended: false }));
