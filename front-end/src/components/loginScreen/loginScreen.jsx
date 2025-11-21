@@ -11,7 +11,7 @@ function LoginScreen({ onLogin }) {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/usuario`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -19,12 +19,12 @@ function LoginScreen({ onLogin }) {
         body: JSON.stringify({ email, senha }),
       });
 
-      if (!response.ok) {
-        const erro = await response.json();
-        throw new Error(erro.error || "Falha no login");
-      }
-
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Falha no login");
+      }
+      
       localStorage.setItem("token", data.token);
       onLogin();
     } catch (erro) {
