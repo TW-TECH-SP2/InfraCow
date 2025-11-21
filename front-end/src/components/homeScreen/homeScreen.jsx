@@ -55,7 +55,7 @@ function HomeScreen({ onLogout, onCadastrarFazenda, onAbrirFazenda }) {
             <img 
               src={
                 fazenda.imagem 
-                  ? `http://localhost:4000/uploads/fazendas/${fazenda.imagem}` 
+                  ? `${import.meta.env.VITE_API_URL}/uploads/fazendas/${fazenda.imagem}` 
                   : '/default-fazenda.png'
               } 
               alt={fazenda.nome_fazenda} 
