@@ -30,7 +30,7 @@ function RebanhoScreen({
         }
 
         const [animaisRes, medicoesRes] = await Promise.all([
-          fetch(`${import.meta.env.VITE_API_URL}/usuarios/me`, {
+          fetch(`${import.meta.env.VITE_API_URL}/animais`, {
             headers: { autorizacao: `Bearer ${token}` },
           }),
           fetch(`${import.meta.env.VITE_API_URL}/medicoes`, {
