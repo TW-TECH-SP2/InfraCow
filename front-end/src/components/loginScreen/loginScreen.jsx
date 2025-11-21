@@ -59,7 +59,6 @@ function LoginScreen({ onLogin }) {
 
           {error && <p style={{ color: 'red' }}>{error}</p>}
 
-          {/* quando for por backend, tirar o onclick do button e mudar o type pra submit @ricardo*/}
           <button type="submit" className="login-btn">
             Entrar
           </button>

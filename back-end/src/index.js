@@ -41,11 +41,28 @@ const allowedOrigins = [
 ];
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, cb) => {
+    console.log("🔍 Origin recebida:", origin);
+    if (!origin || allowedOrigins.includes(origin)) {
+      console.log("🟢 CORS liberado");
+      return cb(null, true);
+    }
+    console.log("🔴 CORS bloqueado!", origin);
+    return cb(new Error("Origem não permitida"));
+  },
+  credentials: true
 }));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log("➡️  Recebido:", req.method, req.url);
+  console.log("📦 Body:", req.body);
+  console.log("🧾 Headers:", req.headers);
+  next();
+});
+
 
 app.use("/uploads", express.static(path.resolve("uploads")));
 
