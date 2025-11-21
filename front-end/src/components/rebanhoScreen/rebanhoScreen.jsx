@@ -160,8 +160,8 @@ function RebanhoScreen({
                       <img
                         src={
                           a.imagem
-                            ? `http://localhost:4000/uploads/animais/${a.imagem}`
-                            : animalImg
+                            ? `${import.meta.env.VITE_API_URL}/uploads/animais/${a.imagem}`
+                            : '/default-animal.png'
                         }
                         alt=""
                       />
