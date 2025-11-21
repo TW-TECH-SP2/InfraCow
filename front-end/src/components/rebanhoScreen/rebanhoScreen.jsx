@@ -30,7 +30,7 @@ function RebanhoScreen({
         }
 
         const [animaisRes, medicoesRes] = await Promise.all([
-          fetch(`${import.meta.env.VITE_API_URL}/usuario`, {
+          fetch(`${import.meta.env.VITE_API_URL}/usuarios/me`, {
             headers: { autorizacao: `Bearer ${token}` },
           }),
           fetch(`${import.meta.env.VITE_API_URL}/medicoes`, {
@@ -143,7 +143,7 @@ function RebanhoScreen({
 
       <div className="rebanho-list">
         {animais.length === 0 ? (
-          <p><strong>Nenhum animal cadastrado ainda</strong></p>
+          <p style="#000000">Nenhum animal cadastrado ainda</p>
         ) : (
           animais.map((a, index) => {
             const ultimaMedicao = getMedicao (a.id);
