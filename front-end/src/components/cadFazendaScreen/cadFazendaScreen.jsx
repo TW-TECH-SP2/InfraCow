@@ -3,7 +3,7 @@ import logoMarrom from "../../assets/logo-marrom-sem-slogan.png";
 import cameraIcon from "../../assets/icons/camera.svg";
 import { useState } from "react";
 
-function CadFazendaScreen(onBack) {
+function CadFazendaScreen({onBack}) {
   const [formData, setFormData] = useState({
     nome_fazenda: "",
     rua: "",
