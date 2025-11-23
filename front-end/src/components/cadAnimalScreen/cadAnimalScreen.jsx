@@ -254,6 +254,7 @@ function CadAnimalScreen({ onBack }) {
 
         <div className="btn-cadfazenda">
           <button type="submit">Cadastrar</button>
+          <button type="button" onClick={onBack}>Voltar</button>
         </div>
       </form>
     </div>

@@ -9,7 +9,7 @@ import fazendaImg from "../../assets/fazendas/fazenda.png";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function PerfilScreen({ onEditarPerfil }) {
+function PerfilScreen({ onEditarPerfil, onAbrirFazenda }) {
   const [usuario, setUsuario] = useState(null);
   const [fazendas, setFazendas] = useState([]);
 

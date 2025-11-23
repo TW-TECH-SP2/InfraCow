@@ -5,7 +5,7 @@ import downloadrel from "../../assets/icons/download-rel.svg";
 import axios from "axios";
 import { useRef } from "react";
 
-function RelAnimalScreen({ onBack, onVoltarAnimal }) {
+function RelAnimalScreen({ onVoltarAnimal }) {
   const relatorioRef = useRef(null);
 
   const handleShare = async () => {

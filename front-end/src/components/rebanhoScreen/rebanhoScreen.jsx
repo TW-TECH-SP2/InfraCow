@@ -95,36 +95,40 @@ function RebanhoScreen({
   }
 
   const handleExcluirAnimal = async (animalId) => {
-  const confirmar = window.confirm("Tem certeza que deseja excluir este animal?");
-  if (!confirmar) return;
+    const confirmar = window.confirm(
+      "Tem certeza que deseja excluir este animal?"
+    );
+    if (!confirmar) return;
 
-  try {
-    const token = localStorage.getItem("token");
+    try {
+      const token = localStorage.getItem("token");
 
-    if (!token) {
-      alert("Usuário não autenticado");
-      return;
+      if (!token) {
+        alert("Usuário não autenticado");
+        return;
+      }
+
+      const resposta = await fetch(
+        `${import.meta.env.VITE_API_URL}/animais/${animalId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            autorizacao: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!resposta.ok) {
+        throw new Error("Erro ao excluir animal");
+      }
+      setAnimais((prev) => prev.filter((a) => a.id !== animalId));
+      alert("Animal excluído com sucesso!");
+    } catch (erro) {
+      console.error("Erro ao excluir animal:", erro);
+      alert("Não foi possível excluir o animal.");
     }
-
-    const resposta = await fetch(`${import.meta.env.VITE_API_URL}/animais/${animalId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        autorizacao: `Bearer ${token}`,
-      },
-    });
-
-    if (!resposta.ok) {
-      throw new Error("Erro ao excluir animal");
-    }
-    setAnimais((prev) => prev.filter((a) => a.id !== animalId));
-    alert("Animal excluído com sucesso!");
-  } catch (erro) {
-    console.error("Erro ao excluir animal:", erro);
-    alert("Não foi possível excluir o animal.");
-  }
-};
-
+  };
 
   return (
     <div className="rebanho-container">
@@ -142,100 +146,102 @@ function RebanhoScreen({
       </div>
 
       <div className="rebanho-list">
-        {animais.length === 0 ? (
-          <p style="#000000">Nenhum animal cadastrado ainda</p>
-        ) : (
-          animais.map((a, index) => {
-            const ultimaMedicao = getMedicao (a.id);
-            return (
-              <div className="rebanho-card-row" key={a.id}>
-                <div
-                  className={`rebanho-card ${
-                    expandedIndex === index ? "expanded" : ""
-                  }`}
-                  onClick={() => toggleCard(index)}
-                >
-                  <div className="rebanho-card-cima">
-                    <div className="rebanho-card-esquerda">
-                      <img
-                        src={
-                          a.imagem
-                            ? `${import.meta.env.VITE_API_URL}/uploads/animais/${a.imagem}`
-                            : '/default-animal.png'
-                        }
-                        alt=""
-                      />
-                    </div>
-
-                    <div className="rebanho-card-direita">
-                      <p className="nome-animal-card">{a.nome_animal}</p>
-                    </div>
-
+        {animais.map((a, index) => {
+          const ultimaMedicao = getMedicao(a.id);
+          return (
+            <div className="rebanho-card-row" key={a.id}>
+              <div
+                className={`rebanho-card ${
+                  expandedIndex === index ? "expanded" : ""
+                }`}
+                onClick={() => toggleCard(index)}
+              >
+                <div className="rebanho-card-cima">
+                  <div className="rebanho-card-esquerda">
                     <img
-                      src={arrowdown}
+                      src={
+                        a.imagem
+                          ? `${import.meta.env.VITE_API_URL}/uploads/animais/${
+                              a.imagem
+                            }`
+                          : "/default-animal.png"
+                      }
                       alt=""
-                      className={`arrow-card ${
-                        expandedIndex === index ? "rotated" : ""
-                      }`}
                     />
                   </div>
 
-                  {expandedIndex === index && (
-                    <div className="rebanho-card-baixo">
-                      <div className="rebanho-card-esquerda">
-                        <p>
-                          <strong>Nome:</strong> {a.nome_animal}
-                        </p>
-                        <p>
-                          <strong>Gênero:</strong> {a.genero}
-                        </p>
-                        <p>
-                          <strong>Raça:</strong> {a.raca}
-                        </p>
-                        <p>
-                          <strong>Peso:</strong> {a.peso}
-                        </p>
-                        <p>
-                          <strong>Idade:</strong> {a.idade}
-                        </p>
-                          <strong>Tipo:</strong> {a.tipo}
-                          {ultimaMedicao && (
-                          <>
-                            <p><strong>Temperatura:</strong> {ultimaMedicao.temp}</p>
-                            <p> <strong>Data/Hora:</strong>
-                              {" "}
-                              {new Date(
-                                ultimaMedicao.datahora
-                              ).toLocaleString()}
-                            </p>
-                          </>
-                        )}
-                      </div>
+                  <div className="rebanho-card-direita">
+                    <p className="nome-animal-card">{a.nome_animal}</p>
+                  </div>
 
-                      <div className="rebanho-card-direita">
-                        <button onClick={() => handleAbrirAnimalClick(a.id)}>
-                          Dados
-                        </button>
-                      </div>
+                  <img
+                    src={arrowdown}
+                    alt=""
+                    className={`arrow-card ${
+                      expandedIndex === index ? "rotated" : ""
+                    }`}
+                  />
+                </div>
+
+                {expandedIndex === index && (
+                  <div className="rebanho-card-baixo">
+                    <div className="rebanho-card-esquerda">
+                      <p>
+                        <strong>Nome:</strong> {a.nome_animal}
+                      </p>
+                      <p>
+                        <strong>Gênero:</strong> {a.genero}
+                      </p>
+                      <p>
+                        <strong>Raça:</strong> {a.raca}
+                      </p>
+                      <p>
+                        <strong>Peso:</strong> {a.peso}
+                      </p>
+                      <p>
+                        <strong>Idade:</strong> {a.idade}
+                      </p>
+                      <strong>Tipo:</strong> {a.tipo}
+                      {ultimaMedicao && (
+                        <>
+                          <p>
+                            <strong>Temperatura:</strong> {ultimaMedicao.temp}
+                          </p>
+                          <p>
+                            {" "}
+                            <strong>Data/Hora:</strong>{" "}
+                            {new Date(ultimaMedicao.datahora).toLocaleString()}
+                          </p>
+                        </>
+                      )}
                     </div>
-                  )}
-                </div>
 
-                <div className="rebanho-card-actions">
-                  <button
-                    className="editar-animal"
-                    onClick={() => handleEditarAnimalClick(a.id)}
-                  >
-                    <img src={editDados} alt="" />
-                  </button>
-                  <button className="delete-animal" onClick={() => handleExcluirAnimal(a.id)} >
-                    <img src={trash} alt="Excluir animal" />
-                  </button>
-                </div>
+                    <div className="rebanho-card-direita">
+                      <button onClick={() => handleAbrirAnimalClick(a.id)}>
+                        Dados
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
-            );
-          })
-        )}
+
+              <div className="rebanho-card-actions">
+                <button
+                  className="editar-animal"
+                  onClick={() => handleEditarAnimalClick(a.id)}
+                >
+                  <img src={editDados} alt="" />
+                </button>
+                <button
+                  className="delete-animal"
+                  onClick={() => handleExcluirAnimal(a.id)}
+                >
+                  <img src={trash} alt="Excluir animal" />
+                </button>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

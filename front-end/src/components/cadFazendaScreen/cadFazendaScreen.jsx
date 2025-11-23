@@ -3,7 +3,7 @@ import logoMarrom from "../../assets/logo-marrom-sem-slogan.png";
 import cameraIcon from "../../assets/icons/camera.svg";
 import { useState } from "react";
 
-function CadFazendaScreen() {
+function CadFazendaScreen(onBack) {
   const [formData, setFormData] = useState({
     nome_fazenda: "",
     rua: "",
@@ -158,6 +158,7 @@ function CadFazendaScreen() {
         </div>
         <div className="btn-cadfazenda">
           <button type="submit">Cadastrar Fazenda</button>
+          <button type="button" onClick={onBack}>Voltar</button>
         </div>
       </form>
     </div>
