@@ -6,9 +6,6 @@ const JWTSecret = "apiinfracow";
 
 const criarUsuario = async (req, res) => {
   try {
-    console.log("HEADERS:", req.headers);
-    console.log("BODY RECEBIDO:", req.body);
-
     const { nome, email, senha } = req.body;
 
     if (!nome || !email || !senha) {

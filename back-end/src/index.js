@@ -56,14 +56,6 @@ app.use(cors({
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use((req, res, next) => {
-  console.log("➡️  Recebido:", req.method, req.url);
-  console.log("📦 Body:", req.body);
-  console.log("🧾 Headers:", req.headers);
-  next();
-});
-
-
 app.use("/uploads", express.static(path.resolve("uploads")));
 
 app.use("/", usuarioRoutes);

@@ -4,8 +4,6 @@ import './styles/index.css'
 import App from './app/App.jsx'
 
 const API_URL = import.meta.env.VITE_API_URL;
-console.log("API_URL =", API_URL);
-
 
 fetch(`${API_URL}/health`).then(res => res.json()).then(console.log).catch(console.error);
 
