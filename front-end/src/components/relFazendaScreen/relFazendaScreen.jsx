@@ -33,7 +33,7 @@ function RelFazendaScreen({ onBack, onVoltarFazenda, fazenda }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/pdf/gerar",
+        `${import.meta.env.VITE_API_URL}/pdf/gerar`,
         { titulo, conteudo },
         { responseType: "blob" }
       );

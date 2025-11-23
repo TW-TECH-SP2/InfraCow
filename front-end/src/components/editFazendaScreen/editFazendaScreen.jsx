@@ -42,7 +42,7 @@ function EditFazendaScreen({id, onBack, onSave}) {
         });
 
         if (data.imagem) {
-          setPreview(`http://localhost:4000/uploads/fazendas/${data.imagem}`);
+          setPreview(`${import.meta.env.VITE_API_URL}/uploads/fazendas/${data.imagem}`);
         }
       } catch (error) {
         console.log("Erro ao buscar fazenda: ", error);
