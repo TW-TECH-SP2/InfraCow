@@ -35,6 +35,7 @@ function App() {
   const [showRelAnimal, setShowRelAnimal] = useState(false); // ✅ NOVO ESTADO
   const [fazendaIdSelecionada, setFazendaIdSelecionada] = useState(null)
   const [animalIdSelecionado, setAnimalIdSelecionado] = useState(null);
+  const [homeReloadKey, setHomeReloadKey] = useState(0);
 
   const handleSplashFinish = () => {
     setTimeout(() => {
@@ -78,11 +79,13 @@ function App() {
   const handleVoltarHome = () => {
     setShowCadFazenda(false);
     setActiveTab('home');
+    setHomeReloadKey(prev => prev + 1);
   };
 
   const handleSalvarFazenda = () => {
     setShowCadFazenda(false);
     setActiveTab('home');
+    setHomeReloadKey(prev => prev + 1);
   };
 
   const handleEditarPerfil = () => {
@@ -383,6 +386,7 @@ function App() {
             <>
               {activeTab === 'home' && (
                 <HomeScreen 
+                  key={homeReloadKey}
                   onLogout={handleLogout}
                   onCadastrarFazenda={handleCadastrarFazenda}
                   onAbrirFazenda={handleAbrirFazenda}

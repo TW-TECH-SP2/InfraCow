@@ -48,6 +48,8 @@ function CadFazendaScreen({onBack}) {
         formDataToSend.append(key, formData[key]);
       });
 
+      console.log("📤 Enviando dados da fazenda...");
+
       const response = await fetch(`${import.meta.env.VITE_API_URL}/fazendas`, {
         method: "POST",
         headers: {
@@ -57,12 +59,23 @@ function CadFazendaScreen({onBack}) {
       });
 
       if (!response.ok) {
-        console.log("Erro ao cadastrar fazenda");
+        const errorData = await response.json();
+        console.log("❌ Erro ao cadastrar fazenda:", errorData);
+        alert("Erro ao cadastrar fazenda");
+        return;
       }
 
+      const data = await response.json();
+      console.log("✅ Fazenda cadastrada:", data);
+      
       alert("Fazenda cadastrada com sucesso!");
+      
+      // Voltar para a tela anterior após sucesso
+      if (onBack) {
+        onBack();
+      }
     } catch (error) {
-      console.log(error);
+      console.log("❌ Erro na requisição:", error);
       alert("Erro ao cadastrar fazenda");
     }
   };
