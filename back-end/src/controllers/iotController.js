@@ -9,14 +9,25 @@ export const cadastrarTemperatura = async (req, res) => {
     console.log('Recebendo POST /iot/temperature');
     console.log('Dados recebidos:', req.body);
 
-    const codigoEntrada = codigo_rfid || codigo; // prioridade para campo explicito codigo_rfid
+    // prioridade para campo explicito codigo_rfid
+    let codigoEntrada = codigo_rfid || codigo;
+    // normaliza: string, trim e maiúsculas para RFID alfanumérico
+    if (codigoEntrada !== undefined && codigoEntrada !== null) {
+      codigoEntrada = String(codigoEntrada).trim();
+    }
     if (temperatura === undefined || !codigoEntrada) {
       console.log('❌ temperatura e codigo_rfid/codigo são obrigatórios');
       return res.status(400).json({ erro: 'Campos obrigatórios: temperatura e codigo (ou codigo_rfid).' });
     }
 
     // Buscar animal: tenta primeiro RFID alfanumérico
-    let animal = await Animais.findOne({ where: { codigo_rfid: String(codigoEntrada) } });
+    // tenta por RFID (comparando com maiúsculas, se aplicável)
+    let animal = await Animais.findOne({ where: { codigo_rfid: String(codigoEntrada).toUpperCase() } });
+    // fallback: tenta com valor original (caso base esteja salvo em minúsculo)
+    if (!animal) {
+      animal = await Animais.findOne({ where: { codigo_rfid: String(codigoEntrada) } });
+    }
+    // se for numérico, tenta coluna codigo
     if (!animal && !isNaN(Number(codigoEntrada))) {
       animal = await Animais.findOne({ where: { codigo: Number(codigoEntrada) } });
     }

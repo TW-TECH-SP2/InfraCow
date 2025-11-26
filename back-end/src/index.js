@@ -100,6 +100,11 @@ app.use("/", healthRoutes);
 
 app.use("/", iotRoutes);
 
+// Fallback direto: /iot/ping (garante ping mesmo se router falhar)
+app.get('/iot/ping', (req, res) => {
+  res.status(200).json({ pong: true, time: new Date().toISOString() });
+});
+
 // Porta dinâmica para ambientes como Render (define PORT) ou fallback local
 const port = process.env.PORT || 4000;
 console.log(`🔌 Porta configurada: ${port} (env.PORT=${process.env.PORT || 'undefined'})`);
