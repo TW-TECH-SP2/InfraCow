@@ -20,8 +20,33 @@ Medicao.belongsTo(Animais, { foreignKey: 'animais_id' });
 Medicao.hasMany(Alerta, { foreignKey: 'medicaoId' });
 Alerta.belongsTo(Medicao, { foreignKey: 'medicaoId' });
 
-connection.sync({ force: true })
-  .then(() => console.log('Banco sincronizado com sucesso!'))
+async function runStartupMigrations() {
+  try {
+    console.log('🔧 Verificando/ajustando tipo da coluna animais.codigo...');
+    await connection.query(`
+      DO $$
+      BEGIN
+        IF EXISTS (
+          SELECT 1 FROM information_schema.columns
+          WHERE table_name='animais'
+            AND column_name='codigo'
+            AND data_type='integer'
+        ) THEN
+          ALTER TABLE "animais" ALTER COLUMN "codigo" TYPE VARCHAR(255) USING "codigo"::text;
+        END IF;
+      END$$;
+    `);
+    console.log('✅ Verificação de coluna concluída');
+  } catch (e) {
+    console.error('❌ Falha ao ajustar coluna animais.codigo:', e.message);
+  }
+}
+
+connection.sync({ force: false })
+  .then(async () => {
+    console.log('Banco sincronizado com sucesso!');
+    await runStartupMigrations();
+  })
   .catch(err => console.error('Erro ao sincronizar banco:', err));
 
 import usuarioRoutes from './routes/usuarioRoutes.js';
