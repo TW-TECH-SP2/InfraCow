@@ -33,11 +33,12 @@ const createAnimal = async (req, res) => {
       return res.status(400).json({ error: "Preencha todos os campos (incluir RFID)" });
     }
 
+    console.log('🔎 Validando fazenda para criação:', { fazenda_id, usuario_id });
     const fazenda = await Fazenda.findOne({ where: { id: fazenda_id, usuario_id } });
 
     if(!fazenda) {
       console.log('❌ Fazenda não encontrada ou sem permissão:', { fazenda_id, usuario_id });
-      return res.status(403).json({ error: "Você não tem permissão para adicionar animais nesta fazenda!" });
+      return res.status(403).json({ error: "Você não tem permissão para adicionar animais nesta fazenda!", detalhes: { fazenda_id, usuario_id } });
     }
 
     // Normaliza RFID (maiúsculas, sem espaços) e força codigo=0
