@@ -20,17 +20,21 @@ const getAllAnimais = async (req, res) => {
 
 const createAnimal = async (req, res) => {
   try {
-    // Aceita tanto codigo quanto codigo_rfid do formulário; trata codigo como RFID se alfanumérico
-    const { nome_animal, codigo, codigo_rfid, genero, tipo, raca, peso, idade, fazenda_id } = req.body;
+    const { nome_animal, codigo, genero, tipo, raca, peso, idade, fazenda_id, codigo_rfid } = req.body;
     const usuario_id = req.usuarioLogado.id;
     const imagem = req.file ? req.file.filename : null;
 
-    console.log('📝 Criando animal (RFID exigido):', { nome_animal, codigo_rfid, genero, tipo, raca, peso, idade, fazenda_id, usuario_id });
+    console.log('📝 Criando animal:', { nome_animal, codigo, genero, tipo, raca, peso, idade, fazenda_id, usuario_id });
 
-    // Exige codigo_rfid sempre; codigo numérico será padronizado para '0'
-    if (!nome_animal || (!codigo_rfid && !codigo) || !genero || !tipo || !raca || !peso || !idade || !fazenda_id) {
+    if (!nome_animal || !codigo || !genero || !tipo || !raca || !peso || !idade || !fazenda_id) {
       console.log('❌ Campos faltando');
-      return res.status(400).json({ error: "Preencha todos os campos (incluir RFID)" });
+      return res.status(400).json({ error: "Preencha todos os campos" });
+    }
+
+    // valida código numérico
+    const codigoStr = String(codigo).trim();
+    if (isNaN(Number(codigoStr))) {
+      return res.status(400).json({ error: 'O campo codigo deve ser numérico' });
     }
 
     console.log('🔎 Validando fazenda para criação:', { fazenda_id, usuario_id });
@@ -41,20 +45,11 @@ const createAnimal = async (req, res) => {
       return res.status(403).json({ error: "Você não tem permissão para adicionar animais nesta fazenda!", detalhes: { fazenda_id, usuario_id } });
     }
 
-    // Normaliza RFID (maiúsculas, sem espaços) e força codigo=0
-    let rawRfid = codigo_rfid || codigo; // prioridade ao codigo_rfid se vier
-    rawRfid = String(rawRfid).trim().toUpperCase();
-    if (!rawRfid.length) {
-      return res.status(400).json({ error: 'RFID vazio' });
-    }
-    const finalCodigoRfid = rawRfid;
-    const finalCodigo = '0'; // sempre 0
-
     console.log('✅ Fazenda validada, criando animal...');
     const novoAnimal = await animalService.create({
       nome_animal,
-      codigo: finalCodigo,
-      codigo_rfid: finalCodigoRfid,
+      codigo: codigoStr,
+      codigo_rfid: codigo_rfid ? String(codigo_rfid).trim().toUpperCase() : null,
       genero,
       tipo,
       raca,
@@ -90,9 +85,7 @@ const deleteAnimal = async (req, res) => {
   }
 };
 
-        const out = novoAnimal.toJSON();
-        out.codigo_rfid = finalCodigoRfid;
-        return res.status(201).json({ message: "Animal registrado com sucesso!", animal: out });
+const updateAnimal = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const usuario_id = req.usuarioLogado.id;
@@ -100,21 +93,28 @@ const deleteAnimal = async (req, res) => {
       return res.status(400).json({ error: "ID Inválido" });
     }
     const imagem = req.file ? req.file.filename : undefined;
-    const { nome_animal, codigo, codigo_rfid, genero, tipo, raca, peso, idade } = req.body;
-    // Se veio apenas codigo, trata como RFID
-    const rfidFinal = (codigo_rfid || codigo) ? String((codigo_rfid || codigo)).trim().toUpperCase() : undefined;
+    const { nome_animal, codigo, genero, tipo, raca, peso, idade, codigo_rfid } = req.body;
+
+    if (codigo !== undefined && codigo !== null) {
+      const codigoStr = String(codigo).trim();
+      if (codigoStr.length && isNaN(Number(codigoStr))) {
+        return res.status(400).json({ error: 'O campo codigo deve ser numérico' });
+      }
+    }
+
     const atualizado = await animalService.update(
       id, usuario_id, {
-      nome_animal,
-      codigo: '0',
-      codigo_rfid: rfidFinal,
-      genero,
-      tipo,
-      raca,
-      peso,
-      idade,
-      imagem,
-    });
+        nome_animal,
+        codigo: codigo !== undefined ? String(codigo).trim() : undefined,
+        codigo_rfid: codigo_rfid ? String(codigo_rfid).trim().toUpperCase() : undefined,
+        genero,
+        tipo,
+        raca,
+        peso,
+        idade,
+        imagem,
+      }
+    );
     if (atualizado) {
       return res.status(200).json({ message: "Animal atualizado com sucesso!" });
     } else {
