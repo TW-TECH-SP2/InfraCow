@@ -148,8 +148,8 @@ function CadFazendaScreen({onBack}) {
             <label htmlFor="CEP">CEP</label>
             <input
               id="CEP"
-              type="text"
-              placeholder="Ex.: 1900-000"
+              type="number"
+              placeholder="Ex.: 11900000"
               name="CEP"
               value={formData.CEP}
               onChange={handleChange}
