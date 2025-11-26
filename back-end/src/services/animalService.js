@@ -87,10 +87,23 @@ class animalService {
         return null;
       }
 
+      // Normaliza atualização de codigo/codigo_rfid (mantém ambos iguais quando alfanumérico)
+      let codigo_atual = codigo;
+      let codigo_rfid_atual = codigo_rfid;
+      const codigo_str = String(codigo ?? '').trim();
+      const codigo_num = Number(codigo_str);
+      if (codigo_str && isNaN(codigo_num)) {
+        codigo_atual = codigo_str;
+        // Se não vier codigo_rfid explicitamente, espelha
+        if (!codigo_rfid_atual || !codigo_rfid_atual.length) {
+          codigo_rfid_atual = codigo_str;
+        }
+      }
+
       await animal.update({
         nome_animal,
-        codigo,
-        codigo_rfid,
+        codigo: codigo_atual,
+        codigo_rfid: codigo_rfid_atual,
         genero,
         tipo,
         raca,
