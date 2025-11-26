@@ -34,9 +34,13 @@ function CadFazendaScreen({onBack}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    console.log("🚀 handleSubmit iniciado");
+    console.log("📋 FormData atual:", formData);
 
     try {
       const token = localStorage.getItem("token");
+      console.log("🔑 Token:", token ? "Token encontrado" : "Token não encontrado");
 
       if (!token) {
         alert("Usuário não autenticado");
@@ -45,12 +49,14 @@ function CadFazendaScreen({onBack}) {
 
       const formDataToSend = new FormData();
       Object.keys(formData).forEach((key) => {
+        console.log(`➕ Adicionando campo: ${key} = ${formData[key]}`);
         formDataToSend.append(key, formData[key]);
       });
 
-      console.log("📤 Enviando dados da fazenda...");
+      const apiUrl = `${import.meta.env.VITE_API_URL}/fazendas`;
+      console.log("📤 Enviando para:", apiUrl);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/fazendas`, {
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           autorizacao: `Bearer ${token}`,
@@ -58,10 +64,12 @@ function CadFazendaScreen({onBack}) {
         body: formDataToSend,
       });
 
+      console.log("📥 Status da resposta:", response.status);
+
       if (!response.ok) {
         const errorData = await response.json();
         console.log("❌ Erro ao cadastrar fazenda:", errorData);
-        alert("Erro ao cadastrar fazenda");
+        alert(`Erro ao cadastrar fazenda: ${errorData.error || "Erro desconhecido"}`);
         return;
       }
 
@@ -72,11 +80,12 @@ function CadFazendaScreen({onBack}) {
       
       // Voltar para a tela anterior após sucesso
       if (onBack) {
+        console.log("🔙 Voltando para tela anterior");
         onBack();
       }
     } catch (error) {
       console.log("❌ Erro na requisição:", error);
-      alert("Erro ao cadastrar fazenda");
+      alert(`Erro ao cadastrar fazenda: ${error.message}`);
     }
   };
 
