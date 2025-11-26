@@ -1,7 +1,7 @@
 import "./homeScreen.css";
 import logoBranca from "../../assets/logo-marrom-sem-slogan.png";
 import cad from "../../assets/icons/add.svg";
-import fazendaImg from "../../assets/fazendas/fazenda1.png";
+import fazendaImg from "../../assets/fazendas/fazenda.png";
 import { useState, useEffect } from "react";
 
 function HomeScreen({ onLogout, onCadastrarFazenda, onAbrirFazenda }) {
