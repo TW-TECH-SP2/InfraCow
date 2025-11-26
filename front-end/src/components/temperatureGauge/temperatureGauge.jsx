@@ -4,7 +4,7 @@ import './temperatureGauge.css';
 function TemperatureGauge({ temperature }) {
   // Faixas de temperatura
   let color = '#4D5C52';
-  if (temperature < 37.5) color = '#1E90FF';       z
+  if (temperature < 37.5) color = '#1E90FF';
   else if (temperature >= 37.5 && temperature <= 39.3) color = '#4CAF50';
   else if (temperature > 39.4 && temperature <= 40) color = '#FFA500';  
   else color = '#FF0000';                      

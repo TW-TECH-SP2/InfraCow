@@ -2,6 +2,10 @@
     background-color: #E9E9EB;
     min-height: 100vh;
     padding: 2rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 .logo-home {
