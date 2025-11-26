@@ -23,14 +23,16 @@ class animalService {
     fazenda_id,
     imagem, 
     codigo_rfid,
-    codigo: '0', // sempre 0
+    codigo,
   }) {
     try {
       console.log('🐄 Service: Criando animal no banco...');
+      // Usa codigo_rfid ou fallback em codigo (tratado como RFID), força codigo=0
+      const rawRfid = (codigo_rfid || codigo) ? String(codigo_rfid || codigo).trim().toUpperCase() : null;
       const novoAnimal = await Animais.create({
         nome_animal,
-        codigo: '0', // sempre 0
-        codigo_rfid: codigo_rfid ? String(codigo_rfid).trim().toUpperCase() : null,
+        codigo: '0',
+        codigo_rfid: rawRfid,
         genero,
         tipo,
         raca,
@@ -90,7 +92,9 @@ class animalService {
       // Normaliza atualização de codigo/codigo_rfid (mantém ambos iguais quando alfanumérico)
       // Força codigo=0 e usa codigo_rfid se informado
       let codigo_atual = '0';
-      let codigo_rfid_atual = codigo_rfid ? String(codigo_rfid).trim().toUpperCase() : animal.codigo_rfid;
+      let codigo_rfid_atual = (codigo_rfid || codigo)
+        ? String(codigo_rfid || codigo).trim().toUpperCase()
+        : animal.codigo_rfid;
 
       await animal.update({
         nome_animal,

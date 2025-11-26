@@ -14,16 +14,17 @@ const getAllAnimais = async (req, res) => {
 
 const createAnimal = async (req, res) => {
   try {
-    const { nome_animal, codigo_rfid, genero, tipo, raca, peso, idade, fazenda_id } = req.body;
+    // Aceita tanto codigo quanto codigo_rfid do formulário; trata codigo como RFID se alfanumérico
+    const { nome_animal, codigo, codigo_rfid, genero, tipo, raca, peso, idade, fazenda_id } = req.body;
     const usuario_id = req.usuarioLogado.id;
     const imagem = req.file ? req.file.filename : null;
 
     console.log('📝 Criando animal (RFID exigido):', { nome_animal, codigo_rfid, genero, tipo, raca, peso, idade, fazenda_id, usuario_id });
 
     // Exige codigo_rfid sempre; codigo numérico será padronizado para '0'
-    if (!nome_animal || !codigo_rfid || !genero || !tipo || !raca || !peso || !idade || !fazenda_id) {
+    if (!nome_animal || (!codigo_rfid && !codigo) || !genero || !tipo || !raca || !peso || !idade || !fazenda_id) {
       console.log('❌ Campos faltando');
-      return res.status(400).json({ error: "Preencha todos os campos (incluindo codigo_rfid)" });
+      return res.status(400).json({ error: "Preencha todos os campos (incluir RFID)" });
     }
 
     const fazenda = await Fazenda.findOne({ where: { id: fazenda_id, usuario_id } });
@@ -34,8 +35,13 @@ const createAnimal = async (req, res) => {
     }
 
     // Normaliza RFID (maiúsculas, sem espaços) e força codigo=0
-    const finalCodigoRfid = String(codigo_rfid).trim().toUpperCase();
-    const finalCodigo = '0';
+    let rawRfid = codigo_rfid || codigo; // prioridade ao codigo_rfid se vier
+    rawRfid = String(rawRfid).trim().toUpperCase();
+    if (!rawRfid.length) {
+      return res.status(400).json({ error: 'RFID vazio' });
+    }
+    const finalCodigoRfid = rawRfid;
+    const finalCodigo = '0'; // sempre 0
 
     console.log('✅ Fazenda validada, criando animal...');
     const novoAnimal = await animalService.create({
@@ -85,12 +91,14 @@ const updateAnimal = async (req, res) => {
       return res.status(400).json({ error: "ID Inválido" });
     }
     const imagem = req.file ? req.file.filename : undefined;
-    const { nome_animal, codigo_rfid, genero, tipo, raca, peso, idade } = req.body;
+    const { nome_animal, codigo, codigo_rfid, genero, tipo, raca, peso, idade } = req.body;
+    // Se veio apenas codigo, trata como RFID
+    const rfidFinal = (codigo_rfid || codigo) ? String((codigo_rfid || codigo)).trim().toUpperCase() : undefined;
     const atualizado = await animalService.update(
       id, usuario_id, {
       nome_animal,
-      codigo: '0', // sempre 0
-      codigo_rfid,
+      codigo: '0',
+      codigo_rfid: rfidFinal,
       genero,
       tipo,
       raca,

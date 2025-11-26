@@ -8,7 +8,7 @@ function CadAnimalScreen({ onBack }) {
   const [fazendas, setFazendas] = useState([]);
   const [formData, setFormData] = useState({
     nome_animal: "",
-    codigo: "",
+    codigo_rfid: "",
     genero: "",
     tipo: "",
     raca: "",
@@ -86,15 +86,15 @@ function CadAnimalScreen({ onBack }) {
       formDataToSend.append("fazenda_id", Number(formData.fazenda_id));
       if (formData.imagem) formDataToSend.append("imagem", formData.imagem);
 
-      // Código: se tiver letras, envia como codigo_rfid e força codigo=0 (compatível com backend antigo)
-      const codigoValor = String(formData.codigo || "").trim();
-      const temLetra = /\D/.test(codigoValor);
-      if (temLetra) {
-        formDataToSend.append("codigo_rfid", codigoValor);
-        formDataToSend.append("codigo", 0);
-      } else {
-        formDataToSend.append("codigo", codigoValor || 0);
+      // RFID sempre enviado explicitamente; normaliza para maiúsculas
+      const rfidValor = String(formData.codigo_rfid || '').trim().toUpperCase();
+      if (!rfidValor.length) {
+        alert('Informe o RFID do animal');
+        return;
       }
+      formDataToSend.append('codigo_rfid', rfidValor);
+      // Sempre envia codigo=0 (campo oculto)
+      formDataToSend.append('codigo', 0);
 
         console.log("Fazenda selecionada: ", formData.fazenda_id);
 
@@ -123,7 +123,7 @@ function CadAnimalScreen({ onBack }) {
 
       setFormData({
         nome_animal: "",
-        codigo: "",
+        codigo_rfid: "",
         genero: "",
         tipo: "",
         raca: "",
@@ -164,13 +164,13 @@ function CadAnimalScreen({ onBack }) {
         </div>
 
         <div className="input-groupcad">
-          <label htmlFor="codigo">Código (RFID ou numérico)</label>
+          <label htmlFor="codigo_rfid">RFID (tag do animal)</label>
           <input
-            id="codigo"
+            id="codigo_rfid"
             type="text"
-            name="codigo"
-            placeholder="Ex.: F3E196C5 ou 12345"
-            value={formData.codigo}
+            name="codigo_rfid"
+            placeholder="Ex.: F3E196C5"
+            value={formData.codigo_rfid}
             onChange={handleChange}
             required
           />
