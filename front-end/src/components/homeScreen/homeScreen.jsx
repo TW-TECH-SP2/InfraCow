@@ -1,38 +1,23 @@
 import "./homeScreen.css";
 import logoBranca from "../../assets/logo-marrom-sem-slogan.png";
 import cad from "../../assets/icons/add.svg";
+import fazendaImg from "../../assets/fazendas/fazenda1.png";
 import { useState, useEffect } from "react";
 
 function HomeScreen({ onLogout, onCadastrarFazenda, onAbrirFazenda }) {
-  const [fazendas, setFazendas] = useState([]);
-
-  const fetchFazendas = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Usuário não autenticado");
-        return;
-      }
-
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/fazendas`, {
-        method: "GET",
-        headers: { autorizacao: `Bearer ${token}` },
-      });
-
-      if (!response.ok) {
-        console.log("Erro ao buscar fazendas");
-      }
-
-      const data = await response.json();
-      setFazendas(data.fazendas || []);
-    } catch (error) {
-      console.log("Erro ao buscar fazendas", error);
+  // Mock de fazenda única
+  const [fazendas] = useState([
+    {
+      id: 1,
+      nome_fazenda: "Fazenda Recanto",
+      rua: "Estrada Principal",
+      numero: "S/N",
+      bairro: "Zona Rural",
+      cidade: "Campo Verde",
+      CEP: "00000-000",
+      imagem: null
     }
-  };
-
-  useEffect(() => {
-    fetchFazendas();
-  }, []);
+  ]);
 
   return (
     <div className="home-container">
@@ -52,14 +37,7 @@ function HomeScreen({ onLogout, onCadastrarFazenda, onAbrirFazenda }) {
       {fazendas.map((fazenda) => (
         <div className="card-fazenda" key={fazenda.id}>
           <div className="esquerda">
-            <img 
-              src={
-                fazenda.imagem 
-                  ? `${import.meta.env.VITE_API_URL}/uploads/fazendas/${fazenda.imagem}` 
-                  : '/default-fazenda.png'
-              } 
-              alt={fazenda.nome_fazenda} 
-            />
+            <img src={fazendaImg} alt={fazenda.nome_fazenda} />
           </div>
           <div className="direita">
             <div className="title-fazenda">
