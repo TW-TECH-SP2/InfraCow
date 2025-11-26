@@ -115,6 +115,12 @@ function CadAnimalScreen({ onBack }) {
 
       alert("Animal cadastrado com sucesso!");
 
+      // Volta para a tela anterior (rebanho)
+      if (typeof onBack === "function") {
+        onBack();
+        return;
+      }
+
       setFormData({
         nome_animal: "",
         codigo: "",
