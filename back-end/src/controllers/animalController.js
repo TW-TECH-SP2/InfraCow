@@ -18,16 +18,21 @@ const createAnimal = async (req, res) => {
     const usuario_id = req.usuarioLogado.id;
     const imagem = req.file ? req.file.filename : null;
 
+    console.log('📝 Criando animal:', { nome_animal, codigo, genero, tipo, raca, peso, idade, fazenda_id, usuario_id });
+
     if (!nome_animal || !codigo || !genero || !tipo || !raca || !peso || !idade || !fazenda_id) {
+      console.log('❌ Campos faltando');
       return res.status(400).json({ error: "Preencha todos os campos" });
     }
 
     const fazenda = await Fazenda.findOne({ where: { id: fazenda_id, usuario_id } });
 
     if(!fazenda) {
+      console.log('❌ Fazenda não encontrada ou sem permissão:', { fazenda_id, usuario_id });
       return res.status(403).json({ error: "Você não tem permissão para adicionar animais nesta fazenda!" });
     }
 
+    console.log('✅ Fazenda validada, criando animal...');
     const novoAnimal = await animalService.create({
       nome_animal,
       codigo,
@@ -39,6 +44,7 @@ const createAnimal = async (req, res) => {
       fazenda_id,
       imagem, 
     });
+    console.log('✅ Animal criado com sucesso:', novoAnimal.id);
     return res.status(201).json({ message: "Animal registrado com sucesso!", animal: novoAnimal });
   } catch (error) {
     console.log(error);

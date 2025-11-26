@@ -25,6 +25,7 @@ class animalService {
     imagem, 
   }) {
     try {
+      console.log('🐄 Service: Criando animal no banco...');
       const novoAnimal = await Animais.create({
         nome_animal,
         codigo,
@@ -36,9 +37,11 @@ class animalService {
         fazenda_id,
         imagem,
       });
+      console.log('✅ Service: Animal criado ID:', novoAnimal.id);
       return novoAnimal;
     } catch (error) {
-      console.log("Erro ao criar animal:", error);
+      console.log("❌ Service: Erro ao criar animal:", error.message);
+      throw error;
     }
   }
   async delete(id, usuario_id) {
@@ -120,6 +123,7 @@ class animalService {
 
   async getByFazendaId(fazenda_id, usuario_id) {
     try {
+      console.log('🔍 Buscando animais da fazenda:', { fazenda_id, usuario_id });
       const animais = await Animais.findAll({
         where: { fazenda_id },
         include: [
@@ -137,6 +141,7 @@ class animalService {
         ],
       });
 
+      console.log('📊 Animais encontrados:', animais.length);
       return animais.map(a => ({
         id: a.id,
         nome_animal: a.nome_animal,
@@ -144,7 +149,7 @@ class animalService {
         temperatura: a.medicaos?.[0]?.temperatura ?? 0,
       }));
     } catch (error) {
-      console.log("Erro ao buscar animais por fazenda", error);
+      console.log("❌ Erro ao buscar animais por fazenda", error.message);
       return [];
     }
   }
