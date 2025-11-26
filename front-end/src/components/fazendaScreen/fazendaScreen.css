@@ -198,7 +198,13 @@
 }
 /* grafico */
 
-.grafico-container {
+.grafico-animal {
+  width: 100%;
+}
+
+.gauge-container {
+  width: 100%;
+}
   position: relative;
   width: 200px;
   height: 200px;
