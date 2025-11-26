@@ -133,8 +133,9 @@ function CadAnimalScreen({ onBack }) {
         </div>
 
         <div className="input-groupcad">
-          <label htmlFor="nome">Nome do animal</label>
+          <label htmlFor="nome_animal">Nome do animal</label>
           <input
+            id="nome_animal"
             type="text"
             name="nome_animal"
             value={formData.nome_animal}
@@ -146,6 +147,7 @@ function CadAnimalScreen({ onBack }) {
         <div className="input-groupcad">
           <label htmlFor="codigo">Código</label>
           <input
+            id="codigo"
             type="text"
             name="codigo"
             value={formData.codigo}
@@ -157,6 +159,7 @@ function CadAnimalScreen({ onBack }) {
         <div className="input-groupcad">
           <label htmlFor="genero">Gênero</label>
           <select
+            id="genero"
             name="genero"
             value={formData.genero}
             onChange={handleChange}
@@ -171,6 +174,7 @@ function CadAnimalScreen({ onBack }) {
         <div className="input-groupcad">
           <label htmlFor="tipo">Tipo</label>
           <select
+            id="tipo"
             name="tipo"
             value={formData.tipo}
             onChange={handleChange}
@@ -186,6 +190,7 @@ function CadAnimalScreen({ onBack }) {
         <div className="input-groupcad">
           <label htmlFor="raca">Raça</label>
           <input
+            id="raca"
             type="text"
             name="raca"
             value={formData.raca}
@@ -198,6 +203,7 @@ function CadAnimalScreen({ onBack }) {
           <div className="input-groupcad">
             <label htmlFor="peso">Peso</label>
             <input
+              id="peso"
               type="text"
               name="peso"
               placeholder="Ex.: 600"
@@ -209,6 +215,7 @@ function CadAnimalScreen({ onBack }) {
           <div className="input-groupcad">
             <label htmlFor="idade">Idade (em anos)</label>
             <input
+              id="idade"
               type="number"
               name="idade"
               placeholder="Ex.: 2"
@@ -222,6 +229,7 @@ function CadAnimalScreen({ onBack }) {
         <div className="input-groupcad">
           <label htmlFor="fazenda_id">Fazenda</label>
           <select
+            id="fazenda_id"
             name="fazenda_id"
             value={formData.fazenda_id}
             onChange={handleChange}
@@ -237,7 +245,7 @@ function CadAnimalScreen({ onBack }) {
         </div>
 
         <div className="input-cadimg">
-          <div className="esquerda-img-cad">
+          <label htmlFor="imagem_animal" className="esquerda-img-cad">
             {preview ? (
               <img
                 src={preview}
@@ -247,8 +255,8 @@ function CadAnimalScreen({ onBack }) {
             ) : (
               <img src={cameraIcon} alt="Adicionar foto" />
             )}
-            <input type="file" name="imagem" onChange={handleFileChange} />
-          </div>
+            <input id="imagem_animal" type="file" name="imagem" onChange={handleFileChange} />
+          </label>
           <div className="direita">
             <p>Adicione uma foto de seu animal clicando na câmera.</p>
           </div>
