@@ -9,11 +9,11 @@ class MedicaoService {
     }
   }
 
-  async create({ temp, datahora, animais_id }) {
+  async create({ temperatura, data_medicao, animais_id }) {
     try {
       const novaMedicao = await Medicao.create({
-        temp,
-        datahora,
+        temperatura,
+        data_medicao,
         animais_id,
       });
       return novaMedicao;
@@ -36,10 +36,10 @@ class MedicaoService {
     }
   }
 
-  async update(id, { temp, datahora, animais_id }) {
+  async update(id, { temperatura, data_medicao, animais_id }) {
     try {
       const [atualizado] = await Medicao.update(
-        { temp, datahora, animais_id },
+        { temperatura, data_medicao, animais_id },
         { where: { id } }
       );
 

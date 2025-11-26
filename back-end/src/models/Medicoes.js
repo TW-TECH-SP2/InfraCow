@@ -3,11 +3,11 @@ import connection from '../config/database-config.js'
 import Animais from './Animais.js';
 
 const Medicao = connection.define('medicao', {
-    temp: {
+    temperatura: {
         type: Sequelize.FLOAT,
         allowNull: false
     },
-    datahora: {
+    data_medicao: {
         type: Sequelize.DATE,
         allowNull: false
     },

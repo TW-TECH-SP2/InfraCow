@@ -8,7 +8,7 @@ const Animais = connection.define('animais', {
         allowNull: false
     },
     codigo: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
     },
     genero: {

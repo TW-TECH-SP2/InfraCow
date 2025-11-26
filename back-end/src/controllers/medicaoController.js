@@ -12,13 +12,13 @@ const getAllMedicoes = async (req, res) => {
 
 const createMedicao = async (req, res) => {
   try {
-    const { temp, datahora, animais_id } = req.body;
+    const { temperatura, data_medicao, animais_id } = req.body;
 
-    if (!temp || !datahora || !animais_id) {
+    if (!temperatura || !data_medicao || !animais_id) {
       return res.status(400).json({ error: "Preencha todos os campos" });
     }
 
-    const novaMedicao = await medicaoService.create({ temp, datahora, animais_id });
+    const novaMedicao = await medicaoService.create({ temperatura, data_medicao, animais_id });
     return res.status(201).json({ message: "Medição criada com sucesso!", medicao: novaMedicao });
   } catch (error) {
     console.log(error);
@@ -52,8 +52,8 @@ const updateMedicao = async (req, res) => {
       return res.status(400).json({ error: "ID inválido" });
     }
 
-    const { temp, datahora, animais_id } = req.body;
-    const atualizado = await medicaoService.update(id, { temp, datahora, animais_id });
+    const { temperatura, data_medicao, animais_id } = req.body;
+    const atualizado = await medicaoService.update(id, { temperatura, data_medicao, animais_id });
 
     if (atualizado === 0 || atualizado === undefined) {
       return res.status(404).json({ error: "Medição não encontrada" });

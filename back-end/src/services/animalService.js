@@ -130,9 +130,9 @@ class animalService {
           },
           {
             model: Medicao,
-            attributes: ["temp", "datahora"],
+            attributes: ["temperatura", "data_medicao"],
             limit: 1,
-            order: [["datahora", "DESC"]],
+            order: [["data_medicao", "DESC"]],
           },
         ],
       });
@@ -141,7 +141,7 @@ class animalService {
         id: a.id,
         nome_animal: a.nome_animal,
         genero: a.genero || "-",
-        temperatura: a.medicaos?.[0]?.temp ?? 0,
+        temperatura: a.medicaos?.[0]?.temperatura ?? 0,
       }));
     } catch (error) {
       console.log("Erro ao buscar animais por fazenda", error);
