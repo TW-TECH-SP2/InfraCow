@@ -5,28 +5,53 @@ import Animais from '../models/Animais.js';
 // Recebe dados de temperatura do IoT e salva no banco
 export const cadastrarTemperatura = async (req, res) => {
   try {
-    const { temperatura, codigo } = req.body;
+    const { temperatura, codigo, codigo_rfid, datahora, data_medicao } = req.body;
     console.log('Recebendo POST /iot/temperature');
     console.log('Dados recebidos:', req.body);
-    if (!temperatura || !codigo) {
-      console.log('❌ Temperatura e codigo são obrigatórios');
-      return res.status(400).json({ erro: 'Temperatura e codigo são obrigatórios.' });
+
+    const codigoEntrada = codigo_rfid || codigo; // prioridade para campo explicito codigo_rfid
+    if (temperatura === undefined || !codigoEntrada) {
+      console.log('❌ temperatura e codigo_rfid/codigo são obrigatórios');
+      return res.status(400).json({ erro: 'Campos obrigatórios: temperatura e codigo (ou codigo_rfid).' });
     }
-    // Buscar animal pelo RFID novo (codigo_rfid). Se não achar, tenta numerico em 'codigo'.
-    let animal = await Animais.findOne({ where: { codigo_rfid: String(codigo) } });
-    if (!animal && !isNaN(Number(codigo))) {
-      animal = await Animais.findOne({ where: { codigo: Number(codigo) } });
+
+    // Buscar animal: tenta primeiro RFID alfanumérico
+    let animal = await Animais.findOne({ where: { codigo_rfid: String(codigoEntrada) } });
+    if (!animal && !isNaN(Number(codigoEntrada))) {
+      animal = await Animais.findOne({ where: { codigo: Number(codigoEntrada) } });
     }
     if (!animal) {
-      console.log('❌ Animal não encontrado para o código:', codigo);
+      console.log('❌ Animal não encontrado para o código:', codigoEntrada);
       return res.status(404).json({ erro: 'Animal não encontrado para o código informado.' });
     }
+
+    // Definir timestamp: se dispositivo enviou datahora ou data_medicao válida, usar; senão usar server time
+    let timestampStr = datahora || data_medicao;
+    let timestamp;
+    if (timestampStr) {
+      // Aceita ISO ou epoch numérico
+      if (!isNaN(Number(timestampStr))) {
+        const epoch = Number(timestampStr);
+        // epoch em segundos ou ms? se for < 10^12 assume segundos
+        timestamp = new Date(epoch < 1e12 ? epoch * 1000 : epoch);
+      } else {
+        const parsed = Date.parse(timestampStr);
+        if (!isNaN(parsed)) timestamp = new Date(parsed);
+      }
+    }
+    if (!timestamp) timestamp = new Date();
+
     const novaMedicao = await Medicao.create({
       temperatura,
       animais_id: animal.id,
-      data_medicao: new Date()
+      data_medicao: timestamp
     });
-    console.log('✅ Temperatura cadastrada com sucesso:', novaMedicao);
+    console.log('✅ Temperatura cadastrada com sucesso:', {
+      id: novaMedicao.id,
+      temperatura: novaMedicao.temperatura,
+      data_medicao: novaMedicao.data_medicao,
+      animal: animal.id
+    });
     res.status(201).json(novaMedicao);
   } catch (err) {
     console.error('❌ Erro ao cadastrar temperatura:', err.message);

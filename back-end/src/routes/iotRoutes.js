@@ -3,7 +3,7 @@ import { cadastrarTemperatura, listarUltimasMedicoes } from '../controllers/iotC
 
 const router = express.Router();
 
-// Middleware: aceita HTTP (desativa redirect HTTPS forçado pelo Render)
+// Middleware: CORS básico + log detalhado de requisições IoT
 router.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
@@ -11,7 +11,14 @@ router.use((req, res, next) => {
   if (req.method === 'OPTIONS') {
     return res.sendStatus(200);
   }
+  console.log('📡 IoT Req:', req.method, req.originalUrl);
+  console.log('📡 IoT Headers:', req.headers);
   next();
+});
+
+// GET /iot/ping (teste simples de conectividade para ESP32)
+router.get('/iot/ping', (req, res) => {
+  res.status(200).json({ pong: true, time: new Date().toISOString() });
 });
 
 // POST /iot/temperature

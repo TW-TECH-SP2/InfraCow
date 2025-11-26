@@ -89,6 +89,11 @@ app.use(express.json());
 
 app.use("/uploads", express.static(path.resolve("uploads")));
 
+// Ping direto (debug) para validar deploy/rotas no Render
+app.get('/iot/ping', (req, res) => {
+  res.status(200).json({ pong: true, from: 'index', time: new Date().toISOString() });
+});
+
 app.use("/", usuarioRoutes);
 app.use("/", fazendaRoutes);
 app.use("/", animalRoutes);
@@ -98,5 +103,7 @@ app.use("/", healthRoutes);
 
 app.use("/", iotRoutes);
 
-const port = 4000;
+// Porta dinâmica para ambientes como Render (define PORT) ou fallback local
+const port = process.env.PORT || 4000;
+console.log(`🔌 Porta configurada: ${port} (env.PORT=${process.env.PORT || 'undefined'})`);
 app.listen(port, () => console.log(`API rodando em http://localhost:${port}`));
