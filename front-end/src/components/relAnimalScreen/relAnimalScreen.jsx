@@ -67,46 +67,34 @@ function RelAnimalScreen({ onVoltarAnimal }) {
         <div className="relatorio-conteudo" ref={relatorioRef}>
           <h1>Relatório do Bovino: Mimosa</h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates
-            impedit voluptas, amet aliquid voluptatem ipsa. Animi nesciunt
-            beatae, accusantium explicabo a totam consectetur omnis libero quos
-            quis, corporis debitis sit.
-          </p>
+  A temperatura corporal do animal registrada foi de 38.5°C, o que está dentro da faixa normal para bovinos. 
+  O monitoramento contínuo indica que o animal está se adaptando bem às condições climáticas atuais.
+</p>
 
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates
-            impedit voluptas, amet aliquid voluptatem ipsa. Animi nesciunt
-            beatae, accusantium explicabo a totam consectetur omnis libero quos
-            quis, corporis debitis sit.
-          </p>
+<p>
+  Durante a tarde, observou-se um leve aumento para 39.2°C, possivelmente devido à exposição solar. 
+  É importante assegurar sombra e água disponível para evitar estresse térmico.
+</p>
 
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates
-            impedit voluptas, amet aliquid voluptatem ipsa. Animi nesciunt
-            beatae, accusantium explicabo a totam consectetur omnis libero quos
-            quis, corporis debitis sit.
-          </p>
+<p>
+  Com a chegada da noite, a temperatura corporal estabilizou em 38.7°C. 
+  O animal demonstra comportamento normal, alimentando-se e ruminando adequadamente.
+</p>
 
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates
-            impedit voluptas, amet aliquid voluptatem ipsa. Animi nesciunt
-            beatae, accusantium explicabo a totam consectetur omnis libero quos
-            quis, corporis debitis sit.
-          </p>
+<p>
+  O sistema de monitoramento alerta para a importância de verificar a hidratação, 
+  especialmente em dias quentes. A temperatura do ambiente chegou a 35°C no pico do dia.
+</p>
 
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates
-            impedit voluptas, amet aliquid voluptatem ipsa. Animi nesciunt
-            beatae, accusantium explicabo a totam consectetur omnis libero quos
-            quis, corporis debitis sit.
-          </p>
+<p>
+  Histórico de temperatura do animal nos últimos 7 dias mostra estabilidade, 
+  com variações entre 38.5°C e 39.5°C, dentro do esperado para a raça e idade.
+</p>
 
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates
-            impedit voluptas, amet aliquid voluptatem ipsa. Animi nesciunt
-            beatae, accusantium explicabo a totam consectetur omnis libero quos
-            quis, corporis debitis sit.
-          </p>
+<p>
+  Recomenda-se continuar o monitoramento diário e observar quaisquer mudanças comportamentais 
+  que possam indicar desconforto térmico ou problemas de saúde.
+</p>
         </div>
 
         <button className="botao-download-fixo" onClick={handleDownload}>

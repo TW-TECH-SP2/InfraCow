@@ -1,16 +1,28 @@
 {
-  "name": "funf-ci",
+  "name": "infracow",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "start": "node back-end/src/index.js"
+    "start": "node back-end/src/index.js",
+    "dev": "nodemon back-end/src/index.js"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "chart.js": "^4.5.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^4.19.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
+    "mysql2": "^3.15.3",
+    "pdfkit": "^0.17.2",
+    "pg": "^8.16.3",
     "react-chartjs-2": "^5.3.0",
-    "recharts": "^3.3.0"
+    "recharts": "^3.3.0",
+    "sequelize": "^6.37.7"
   },
   "devDependencies": {
+    "nodemon": "^3.1.10",
     "vite": "^7.2.2"
   }
 }
