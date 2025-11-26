@@ -61,7 +61,6 @@ import pdfRoutes from './routes/pdfRoutes.js';
 import healthRoutes from './routes/healthRoutes.js';
 
 import iotRoutes from './routes/iotRoutes.js';
-import { cadastrarTemperatura, listarUltimasMedicoes } from './controllers/iotController.js';
 
 import cors from 'cors';
 import path from 'path'
@@ -90,14 +89,7 @@ app.use(express.json());
 
 app.use("/uploads", express.static(path.resolve("uploads")));
 
-// Ping direto (debug) para validar deploy/rotas no Render
-app.get('/iot/ping', (req, res) => {
-  res.status(200).json({ pong: true, from: 'index', time: new Date().toISOString() });
-});
-
-// Rotas IoT diretas (fallback) — garantem endpoint mesmo se router não montar
-app.post('/iot/temperature', cadastrarTemperatura);
-app.get('/iot/temperature', listarUltimasMedicoes);
+// (Ping/IoT direct routes removed per user request; using iotRoutes only)
 
 app.use("/", usuarioRoutes);
 app.use("/", fazendaRoutes);
