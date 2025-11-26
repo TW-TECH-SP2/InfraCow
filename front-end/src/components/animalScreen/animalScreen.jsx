@@ -31,7 +31,8 @@ function AnimalScreen({ animalId, onBack, onAbrirRelAnimal }) {
         if (response.ok) {
           const data = await response.json();
           console.log("✅ Dados do animal recebidos:", data);
-          setAnimal(data);
+          // A API retorna { animal: {...} }, então pegamos data.animal
+          setAnimal(data.animal || data);
         } else {
           console.log("❌ Erro ao buscar animal - Status:", response.status);
         }
