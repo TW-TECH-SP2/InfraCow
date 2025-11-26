@@ -9,6 +9,7 @@
   border-radius: 25px;
   padding: 0.8rem 1rem;
   box-shadow: 3px 4px 20px rgba(0, 0, 0, 0.15);
+  outline: none;
 }
 
 .nav-links {
