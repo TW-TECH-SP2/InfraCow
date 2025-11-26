@@ -35,7 +35,7 @@ const mockData = {
 const TemperatureChart = () => {
   const [period, setPeriod] = useState("Mês");
   const data = mockData[period];
-  const width = 380;
+  const width = 340;
   const height = 180;
   const padding = 30;
 
