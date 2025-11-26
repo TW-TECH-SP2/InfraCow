@@ -30,3 +30,19 @@ export const cadastrarTemperatura = async (req, res) => {
     res.status(500).json({ erro: 'Erro ao cadastrar temperatura', detalhes: err.message });
   }
 };
+
+// Retorna as últimas medições cadastradas (para teste)
+export const listarUltimasMedicoes = async (req, res) => {
+  try {
+    const medicoes = await Medicao.findAll({
+      limit: 10,
+      order: [['data_medicao', 'DESC']],
+      include: [{ model: Animais, attributes: ['nome_animal', 'codigo'] }]
+    });
+    console.log('✅ Listando últimas 10 medições');
+    res.status(200).json(medicoes);
+  } catch (err) {
+    console.error('❌ Erro ao listar medições:', err.message);
+    res.status(500).json({ erro: 'Erro ao listar medições', detalhes: err.message });
+  }
+};
