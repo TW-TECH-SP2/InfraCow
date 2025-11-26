@@ -147,11 +147,13 @@ function App() {
   const handleVoltarDaEdicaoFazenda = () => {
     console.log('🏠 Voltando da edição da fazenda...');
     setShowEditFazenda(false);
+    setShowFazendaDetalhes(true);
   };
 
   const handleSalvarEdicaoFazenda = () => {
     console.log('💾 Salvando edição da fazenda...');
     setShowEditFazenda(false);
+    setShowFazendaDetalhes(true);
   };
 
   // ✅ FUNÇÕES PARA EDIT ANIMAL
