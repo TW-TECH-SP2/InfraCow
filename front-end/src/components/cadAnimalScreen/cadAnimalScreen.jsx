@@ -8,7 +8,7 @@ function CadAnimalScreen({ onBack }) {
   const [fazendas, setFazendas] = useState([]);
   const [formData, setFormData] = useState({
     nome_animal: "",
-    codigo_rfid: "",
+    codigo: "",
     genero: "",
     tipo: "",
     raca: "",
@@ -87,14 +87,13 @@ function CadAnimalScreen({ onBack }) {
       if (formData.imagem) formDataToSend.append("imagem", formData.imagem);
 
       // RFID sempre enviado explicitamente; normaliza para maiúsculas
-      const rfidValor = String(formData.codigo_rfid || '').trim().toUpperCase();
-      if (!rfidValor.length) {
-        alert('Informe o RFID do animal');
+      // Código numérico obrigatório
+      const codigoValor = String(formData.codigo || '').trim();
+      if (!codigoValor.length || isNaN(Number(codigoValor))) {
+        alert('Informe o código numérico do animal');
         return;
       }
-      formDataToSend.append('codigo_rfid', rfidValor);
-      // Sempre envia codigo=0 (campo oculto)
-      formDataToSend.append('codigo', 0);
+      formDataToSend.append('codigo', codigoValor);
 
         console.log("Fazenda selecionada: ", formData.fazenda_id);
 
@@ -123,7 +122,7 @@ function CadAnimalScreen({ onBack }) {
 
       setFormData({
         nome_animal: "",
-        codigo_rfid: "",
+        codigo: "",
         genero: "",
         tipo: "",
         raca: "",
@@ -164,13 +163,13 @@ function CadAnimalScreen({ onBack }) {
         </div>
 
         <div className="input-groupcad">
-          <label htmlFor="codigo_rfid">RFID (tag do animal)</label>
+          <label htmlFor="codigo">Código numérico do animal</label>
           <input
-            id="codigo_rfid"
-            type="text"
-            name="codigo_rfid"
-            placeholder="Ex.: F3E196C5"
-            value={formData.codigo_rfid}
+            id="codigo"
+            type="number"
+            name="codigo"
+            placeholder="Ex.: 12345"
+            value={formData.codigo}
             onChange={handleChange}
             required
           />
