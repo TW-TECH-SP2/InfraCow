@@ -13,54 +13,35 @@ function RebanhoScreen({
   onCadastrarAnimal,
   onAbrirAnimal,
 }) {
-  const [expandedIndex, setExpandedIndex] = useState(null);
+  // Cartões estáticos: removido estado de expansão
   const [animais, setAnimais] = useState([]);
   const [medicoes, setMedicoes] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchAnimais = async () => {
-      try {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-          alert("Usuário não autenticado");
-          setLoading(false);
-          return;
-        }
-
-        const [animaisRes, medicoesRes] = await Promise.all([
-          fetch(`${import.meta.env.VITE_API_URL}/animais`, {
-            headers: { autorizacao: `Bearer ${token}` },
-          }),
-          fetch(`${import.meta.env.VITE_API_URL}/medicoes`, {
-            headers: { autorizacao: `Bearer ${token}` },
-          }),
-        ]);
-
-        const animaisData = await animaisRes.json();
-        const medicoesData = await medicoesRes.json();
-
-        setAnimais(
-          Array.isArray(animaisData) ? animaisData : animaisData.animais || []
-        );
-        setMedicoes(
-          Array.isArray(medicoesData)
-            ? medicoesData
-            : medicoesData.medicoes || []
-        );
-      } catch (error) {
-        console.log("Erro ao buscar animais: ", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchAnimais();
+    // Dados fictícios (mock) substituindo chamadas reais à API
+    const mockAnimais = [
+      { id: 1, nome_animal: 'Mimosa', genero: 'F', raca: 'Holandesa', peso: 610, idade: 4, tipo: 'leiteiro', imagem: null },
+      { id: 2, nome_animal: 'Thor', genero: 'M', raca: 'Angus', peso: 720, idade: 5, tipo: 'corte', imagem: null },
+      { id: 3, nome_animal: 'Estrela', genero: 'F', raca: 'Jersey', peso: 500, idade: 3, tipo: 'leiteiro', imagem: null },
+      { id: 4, nome_animal: 'Brutus', genero: 'M', raca: 'Nelore', peso: 800, idade: 6, tipo: 'reprodutor', imagem: null },
+      { id: 5, nome_animal: 'Lua', genero: 'F', raca: 'Girolando', peso: 580, idade: 2, tipo: 'leiteiro', imagem: null },
+    ];
+    // Medições fictícias (últimas 24 horas de hora em hora)
+    const now = Date.now();
+    const mockMedicoes = mockAnimais.flatMap(a => {
+      return Array.from({ length: 8 }).map((_, i) => ({
+        animais_id: a.id,
+        temperatura: (36.5 + Math.random() * 2).toFixed(1),
+        datahora: new Date(now - i * 60 * 60 * 1000).toISOString(),
+      }));
+    });
+    setAnimais(mockAnimais);
+    setMedicoes(mockMedicoes);
+    setLoading(false);
   }, []);
 
-  const toggleCard = (index) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
-  };
+  // Removido comportamento de expandir/contrair
 
   const handleEditarAnimalClick = (animalId) => {
     if (onEditarAnimal) {
@@ -150,79 +131,41 @@ function RebanhoScreen({
           const ultimaMedicao = getMedicao(a.id);
           return (
             <div className="rebanho-card-row" key={a.id}>
-              <div
-                className={`rebanho-card ${
-                  expandedIndex === index ? "expanded" : ""
-                }`}
-                onClick={() => toggleCard(index)}
-              >
+              <div className="rebanho-card static">
                 <div className="rebanho-card-cima">
                   <div className="rebanho-card-esquerda">
                     <img
                       src={
                         a.imagem
-                          ? `${import.meta.env.VITE_API_URL}/uploads/animais/${
-                              a.imagem
-                            }`
+                          ? `${import.meta.env.VITE_API_URL}/uploads/animais/${a.imagem}`
                           : "/default-animal.png"
                       }
                       alt=""
                     />
                   </div>
-
                   <div className="rebanho-card-direita">
                     <p className="nome-animal-card">{a.nome_animal}</p>
                   </div>
-
-                  <img
-                    src={arrowdown}
-                    alt=""
-                    className={`arrow-card ${
-                      expandedIndex === index ? "rotated" : ""
-                    }`}
-                  />
                 </div>
-
-                {expandedIndex === index && (
-                  <div className="rebanho-card-baixo">
-                    <div className="rebanho-card-esquerda">
-                      <p>
-                        <strong>Nome:</strong> {a.nome_animal}
-                      </p>
-                      <p>
-                        <strong>Gênero:</strong> {a.genero}
-                      </p>
-                      <p>
-                        <strong>Raça:</strong> {a.raca}
-                      </p>
-                      <p>
-                        <strong>Peso:</strong> {a.peso}
-                      </p>
-                      <p>
-                        <strong>Idade:</strong> {a.idade}
-                      </p>
-                      <strong>Tipo:</strong> {a.tipo}
-                      {ultimaMedicao && (
-                        <>
-                          <p>
-                            <strong>Temperatura:</strong> {ultimaMedicao.temp}
-                          </p>
-                          <p>
-                            {" "}
-                            <strong>Data/Hora:</strong>{" "}
-                            {new Date(ultimaMedicao.datahora).toLocaleString()}
-                          </p>
-                        </>
-                      )}
-                    </div>
-
-                    <div className="rebanho-card-direita">
-                      <button onClick={() => handleAbrirAnimalClick(a.id)}>
-                        Dados
-                      </button>
-                    </div>
+                <div className="rebanho-card-baixo">
+                  <div className="rebanho-card-esquerda">
+                    <p><strong>Nome:</strong> {a.nome_animal}</p>
+                    <p><strong>Gênero:</strong> {a.genero}</p>
+                    <p><strong>Raça:</strong> {a.raca}</p>
+                    <p><strong>Peso:</strong> {a.peso}</p>
+                    <p><strong>Idade:</strong> {a.idade}</p>
+                    <p><strong>Tipo:</strong> {a.tipo}</p>
+                    {ultimaMedicao && (
+                      <>
+                        <p><strong>Temperatura:</strong> {ultimaMedicao.temp}</p>
+                        <p><strong>Data/Hora:</strong> {new Date(ultimaMedicao.datahora).toLocaleString()}</p>
+                      </>
+                    )}
                   </div>
-                )}
+                  <div className="rebanho-card-direita">
+                    <button onClick={() => handleAbrirAnimalClick(a.id)}>Dados</button>
+                  </div>
+                </div>
               </div>
 
               <div className="rebanho-card-actions">
