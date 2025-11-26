@@ -48,7 +48,7 @@ function FazendaScreen({
 
       let fazendaData = {
         id: null,
-        nome_fazenda: "Fazenda (sem dados)",
+        nome_fazenda: "Fazenda",
         rua: "-",
         cidade: "-",
         bairro: "-",
@@ -58,12 +58,12 @@ function FazendaScreen({
       if (response.ok) {
         const data = await response.json();
         fazendaData = {
-          id: data.id,
-          nome_fazenda: data.nome_fazenda || "Fazenda (sem dados)",
-          rua: data.rua || "-",
-          cidade: data.cidade || "-",
-          bairro: data.bairro || "-",
-          CEP: data.CEP || "-",
+          id: data.fazenda?.id || data.id,
+          nome_fazenda: data.fazenda?.nome_fazenda || data.nome_fazenda || "Fazenda",
+          rua: data.fazenda?.rua || data.rua || "-",
+          cidade: data.fazenda?.cidade || data.cidade || "-",
+          bairro: data.fazenda?.bairro || data.bairro || "-",
+          CEP: data.fazenda?.CEP || data.CEP || "-",
         };
       } else {
         console.log("Erro ao buscar fazenda");
