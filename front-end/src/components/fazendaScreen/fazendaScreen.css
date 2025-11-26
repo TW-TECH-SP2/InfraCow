@@ -213,6 +213,23 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.gauge-esquerda {
+  flex: 1;
+}
+
+.gauge-esquerda h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #282113;
+}
+
+.gauge-esquerda p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
 .grafico-container {
   position: relative;
   width: 200px;
