@@ -31,6 +31,8 @@ import medicaoRoutes from './routes/medicaoRoutes.js'
 import pdfRoutes from './routes/pdfRoutes.js';
 import healthRoutes from './routes/healthRoutes.js';
 
+import iotRoutes from './routes/iotRoutes.js';
+
 import cors from 'cors';
 import path from 'path'
 
@@ -64,6 +66,8 @@ app.use("/", animalRoutes);
 app.use("/", medicaoRoutes);
 app.use("/", pdfRoutes);
 app.use("/", healthRoutes);
+
+app.use("/", iotRoutes);
 
 const port = 4000;
 app.listen(port, () => console.log(`API rodando em http://localhost:${port}`));
