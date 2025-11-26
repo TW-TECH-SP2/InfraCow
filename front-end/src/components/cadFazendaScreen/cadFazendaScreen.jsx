@@ -161,7 +161,7 @@ function CadFazendaScreen({onBack}) {
           </div>
         </div>
         <div className="input-cadimg">
-          <div className="esquerda-img-cad">
+          <label htmlFor="imagem" className="esquerda-img-cad">
             {preview ? (
               <img
                 src={preview}
@@ -171,8 +171,13 @@ function CadFazendaScreen({onBack}) {
             ) : (
               <img src={cameraIcon} alt="Adicionar foto" />
             )}
-            <input type="file" name="imagem" onChange={handleFileChange} />
-          </div>
+            <input 
+              id="imagem"
+              type="file" 
+              name="imagem" 
+              onChange={handleFileChange} 
+            />
+          </label>
           <div className="direita">
             <p>Adicione uma foto de sua fazenda clicando na câmera.</p>
           </div>
