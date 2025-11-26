@@ -32,10 +32,19 @@ const createAnimal = async (req, res) => {
       return res.status(403).json({ error: "Você não tem permissão para adicionar animais nesta fazenda!" });
     }
 
+    // Mapear codigo: se for alfanumérico, salvar em codigo_rfid e usar 0 no codigo numérico
+    let codigo_rfid = null;
+    let codigo_num = Number(codigo);
+    if (!codigo || isNaN(codigo_num)) {
+      codigo_rfid = String(codigo || '').trim();
+      codigo_num = 0;
+    }
+
     console.log('✅ Fazenda validada, criando animal...');
     const novoAnimal = await animalService.create({
       nome_animal,
-      codigo,
+      codigo: codigo_num,
+      codigo_rfid,
       genero,
       tipo,
       raca,

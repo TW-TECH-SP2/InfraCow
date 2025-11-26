@@ -16,6 +16,7 @@ class animalService {
   async create({
     nome_animal,
     codigo,
+    codigo_rfid,
     genero,
     tipo,
     raca,
@@ -29,6 +30,7 @@ class animalService {
       const novoAnimal = await Animais.create({
         nome_animal,
         codigo,
+        codigo_rfid,
         genero,
         tipo,
         raca,
@@ -70,7 +72,7 @@ class animalService {
   async update(
     id,
     usuario_id,
-    { nome_animal, codigo, genero, tipo, raca, peso, idade, imagem }
+    { nome_animal, codigo, codigo_rfid, genero, tipo, raca, peso, idade, imagem }
   ) {
     try {
       const animal = await Animais.findOne({
@@ -88,6 +90,7 @@ class animalService {
       await animal.update({
         nome_animal,
         codigo,
+        codigo_rfid,
         genero,
         tipo,
         raca,

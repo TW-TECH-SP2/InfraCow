@@ -12,8 +12,11 @@ export const cadastrarTemperatura = async (req, res) => {
       console.log('❌ Temperatura e codigo são obrigatórios');
       return res.status(400).json({ erro: 'Temperatura e codigo são obrigatórios.' });
     }
-    // Buscar animal pelo codigo
-    const animal = await Animais.findOne({ where: { codigo } });
+    // Buscar animal pelo RFID novo (codigo_rfid). Se não achar, tenta numerico em 'codigo'.
+    let animal = await Animais.findOne({ where: { codigo_rfid: String(codigo) } });
+    if (!animal && !isNaN(Number(codigo))) {
+      animal = await Animais.findOne({ where: { codigo: Number(codigo) } });
+    }
     if (!animal) {
       console.log('❌ Animal não encontrado para o código:', codigo);
       return res.status(404).json({ erro: 'Animal não encontrado para o código informado.' });

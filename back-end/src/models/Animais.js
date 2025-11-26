@@ -11,6 +11,10 @@ const Animais = connection.define('animais', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    codigo_rfid: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
     genero: {
         type: Sequelize.STRING,
         allowNull: false

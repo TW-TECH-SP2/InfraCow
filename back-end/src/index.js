@@ -36,6 +36,10 @@ async function runStartupMigrations() {
         END IF;
       END$$;
     `);
+    console.log('🔧 Garantindo coluna animais.codigo_rfid...');
+    await connection.query(`
+      ALTER TABLE "animais" ADD COLUMN IF NOT EXISTS "codigo_rfid" VARCHAR(255);
+    `);
     console.log('✅ Verificação de coluna concluída');
   } catch (e) {
     console.error('❌ Falha ao ajustar coluna animais.codigo:', e.message);
