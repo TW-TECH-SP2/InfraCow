@@ -14,129 +14,68 @@ function FazendaScreen({
   onEditarFazenda,
   onAbrirRelFazenda,
 }) {
-  const [fazenda, setFazenda] = useState({
-    id: null,
-    nome_fazenda: "Fazenda",
-    rua: "-",
-    cidade: "-",
-    bairro: "-",
-    CEP: "-",
+  // Dados fictícios da fazenda (independente do ID recebido)
+  const [fazenda] = useState({
+    id: fazendaId || 1,
+    nome_fazenda: "Recanto",
+    rua: "Estrada Principal",
+    cidade: "Campo Verde",
+    bairro: "Zona Rural",
+    CEP: "00000-000",
   });
+
   const [quantidades, setQuantidades] = useState({
     total: 0,
     machos: 0,
     femeas: 0,
   });
   const [mediaTemp, setMediaTemp] = useState(0);
-  const [erro, setErro] = useState(null);
-  const [animais, setAnimais] = useState([]);
 
-  const fetchFazenda = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Usuário não autenticado");
-        return;
-      }
+  // Mock de animais (mesmos usados em RebanhoScreen)
+  const mockAnimais = [
+    { id: 1, nome_animal: 'Mimosa', genero: 'F', raca: 'Holandesa', peso: 610, idade: 4, tipo: 'leiteiro' },
+    { id: 2, nome_animal: 'Thor', genero: 'M', raca: 'Angus', peso: 720, idade: 5, tipo: 'corte' },
+    { id: 3, nome_animal: 'Estrela', genero: 'F', raca: 'Jersey', peso: 500, idade: 3, tipo: 'leiteiro' },
+    { id: 4, nome_animal: 'Brutus', genero: 'M', raca: 'Nelore', peso: 800, idade: 6, tipo: 'reprodutor' },
+    { id: 5, nome_animal: 'Lua', genero: 'F', raca: 'Girolando', peso: 580, idade: 2, tipo: 'leiteiro' },
+  ];
 
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/fazendas/${fazendaId}`,
-        {
-          headers: { autorizacao: `Bearer ${token}` },
-        }
-      );
-
-      let fazendaData = {
-        id: null,
-        nome_fazenda: "Fazenda",
-        rua: "-",
-        cidade: "-",
-        bairro: "-",
-        CEP: "-",
-      };
-
-      if (response.ok) {
-        const data = await response.json();
-        fazendaData = {
-          id: data.fazenda?.id || data.id,
-          nome_fazenda: data.fazenda?.nome_fazenda || data.nome_fazenda || "Fazenda",
-          rua: data.fazenda?.rua || data.rua || "-",
-          cidade: data.fazenda?.cidade || data.cidade || "-",
-          bairro: data.fazenda?.bairro || data.bairro || "-",
-          CEP: data.fazenda?.CEP || data.CEP || "-",
-        };
-      } else {
-        console.log("Erro ao buscar fazenda");
-      }
-
-      setFazenda(fazendaData)
-
-      const statsResponse = await fetch(
-        `${import.meta.env.VITE_API_URL}/fazendas/${fazendaId}/estatisticas`,
-        {
-          headers: { autorizacao: `Bearer ${token}` },
-        }
-      );
-
-      if (statsResponse.ok) {
-        const stats = await statsResponse.json();
-        setQuantidades({
-          total: stats.total ?? 0,
-          machos: stats.machos ?? 0,
-          femeas: stats.femeas ?? 0,
-        });
-        setMediaTemp(stats.mediaTemp ?? 0);
-      } else {
-        console.log("Erro ao buscar estatísticas da fazenda");
-        setQuantidades({ total: 0, machos: 0, femeas: 0 });
-        setMediaTemp(0);
-      }
-
-      const animaisResponse = await fetch(`${import.meta.env.VITE_API_URL}/animais/fazenda/${fazendaId}`,
-        { headers: { autorizacao: `Bearer ${token}` } }
-      )
-
-      if (animaisResponse.ok) {
-        const data = await animaisResponse.json();
-        setAnimais(data.animais || []);
-      } else {
-        console.log("Erro ao buscar animais");
-        setAnimais([]);
-      }
-
-    } catch (error) {
-      console.log("Erro ao carregar dados da fazenda:", error);
-      setErro("Erro ao carregar dados da fazenda");
-    }
-  };
+  // Mock de medições (similar à lógica da tela de rebanho)
+  const [medicoes] = useState(() => {
+    const now = Date.now();
+    return mockAnimais.flatMap(a => {
+      return Array.from({ length: 8 }).map((_, i) => ({
+        animais_id: a.id,
+        temperatura: (36.5 + Math.random() * 2).toFixed(1),
+        datahora: new Date(now - i * 60 * 60 * 1000).toISOString(),
+      }));
+    });
+  });
 
   useEffect(() => {
-    if (fazendaId) fetchFazenda();
+    // Calcula quantidades com base nos mocks
+    const total = mockAnimais.length;
+    const machos = mockAnimais.filter(a => a.genero === 'M').length;
+    const femeas = mockAnimais.filter(a => a.genero === 'F').length;
+    setQuantidades({ total, machos, femeas });
+
+    // Média da última medição de cada animal
+    const ultimaPorAnimal = mockAnimais.map(a => {
+      const meds = medicoes.filter(m => m.animais_id === a.id)
+        .sort((m1, m2) => new Date(m2.datahora) - new Date(m1.datahora));
+      return meds[0] ? parseFloat(meds[0].temperatura) : null;
+    }).filter(v => v !== null);
+    const media = ultimaPorAnimal.length
+      ? (ultimaPorAnimal.reduce((acc, v) => acc + v, 0) / ultimaPorAnimal.length)
+      : 0;
+    setMediaTemp(parseFloat(media.toFixed(1)));
   }, [fazendaId]);
 
   const handleGerenciarAnimais = () => {
     if (onAbrirRebanho) {
-      onAbrirRebanho(fazendaId);
-    } else {
-      console.log("❌ onAbrirRebanho não está definido!");
+      onAbrirRebanho(fazenda.id);
     }
   };
-
-  if (!fazenda) {
-    return (
-      <div className="fazenda-container">
-        <p>Carregando dados da fazenda...</p>
-      </div>
-    );
-  }
-
-  if (erro) {
-    return (
-      <div className="fazenda-container">
-        <p style={{ color: "red" }}>Erro ao carregar: {erro}</p>
-      </div>
-    );
-  }
 
   return (
     <div className="fazenda-container">
@@ -148,12 +87,12 @@ function FazendaScreen({
         <div className="acoes-fazenda">
           <button
             className="gerar-rel"
-            onClick={() => onAbrirRelFazenda?.(fazendaId)}
+            onClick={() => onAbrirRelFazenda?.(fazenda.id)}
           >
             <img src={relatorio} alt="" />
             Relatório
           </button>
-          <button className="editar-fazenda" onClick={() => onEditarFazenda(fazendaId)}>
+          <button className="editar-fazenda" onClick={() => onEditarFazenda(fazenda.id)}>
             <img src={editDados} alt="" />
             Edit. fazenda
           </button>
@@ -201,14 +140,13 @@ function FazendaScreen({
             <div className="gauge-esquerda">
               <h3>
                 Média Geral de <br />
-                Temperatura{" "}
+                Temperatura
               </h3>
               <p>
-                De acordo com as <br />
-                medições mais recentes
+                Baseada em medições <br />
+                fictícias recentes
               </p>
             </div>
-            {/* valor do grafico passar por variavel apos realizar calculo de media de temperaturas do rebanho */}
             <TemperatureGauge temperature={mediaTemp || 0} />
           </div>
         </div>

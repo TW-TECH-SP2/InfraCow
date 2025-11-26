@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./rebanhoScreen.css";
 import logoBranca from "../../assets/logo-marrom-sem-slogan.png";
 import cad from "../../assets/icons/add.svg";
-import animal from "../../assets/vaca.png";
+import vacaImg from "../../assets/vaca.png";
 import arrowdown from "../../assets/icons/arrow-down.svg";
 import trash from "../../assets/icons/delete.svg";
 import editDados from "../../assets/icons/edit-dados.svg";
@@ -134,14 +134,7 @@ function RebanhoScreen({
               <div className="rebanho-card static">
                 <div className="rebanho-card-cima">
                   <div className="rebanho-card-esquerda">
-                    <img
-                      src={
-                        a.imagem
-                          ? `${import.meta.env.VITE_API_URL}/uploads/animais/${a.imagem}`
-                          : "/default-animal.png"
-                      }
-                      alt=""
-                    />
+                    <img src={vacaImg} alt={a.nome_animal} />
                   </div>
                   <div className="rebanho-card-direita">
                     <p className="nome-animal-card">{a.nome_animal}</p>
