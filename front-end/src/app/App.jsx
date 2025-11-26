@@ -187,8 +187,9 @@ function App() {
   };
 
   // ✅ FUNÇÕES PARA ANIMAL SCREEN
-  const handleAbrirAnimal = () => {
+  const handleAbrirAnimal = (id) => {
     console.log('🐄 Abrindo tela do animal...');
+    setAnimalIdSelecionado(id);
     setShowAnimal(true);
   };
 
@@ -264,6 +265,7 @@ function App() {
           {!showRelAnimal && !showRelFazenda && showAnimal && (
             <>
               <AnimalScreen 
+                animalId={animalIdSelecionado}
                 onBack={handleVoltarDoAnimal}
                 onAbrirRelAnimal={handleAbrirRelAnimal} // ✅ PASSE A PROP AQUI
               />
