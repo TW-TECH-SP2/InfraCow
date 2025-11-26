@@ -19,6 +19,8 @@ function AnimalScreen({ animalId, onBack, onAbrirRelAnimal }) {
           return;
         }
 
+        console.log("🔍 Buscando animal com ID:", animalId);
+
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/animais/${animalId}`,
           {
@@ -28,12 +30,13 @@ function AnimalScreen({ animalId, onBack, onAbrirRelAnimal }) {
 
         if (response.ok) {
           const data = await response.json();
+          console.log("✅ Dados do animal recebidos:", data);
           setAnimal(data);
         } else {
-          console.log("Erro ao buscar animal");
+          console.log("❌ Erro ao buscar animal - Status:", response.status);
         }
       } catch (error) {
-        console.log("Erro ao carregar dados do animal:", error);
+        console.log("❌ Erro ao carregar dados do animal:", error);
       } finally {
         setLoading(false);
       }
@@ -41,6 +44,9 @@ function AnimalScreen({ animalId, onBack, onAbrirRelAnimal }) {
 
     if (animalId) {
       fetchAnimal();
+    } else {
+      console.log("⚠️ animalId não foi passado para AnimalScreen");
+      setLoading(false);
     }
   }, [animalId]);
 
