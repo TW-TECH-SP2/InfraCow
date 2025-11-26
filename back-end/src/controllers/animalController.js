@@ -5,7 +5,13 @@ const getAllAnimais = async (req, res) => {
   try {
     const usuario_id = req.usuarioLogado.id;
     const animais = await animalService.getAll(usuario_id);
-    return res.status(200).json({ animais });
+    // Força inclusão explícita de codigo_rfid no JSON
+    const lista = animais.map(a => {
+      const obj = a.toJSON();
+      obj.codigo_rfid = a.codigo_rfid || null;
+      return obj;
+    });
+    return res.status(200).json({ animais: lista });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Erro interno do servidor" });
@@ -83,7 +89,9 @@ const deleteAnimal = async (req, res) => {
   }
 };
 
-const updateAnimal = async (req, res) => {
+        const out = novoAnimal.toJSON();
+        out.codigo_rfid = finalCodigoRfid;
+        return res.status(201).json({ message: "Animal registrado com sucesso!", animal: out });
   try {
     const id = parseInt(req.params.id);
     const usuario_id = req.usuarioLogado.id;
@@ -129,7 +137,9 @@ const getOneAnimal = async (req, res) => {
     if (!animal) {
       return res.status(404).json({ error: "Animal não encontrado ou sem permissão" });
     } else {
-      return res.status(200).json({ animal });
+      const obj = animal.toJSON();
+      obj.codigo_rfid = animal.codigo_rfid || null;
+      return res.status(200).json({ animal: obj });
     }
   } catch (error) {
     console.log(error);
@@ -163,4 +173,9 @@ export default {
   updateAnimal,
   getOneAnimal,
   getAnimaisByFazenda,
+  // método interno para rota de debug de RFIDs
+  _rawListRFID: async (usuario_id) => {
+    const animais = await animalService.getAll(usuario_id);
+    return animais.map(a => ({ id: a.id, codigo_rfid: a.codigo_rfid || null }));
+  }
 };
