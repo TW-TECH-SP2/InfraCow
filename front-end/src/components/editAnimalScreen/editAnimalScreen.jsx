@@ -1,6 +1,7 @@
 import "./editAnimalScreen.css";
 import logoMarrom from "../../assets/logo-marrom-sem-slogan.png";
 import cameraIcon from "../../assets/icons/camera.svg";
+import exit from "../../assets/icons/exit.svg";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -98,8 +99,9 @@ function EditAnimalScreen({ id, onBack, onSave }) {
 
   return (
     <div className="cad-animal-container">
-      <div className="logo-cad">
-        <img src={logoMarrom} alt="Logo" />
+      <div className="header-cad-fazenda">
+        <img src={exit} alt="Voltar" onClick={onBack} className="exit-icon" />
+        <img src={logoMarrom} alt="Logo" className="logo-cad" />
       </div>
 
       <form onSubmit={handleSubmit} className="formcad">
@@ -217,9 +219,6 @@ function EditAnimalScreen({ id, onBack, onSave }) {
 
         <div className="btn-cadfazenda">
           <button type="submit" onClick={onSave}>Salvar Alterações</button>
-          <button type="button" onClick={onBack}>
-            Voltar
-          </button>
         </div>
       </form>
     </div>

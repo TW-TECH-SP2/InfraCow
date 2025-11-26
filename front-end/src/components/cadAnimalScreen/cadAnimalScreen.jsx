@@ -1,6 +1,7 @@
 import "./cadAnimalScreen.css";
 import logoMarrom from "../../assets/logo-marrom-sem-slogan.png";
 import cameraIcon from "../../assets/icons/camera.svg";
+import exit from "../../assets/icons/exit.svg";
 import { useState, useEffect } from "react";
 
 function CadAnimalScreen({ onBack }) {
@@ -121,8 +122,9 @@ function CadAnimalScreen({ onBack }) {
 
   return (
     <div className="cad-fazenda-container">
-      <div className="logo-cad">
-        <img src={logoMarrom} alt="Logo" />
+      <div className="header-cad-fazenda">
+        <img src={exit} alt="Voltar" onClick={onBack} className="exit-icon" />
+        <img src={logoMarrom} alt="Logo" className="logo-cad" />
       </div>
 
       <form onSubmit={handleSubmit} className="formcad">
@@ -254,7 +256,6 @@ function CadAnimalScreen({ onBack }) {
 
         <div className="btn-cadfazenda">
           <button type="submit">Cadastrar</button>
-          <button type="button" onClick={onBack}>Voltar</button>
         </div>
       </form>
     </div>
