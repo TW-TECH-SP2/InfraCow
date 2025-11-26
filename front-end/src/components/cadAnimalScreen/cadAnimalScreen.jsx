@@ -76,12 +76,25 @@ function CadAnimalScreen({ onBack }) {
       }
 
       const formDataToSend = new FormData();
-      Object.keys(formData).forEach((key) => {
-        if (key === "fazenda_id") {
-        formDataToSend.append(key, Number(formData[key]));
-        } else {
-          formDataToSend.append(key, formData[key]);
-        }});
+      // Campos básicos
+      formDataToSend.append("nome_animal", formData.nome_animal);
+      formDataToSend.append("genero", formData.genero);
+      formDataToSend.append("tipo", formData.tipo);
+      formDataToSend.append("raca", formData.raca);
+      formDataToSend.append("peso", formData.peso);
+      formDataToSend.append("idade", formData.idade);
+      formDataToSend.append("fazenda_id", Number(formData.fazenda_id));
+      if (formData.imagem) formDataToSend.append("imagem", formData.imagem);
+
+      // Código: se tiver letras, envia como codigo_rfid e força codigo=0 (compatível com backend antigo)
+      const codigoValor = String(formData.codigo || "").trim();
+      const temLetra = /\D/.test(codigoValor);
+      if (temLetra) {
+        formDataToSend.append("codigo_rfid", codigoValor);
+        formDataToSend.append("codigo", 0);
+      } else {
+        formDataToSend.append("codigo", codigoValor || 0);
+      }
 
         console.log("Fazenda selecionada: ", formData.fazenda_id);
 
@@ -96,7 +109,7 @@ function CadAnimalScreen({ onBack }) {
       if (!response.ok) {
         const error = await response.json();
         console.log("Erro ao cadastrar animal", error);
-        alert("Falha ao cadastrar o animal", error);
+        alert("Falha ao cadastrar o animal");
         return;
       }
 
@@ -145,11 +158,12 @@ function CadAnimalScreen({ onBack }) {
         </div>
 
         <div className="input-groupcad">
-          <label htmlFor="codigo">Código</label>
+          <label htmlFor="codigo">Código (RFID ou numérico)</label>
           <input
             id="codigo"
             type="text"
             name="codigo"
+            placeholder="Ex.: F3E196C5 ou 12345"
             value={formData.codigo}
             onChange={handleChange}
             required
