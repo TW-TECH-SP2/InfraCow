@@ -2,6 +2,8 @@
     background-color: #E9E9EB;
     min-height: 100vh;
     padding: 2rem;
+    width: 100vw;
+    overflow-x: hidden;
 }
 
 .logo-home {
