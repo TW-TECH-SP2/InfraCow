@@ -141,7 +141,7 @@ function FazendaScreen({
   return (
     <div className="fazenda-container">
       <div className="titulo-fazenda">
-        <h2>{fazenda.nome_fazenda}</h2>
+        <h2>Fazenda {fazenda.nome_fazenda}</h2>
         <img src={logoBranca} alt="InfraCow Logo" className="logo-fazenda" />
       </div>
       <div className="fazenda-dash">
