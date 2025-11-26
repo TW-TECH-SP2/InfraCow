@@ -1,6 +1,7 @@
 import "./cadFazendaScreen.css";
 import logoMarrom from "../../assets/logo-marrom-sem-slogan.png";
 import cameraIcon from "../../assets/icons/camera.svg";
+import exit from "../../assets/icons/exit.svg";
 import { useState } from "react";
 
 function CadFazendaScreen({onBack}) {
@@ -68,8 +69,9 @@ function CadFazendaScreen({onBack}) {
 
   return (
     <div className="cad-fazenda-container">
-      <div className="logo-cad">
-        <img src={logoMarrom} alt="" />
+      <div className="header-cad-fazenda">
+        <img src={exit} alt="Voltar" onClick={onBack} className="exit-icon" />
+        <img src={logoMarrom} alt="Logo" className="logo-cad" />
       </div>
       <form onSubmit={handleSubmit} className="formcad">
         <div className="title-formcad">
@@ -158,7 +160,6 @@ function CadFazendaScreen({onBack}) {
         </div>
         <div className="btn-cadfazenda">
           <button type="submit">Cadastrar Fazenda</button>
-          <button type="button" onClick={onBack}>Voltar</button>
         </div>
       </form>
     </div>

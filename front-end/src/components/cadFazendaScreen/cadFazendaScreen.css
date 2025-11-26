@@ -12,10 +12,30 @@
 }
 
 /* ===== LOGO ===== */
-.logo-cad img {
-  width: 70px;
-  display: block;
+.header-cad-fazenda {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
   margin-bottom: 10px;
+}
+
+.exit-icon {
+  position: absolute;
+  left: 20px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.exit-icon:hover {
+  opacity: 0.7;
+}
+
+.logo-cad {
+  width: 70px;
 }
 
 /* ===== FORM ===== */
@@ -150,7 +170,7 @@
 
 /* ===== BOTÃO ===== */
 .btn-cadfazenda {
-  margin-top: 25px;
+  margin-top: 20%;
   display: flex;
   justify-content: center;
 }
