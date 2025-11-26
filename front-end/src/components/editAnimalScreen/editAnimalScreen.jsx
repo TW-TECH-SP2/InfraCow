@@ -195,7 +195,7 @@ function EditAnimalScreen({ id, onBack, onSave }) {
         </div>
 
         <div className="input-cadimg">
-          <div className="esquerda-img-cad">
+          <label htmlFor="imagem" className="esquerda-img-cad">
             {preview ? (
               <img
                 src={preview}
@@ -210,15 +210,20 @@ function EditAnimalScreen({ id, onBack, onSave }) {
             ) : (
               <img src={cameraIcon} alt="Adicionar foto" />
             )}
-            <input type="file" name="imagem" onChange={handleFileChange} />
-          </div>
+            <input 
+              id="imagem"
+              type="file" 
+              name="imagem" 
+              onChange={handleFileChange} 
+            />
+          </label>
           <div className="direita">
             <p>Adicione uma foto do animal clicando na câmera.</p>
           </div>
         </div>
 
         <div className="btn-cadfazenda">
-          <button type="submit" onClick={onSave}>Salvar Alterações</button>
+          <button type="submit">Salvar Alterações</button>
         </div>
       </form>
     </div>
