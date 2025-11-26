@@ -16,7 +16,7 @@ function FazendaScreen({
 }) {
   const [fazenda, setFazenda] = useState({
     id: null,
-    nome_fazenda: "Fazenda (sem dados)",
+    nome_fazenda: "Fazenda",
     rua: "-",
     cidade: "-",
     bairro: "-",
