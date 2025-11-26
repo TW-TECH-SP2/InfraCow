@@ -9,6 +9,8 @@ import TemperatureChart from '../temperatureChart/temperatureChart';
 function AnimalScreen({ animalId, onBack, onAbrirRelAnimal }) {
   const [animal, setAnimal] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [medicoes, setMedicoes] = useState([]);
+  const [ultima, setUltima] = useState(null);
 
   useEffect(() => {
     const fetchAnimal = async () => {
@@ -45,6 +47,22 @@ function AnimalScreen({ animalId, onBack, onAbrirRelAnimal }) {
 
     if (animalId) {
       fetchAnimal();
+      (async () => {
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) return;
+          const url = `${import.meta.env.VITE_API_URL}/medicoes/animal/${animalId}?limit=24`;
+          const resp = await fetch(url, { headers: { autorizacao: `Bearer ${token}` } });
+          if (resp.ok) {
+            const data = await resp.json();
+            const list = Array.isArray(data.medicoes) ? data.medicoes : [];
+            setMedicoes(list);
+            setUltima(list[0] || null);
+          }
+        } catch (e) {
+          console.log('Erro ao carregar medições', e);
+        }
+      })();
     } else {
       console.log("⚠️ animalId não foi passado para AnimalScreen");
       setLoading(false);
@@ -80,13 +98,19 @@ function AnimalScreen({ animalId, onBack, onAbrirRelAnimal }) {
         <div className="gauge-container">
           <div className="gauge-esquerda">
             <h3>Última <br />temperatura <br />registrada</h3>
-            <p>Temperatura registrada<br /> em: 21/09/2025 às 08:45</p>
+            <p>
+              Temperatura: {ultima?.temperatura?.toFixed?.(1) ?? '--'}°C<br/>
+              {ultima?.data_medicao ? `em: ${new Date(ultima.data_medicao).toLocaleString()}` : 'sem registro'}
+            </p>
           </div>
-           <TemperatureGauge temperature={37.5} />
+           <TemperatureGauge temperature={ultima?.temperatura ?? 0} />
         </div>
       </div>
       <div className="grafico-freq">
-        <TemperatureChart />
+        <TemperatureChart points={medicoes
+          .slice()
+          .reverse()
+          .map(m => ({ label: new Date(m.data_medicao).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), temp: m.temperatura }))} />
       </div>
     </div>
   );

@@ -32,9 +32,9 @@ const mockData = {
   ],
 };
 
-const TemperatureChart = () => {
+const TemperatureChart = ({ points: pointsProp }) => {
   const [period, setPeriod] = useState("Mês");
-  const data = mockData[period];
+  const data = pointsProp && pointsProp.length > 0 ? pointsProp : mockData[period];
   const width = 340;
   const height = 180;
   const padding = 30;

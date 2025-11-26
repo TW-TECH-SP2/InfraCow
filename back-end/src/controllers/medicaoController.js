@@ -1,4 +1,6 @@
 import medicaoService from "../services/medicaoService.js";
+import Animais from "../models/Animais.js";
+import Fazenda from "../models/Fazenda.js";
 
 const getAllMedicoes = async (req, res) => {
   try {
@@ -91,4 +93,37 @@ export default {
   deleteMedicao,
   updateMedicao,
   getOneMedicao,
+};
+
+// Novo: listar medições por animal (pertencente ao usuário logado)
+export const getMedicoesByAnimal = async (req, res) => {
+  try {
+    const usuario_id = req.usuarioLogado.id;
+    const animalId = parseInt(req.params.id);
+    const limit = parseInt(req.query.limit || "50");
+    if (isNaN(animalId)) {
+      return res.status(400).json({ error: "ID de animal inválido" });
+    }
+
+    // Verifica se animal pertence ao usuário
+    const animal = await Animais.findOne({
+      where: { id: animalId },
+      include: { model: Fazenda, where: { usuario_id } },
+    });
+    if (!animal) {
+      return res.status(404).json({ error: "Animal não encontrado ou sem permissão" });
+    }
+
+    // Busca medições
+    const medicoes = await medicaoService.getAll();
+    const filtradas = (medicoes || [])
+      .filter(m => m.animais_id === animalId)
+      .sort((a, b) => new Date(b.data_medicao) - new Date(a.data_medicao))
+      .slice(0, Math.max(1, Math.min(200, limit)));
+
+    return res.status(200).json({ animalId, medicoes: filtradas });
+  } catch (error) {
+    console.log("Erro ao listar medições por animal", error);
+    return res.status(500).json({ error: "Erro interno do servidor" });
+  }
 };
