@@ -14,16 +14,16 @@ const getAllAnimais = async (req, res) => {
 
 const createAnimal = async (req, res) => {
   try {
-    const { nome_animal, codigo, codigo_rfid, genero, tipo, raca, peso, idade, fazenda_id } = req.body;
+    const { nome_animal, codigo_rfid, genero, tipo, raca, peso, idade, fazenda_id } = req.body;
     const usuario_id = req.usuarioLogado.id;
     const imagem = req.file ? req.file.filename : null;
 
-    console.log('📝 Criando animal:', { nome_animal, codigo, genero, tipo, raca, peso, idade, fazenda_id, usuario_id });
+    console.log('📝 Criando animal (RFID exigido):', { nome_animal, codigo_rfid, genero, tipo, raca, peso, idade, fazenda_id, usuario_id });
 
-    // Agora exige pelo menos um entre codigo ou codigo_rfid
-    if (!nome_animal || (!codigo && !codigo_rfid) || !genero || !tipo || !raca || !peso || !idade || !fazenda_id) {
+    // Exige codigo_rfid sempre; codigo numérico será padronizado para '0'
+    if (!nome_animal || !codigo_rfid || !genero || !tipo || !raca || !peso || !idade || !fazenda_id) {
       console.log('❌ Campos faltando');
-      return res.status(400).json({ error: "Preencha todos os campos" });
+      return res.status(400).json({ error: "Preencha todos os campos (incluindo codigo_rfid)" });
     }
 
     const fazenda = await Fazenda.findOne({ where: { id: fazenda_id, usuario_id } });
@@ -33,29 +33,9 @@ const createAnimal = async (req, res) => {
       return res.status(403).json({ error: "Você não tem permissão para adicionar animais nesta fazenda!" });
     }
 
-    // Mapeamento flexível: se veio codigo_rfid no body usa ele; senão tenta codigo
-    let finalCodigo = null;
-    let finalCodigoRfid = null;
-    if (codigo_rfid && String(codigo_rfid).trim().length) {
-      finalCodigo = String(codigo_rfid).trim();
-      finalCodigoRfid = String(codigo_rfid).trim();
-    } else if (codigo && String(codigo).trim().length) {
-      const raw = String(codigo).trim();
-      const maybeNum = Number(raw);
-      if (!isNaN(maybeNum) && /^\d+$/.test(raw)) {
-        // totalmente numérico
-        finalCodigo = String(maybeNum);
-        finalCodigoRfid = null; // não é RFID
-      } else {
-        // alfanumérico tratado como RFID
-        finalCodigo = raw;
-        finalCodigoRfid = raw;
-      }
-    }
-    if (!finalCodigo) {
-      console.log('❌ Mapeamento de código falhou');
-      return res.status(400).json({ error: 'Código/RFID inválido' });
-    }
+    // Normaliza RFID (maiúsculas, sem espaços) e força codigo=0
+    const finalCodigoRfid = String(codigo_rfid).trim().toUpperCase();
+    const finalCodigo = '0';
 
     console.log('✅ Fazenda validada, criando animal...');
     const novoAnimal = await animalService.create({
@@ -105,11 +85,12 @@ const updateAnimal = async (req, res) => {
       return res.status(400).json({ error: "ID Inválido" });
     }
     const imagem = req.file ? req.file.filename : undefined;
-    const { nome_animal, codigo, genero, tipo, raca, peso, idade } = req.body;
+    const { nome_animal, codigo_rfid, genero, tipo, raca, peso, idade } = req.body;
     const atualizado = await animalService.update(
       id, usuario_id, {
       nome_animal,
-      codigo,
+      codigo: '0', // sempre 0
+      codigo_rfid,
       genero,
       tipo,
       raca,

@@ -15,8 +15,6 @@ class animalService {
 
   async create({
     nome_animal,
-    codigo,
-    codigo_rfid,
     genero,
     tipo,
     raca,
@@ -24,13 +22,15 @@ class animalService {
     idade,
     fazenda_id,
     imagem, 
+    codigo_rfid,
+    codigo: '0', // sempre 0
   }) {
     try {
       console.log('🐄 Service: Criando animal no banco...');
       const novoAnimal = await Animais.create({
         nome_animal,
-        codigo,
-        codigo_rfid,
+        codigo: '0', // sempre 0
+        codigo_rfid: codigo_rfid ? String(codigo_rfid).trim().toUpperCase() : null,
         genero,
         tipo,
         raca,
@@ -88,26 +88,9 @@ class animalService {
       }
 
       // Normaliza atualização de codigo/codigo_rfid (mantém ambos iguais quando alfanumérico)
-      let codigo_atual = null;
-      let codigo_rfid_atual = null;
-      if (codigo_rfid && String(codigo_rfid).trim().length) {
-        // prioridade ao codigo_rfid se informado
-        codigo_atual = String(codigo_rfid).trim();
-        codigo_rfid_atual = String(codigo_rfid).trim();
-      } else if (codigo && String(codigo).trim().length) {
-        const raw = String(codigo).trim();
-        const maybeNum = Number(raw);
-        if (!isNaN(maybeNum) && /^\d+$/.test(raw)) {
-          codigo_atual = String(maybeNum);
-          codigo_rfid_atual = null;
-        } else {
-          codigo_atual = raw;
-          codigo_rfid_atual = raw;
-        }
-      }
-      // se nenhum veio, mantém valores existentes
-      if (!codigo_atual) codigo_atual = animal.codigo;
-      if (codigo_rfid_atual === null && animal.codigo_rfid) codigo_rfid_atual = animal.codigo_rfid;
+      // Força codigo=0 e usa codigo_rfid se informado
+      let codigo_atual = '0';
+      let codigo_rfid_atual = codigo_rfid ? String(codigo_rfid).trim().toUpperCase() : animal.codigo_rfid;
 
       await animal.update({
         nome_animal,
