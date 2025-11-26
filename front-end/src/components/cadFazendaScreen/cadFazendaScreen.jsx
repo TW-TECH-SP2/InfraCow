@@ -91,8 +91,9 @@ function CadFazendaScreen({onBack}) {
           <h2>Cadastro da Fazenda</h2>
         </div>
         <div className="input-groupcad">
-          <label htmlFor="">Nome da fazenda</label>
+          <label htmlFor="nome_fazenda">Nome da fazenda</label>
           <input
+            id="nome_fazenda"
             type="text"
             name="nome_fazenda"
             value={formData.nome_fazenda}
@@ -101,8 +102,9 @@ function CadFazendaScreen({onBack}) {
           />
         </div>
         <div className="input-groupcad">
-          <label htmlFor="">Rua</label>
+          <label htmlFor="rua">Rua</label>
           <input
+            id="rua"
             type="text"
             name="rua"
             value={formData.rua}
@@ -111,8 +113,9 @@ function CadFazendaScreen({onBack}) {
           />
         </div>
         <div className="input-groupcad">
-          <label htmlFor="">Bairro</label>
+          <label htmlFor="bairro">Bairro</label>
           <input
+            id="bairro"
             type="text"
             name="bairro"
             value={formData.bairro}
@@ -121,8 +124,9 @@ function CadFazendaScreen({onBack}) {
           />
         </div>
         <div className="input-groupcad">
-          <label htmlFor="">Cidade</label>
+          <label htmlFor="cidade">Cidade</label>
           <input
+            id="cidade"
             type="text"
             name="cidade"
             value={formData.cidade}
@@ -132,8 +136,9 @@ function CadFazendaScreen({onBack}) {
         </div>
         <div className="input-groupcad-row">
           <div className="input-groupcad">
-            <label htmlFor="">CEP</label>
+            <label htmlFor="CEP">CEP</label>
             <input
+              id="CEP"
               type="text"
               placeholder="Ex.: 1900-000"
               name="CEP"
@@ -143,8 +148,9 @@ function CadFazendaScreen({onBack}) {
             />
           </div>
           <div className="input-groupcad">
-            <label htmlFor="">Número</label>
+            <label htmlFor="numero">Número</label>
             <input
+              id="numero"
               type="number"
               placeholder="Ex.: 135"
               name="numero"
