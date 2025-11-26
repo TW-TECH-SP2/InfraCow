@@ -8,7 +8,9 @@ import usuarioController from "./usuarioController.js";
 const getAllFazendas = async (req, res) => {
   try {
     const usuario_id = req.usuarioLogado.id;
+    console.log("👤 Buscando fazendas do usuário ID:", usuario_id);
     const fazendas = await fazendaService.getAll(usuario_id);
+    console.log("📋 Fazendas encontradas:", fazendas.length);
     return res.status(200).json({ fazendas });
   } catch (error) {
     console.log(error);
@@ -21,6 +23,9 @@ const createFazenda = async (req, res) => {
     const { nome_fazenda, rua, bairro, cidade, CEP, numero } = req.body;
     const usuario_id = req.usuarioLogado.id;
     const imagem = req.file ? req.file.filename : null;
+
+    console.log("🆕 Criando fazenda para usuário ID:", usuario_id);
+    console.log("📝 Dados recebidos:", { nome_fazenda, rua, bairro, cidade, CEP, numero });
 
     if (!nome_fazenda || !rua || !bairro || !cidade || !CEP || !numero) {
       return res.status(400).json({ error: "Preencha todos os campos" });
@@ -36,6 +41,9 @@ const createFazenda = async (req, res) => {
       usuario_id,
       imagem,
     });
+    
+    console.log("✅ Fazenda criada com ID:", novaFazenda.id);
+    
     return res.status(201).json({ message: "Fazenda criada com sucesso!", fazenda: novaFazenda, });
   } catch (error) {
     console.log(error);
