@@ -30,6 +30,8 @@
   height: 55px;
   padding: 0;
   transition: transform 0.25s ease;
+    outline: none;
+
 }
 
 /* ícones padrão */
@@ -39,6 +41,8 @@
   object-fit: cover ;
   display: block;
   transition: width 0.25s ease, height 0.25s ease, transform 0.25s ease;
+    outline: none;
+
 }
 
 /* quando o botão está ativo */
@@ -46,4 +50,6 @@
   width: 45px;
   height: 45px;
   transform: scale(1.1); /* efeito suave extra */
+    outline: none;
+
 }
