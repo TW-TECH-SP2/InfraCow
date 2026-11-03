@@ -64,13 +64,24 @@ export default function MeasureScreen() {
     runSync();
   };
 
+  const goBackToMeasureFlow = () => {
+    const names: string[] = navigation.getState().routes.map((r: any) => r.name);
+    if (names.includes("Measure")) {
+      navigation.popTo("Measure");
+    } else if (names.includes("MeasureSelectAnimal")) {
+      navigation.popTo("MeasureSelectAnimal", { farm });
+    } else {
+      navigation.popTo("Measure");
+    }
+  };
+
   const handleMeasure = async () => {
     if (isFinished(status)) {
       if (lastTemperature !== null && !recordSaved) {
         saveMeasurement(lastTemperature);
         setRecordSaved(true);
       }
-      navigation.navigate("Animal", { animal, farm });
+      goBackToMeasureFlow();
       return;
     }
 
@@ -166,6 +177,10 @@ export default function MeasureScreen() {
         >
           <Text style={styles.buttonText}>{getButtonText()}</Text>
         </TouchableOpacity>
+
+        <Text style={{ marginTop: 16, paddingHorizontal: 12, textAlign: "center", fontSize: 14, color: "#3B2F1B" }}>
+          {resultMessage}
+        </Text>
 
         {isFinished(status) && (
           <TouchableOpacity style={styles.retryContainer} onPress={handleRetry}>
