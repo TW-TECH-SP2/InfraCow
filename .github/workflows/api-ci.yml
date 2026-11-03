@@ -1,10 +1,5 @@
 name: CI/CD - API
 
-# Monorepo: este workflow só roda quando algo da API muda (InfraCow-API/**).
-# PR            -> testes + teste em Docker (nada é publicado)
-# push em main  -> testes + Docker + publica imagem no Docker Hub + deploy no Render
-# manual        -> mesmo fluxo da main, a partir da branch escolhida
-
 on:
   pull_request:
     paths:
@@ -19,7 +14,6 @@ on:
 permissions:
   contents: read
 
-# Um deploy por vez; execuções antigas de PR são canceladas, as da main não.
 concurrency:
   group: api-ci-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -28,9 +22,7 @@ env:
   IMAGE_NAME: infracow-api
 
 jobs:
-  # ---------------------------------------------------------------------------
-  # 1) Roda a API "crua" (npm start) contra um Postgres real e executa o smoke test
-  # ---------------------------------------------------------------------------
+
   test:
     name: Testes (API + Postgres)
     runs-on: ubuntu-latest
@@ -45,8 +37,7 @@ jobs:
           POSTGRES_USER: usuario_banco
           POSTGRES_PASSWORD: senha_usuario_banco
           POSTGRES_DB: nome_banco
-        # Sem este mapeamento o Postgres fica inalcançável em localhost
-        # e a API nunca conecta ao banco.
+
         ports:
           - 5432:5432
         options: >-
@@ -93,9 +84,6 @@ jobs:
         if: failure()
         run: cat api.log || true
 
-  # ---------------------------------------------------------------------------
-  # 2) Garante que a imagem Docker builda e que API + banco funcionam via Compose
-  # ---------------------------------------------------------------------------
   docker:
     name: Teste da imagem Docker
     runs-on: ubuntu-latest
@@ -136,9 +124,6 @@ jobs:
         if: always()
         run: docker compose down -v
 
-  # ---------------------------------------------------------------------------
-  # 3) Publica a imagem no Docker Hub (somente main / execução manual)
-  # ---------------------------------------------------------------------------
   publish:
     name: Publicar imagem (Docker Hub)
     runs-on: ubuntu-latest
@@ -177,9 +162,6 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  # ---------------------------------------------------------------------------
-  # 4) Deploy no Render + verificação de saúde
-  # ---------------------------------------------------------------------------
   deploy:
     name: Deploy (Render)
     runs-on: ubuntu-latest

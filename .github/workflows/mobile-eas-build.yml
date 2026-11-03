@@ -44,11 +44,10 @@ jobs:
           cache-dependency-path: InfraCow-Mobile/package-lock.json
 
       - name: Configurar Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
-          cache: gradle
 
       - name: Instalar dependências
         run: npm ci

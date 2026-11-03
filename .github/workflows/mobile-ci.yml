@@ -1,14 +1,5 @@
-name: CI/CD - Mobile
 
-# Monorepo: só roda quando algo do app muda (InfraCow-Mobile/**).
-# PR            -> qualidade + bundle + imagem Docker (nada é publicado)
-# push em main  -> o mesmo + publica atualização OTA no Expo (EAS Update, canal production)
-# manual        -> permite publicar OTA em production ou preview
-#
-# ATENÇÃO (OTA): o app usa runtimeVersion fixo ("1.0.0"). Uma atualização OTA só é segura
-# para builds que já contenham TODOS os módulos nativos usados pelo JS novo (ex.: expo-sqlite,
-# @react-native-community/netinfo). Se você adicionar/atualizar lib nativa, gere um build novo
-# (workflow "Mobile - EAS Build") e incremente o runtimeVersion antes de publicar OTA.
+name: CI/CD - Mobile
 
 on:
   pull_request:
@@ -16,18 +7,15 @@ on:
       - 'InfraCow-Mobile/**'
       - '!InfraCow-Mobile/*.md'
       - '.github/workflows/mobile-ci.yml'
+
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
       - 'InfraCow-Mobile/**'
       - '!InfraCow-Mobile/*.md'
+      - '.github/workflows/mobile-ci.yml'
+
   workflow_dispatch:
-    inputs:
-      channel:
-        description: 'Canal do EAS Update'
-        type: choice
-        options: [ production, preview ]
-        default: preview
 
 permissions:
   contents: read
@@ -37,21 +25,20 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
-  # URL da API embutida no bundle. Sem a variável, vale o app.json (Render).
   API_URL: ${{ vars.API_URL }}
   EXPO_NO_TELEMETRY: '1'
 
 jobs:
-  # ---------------------------------------------------------------------------
-  # 1) Qualidade: o bundle precisa compilar (é exatamente o que vai para os celulares)
-  # ---------------------------------------------------------------------------
   quality:
     name: Qualidade (bundle + tipos)
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    environment: production
+
     defaults:
       run:
         working-directory: InfraCow-Mobile
+
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
@@ -60,49 +47,60 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
+          cache: npm
           cache-dependency-path: InfraCow-Mobile/package-lock.json
 
       - name: Instalar dependências
         run: npm ci
 
-      - name: Validar configuração Expo (URL da API)
+      - name: Validar configuração Expo e URL da API
         run: |
-          node -e "
+          node <<'NODE'
           const { execFileSync } = require('child_process');
-          
+
           const output = execFileSync(
-          'npx',
-          ['expo', 'config', '--json'],
-          { encoding: 'utf8' }
+            'npx',
+            ['expo', 'config', '--json'],
+            { encoding: 'utf8' }
           );
 
           const cfg = JSON.parse(output);
-          "
+          const apiUrl = cfg.extra?.API_URL;
 
-      # Informativo por enquanto: o projeto nunca rodou tsc no CI e pode ter erros
-      # de tipo antigos. Quando estiver limpo, remova o continue-on-error.
-      - name: Checagem de tipos (tsc)
+          if (!apiUrl) {
+            throw new Error('API_URL não encontrada em expo.extra');
+          }
+
+          const parsed = new URL(apiUrl);
+
+          if (!['http:', 'https:'].includes(parsed.protocol)) {
+            throw new Error('API_URL precisa utilizar HTTP ou HTTPS');
+          }
+
+          console.log(`Configuração Expo válida. API: ${parsed.origin}`);
+          NODE
+
+      - name: Checagem de tipos (TypeScript)
         continue-on-error: true
         run: npx tsc --noEmit
 
-      - name: Diagnóstico do projeto (expo-doctor)
+      - name: Diagnóstico do projeto (Expo Doctor)
         continue-on-error: true
         run: npx expo-doctor
 
-      - name: Bundle Android (valida que o app compila)
+      - name: Bundle Android
         run: npx expo export --platform android --output-dir dist
 
-  # ---------------------------------------------------------------------------
-  # 2) Imagem Docker do servidor Expo
-  # ---------------------------------------------------------------------------
   docker:
     name: Imagem Docker (Expo)
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    environment: production
+
     defaults:
       run:
         working-directory: InfraCow-Mobile
+
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
@@ -110,7 +108,7 @@ jobs:
       - name: Configurar Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build da imagem (com cache)
+      - name: Build da imagem
         uses: docker/build-push-action@v6
         with:
           context: ./InfraCow-Mobile
@@ -120,77 +118,27 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # Informativo no início: depois do primeiro run verde, remova o continue-on-error
-      # para o Expo-no-Docker virar requisito.
-      - name: Subir o servidor Expo no container
-        continue-on-error: true
+      - name: Subir servidor Expo no container
         run: |
-          docker run -d --name expo -p 8081:8081 -e API_URL="$API_URL" infracow-mobile:ci
+          docker run -d \
+            --name expo \
+            -p 8081:8081 \
+            -e API_URL="$API_URL" \
+            infracow-mobile:ci
+
           for i in $(seq 1 40); do
-            code=$(curl -s -o /dev/null -m 5 -w '%{http_code}' http://localhost:8081/status || true)
-            if [ "$code" != "200" ] && [ -n "$code" ]; then
-              echo "Metro respondeu (HTTP $code)"; exit 0
+            if curl -fsS http://localhost:8081/status; then
+              echo "Metro respondeu corretamente."
+              exit 0
             fi
+
             sleep 3
           done
-          echo "::warning::Metro não respondeu em ~2 min"; docker logs expo; exit 1
+
+          echo "::error::Metro não respondeu em aproximadamente 2 minutos."
+          docker logs expo
+          exit 1
 
       - name: Logs do container
         if: always()
         run: docker logs expo || true
-
-  # ---------------------------------------------------------------------------
-  # 3) Publica atualização OTA (EAS Update) — somente main / manual
-  # ---------------------------------------------------------------------------
-  eas-update:
-    name: Publicar atualização (EAS Update)
-    runs-on: ubuntu-latest
-    needs: [ quality, docker ]
-    if: github.event_name != 'pull_request'
-    timeout-minutes: 20
-    defaults:
-      run:
-        working-directory: InfraCow-Mobile
-    environment: production
-    env:
-      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-      COMMIT_MSG: ${{ github.event.head_commit.message }}
-      CHANNEL: ${{ inputs.channel || 'production' }}
-    steps:
-      - name: Verificar EXPO_TOKEN
-        working-directory: .
-        id: token
-        run: |
-          if [ -z "$EXPO_TOKEN" ]; then
-            echo "::warning::Secret EXPO_TOKEN não configurado — publicação OTA ignorada. Crie em expo.dev > Access Tokens."
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Checkout do código
-        if: steps.token.outputs.skip != 'true'
-        uses: actions/checkout@v4
-
-      - name: Configurar Node.js
-        if: steps.token.outputs.skip != 'true'
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: InfraCow-Mobile/package-lock.json
-
-      - name: Configurar Expo e EAS
-        if: steps.token.outputs.skip != 'true'
-        uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
-
-      - name: Instalar dependências
-        if: steps.token.outputs.skip != 'true'
-        run: npm ci
-
-      - name: Publicar update no canal ${{ env.CHANNEL }}
-        if: steps.token.outputs.skip != 'true'
-        run: |
-          MSG="$(printf '%s' "${COMMIT_MSG:-Atualização manual}" | head -n 1)"
-          eas update --channel "$CHANNEL" --message "$MSG" --non-interactive

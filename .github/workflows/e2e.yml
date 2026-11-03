@@ -1,8 +1,5 @@
 name: E2E - API + Banco + Mobile
 
-# Teste de integração do sistema inteiro, direto deste repositório (monorepo):
-# sobe db + api + expo com o docker-compose.yml da raiz e valida a comunicação entre eles.
-
 on:
   pull_request:
     paths:
@@ -18,7 +15,7 @@ on:
       - 'docker-compose.yml'
   workflow_dispatch:
   schedule:
-    - cron: '0 6 * * 1'   # segunda 06:00 UTC: pega regressões por mudança de dependência/imagem
+    - cron: '0 6 * * 1'   
 
 permissions:
   contents: read
@@ -42,11 +39,9 @@ jobs:
       - name: Subir banco e API
         run: docker compose up -d --build --wait --wait-timeout 180 db api
 
-      # Bloqueante: cadastro -> login -> contrato do sync offline, pela rede interna do Docker
       - name: Smoke test API <-> Postgres (rede interna)
         run: docker compose --profile test run --rm --no-deps -e MOBILE_URL= smoke
 
-      # Informativo até o primeiro run verde; depois remova o continue-on-error.
       - name: Subir Expo (mobile) e testar alcance
         continue-on-error: true
         run: |
